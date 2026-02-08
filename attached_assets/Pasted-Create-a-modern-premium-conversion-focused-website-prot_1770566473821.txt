@@ -1,0 +1,173 @@
+Create a modern, premium, conversion-focused website prototype for a pizza and pasta brand.
+
+The atmosphere must feel warm, rustic, handcrafted, welcoming, and elevated.
+Design for emotional impact, appetite stimulation, and strong calls to action.
+
+Use cinematic food imagery, cozy kitchen moods, flour textures, soft shadows, and depth.
+
+🎨 Color System
+
+Use consistently in UI, accents, backgrounds, and interaction states.
+
+Primary: Burnt Orange #D35400
+
+Secondary: Olive Green #556B2F
+
+Accent: Wheat #F5DEB3
+
+Dark: Espresso Brown #3E2723
+
+Light: Linen #FBF6EE
+
+Avoid flat design. Add gradients, warm overlays, subtle grain, and realistic lighting.
+
+🎯 Main Goal
+
+Drive users toward:
+
+Order Online
+
+Catering inquiries
+
+🧠 Brand Personality
+
+Artisan kitchen. Fire. Family. Tradition reimagined digitally.
+
+🎬 Animation & Interaction Requirements (VERY IMPORTANT)
+
+Use GSAP-style premium motion design.
+
+Animations must be smooth, elegant, natural, and high-end — never gimmicky.
+
+Hero Entrance
+
+Headline reveals with staggered fade + upward motion
+
+Buttons rise with slight delay
+
+Background image/video slowly scales (cinematic feel)
+
+Optional floating herbs / steam / particles
+
+Scroll Animations
+
+Sections slide or fade into view
+
+Food cards reveal with stagger
+
+Images parallax slightly
+
+Text blocks mask-reveal or split animation
+
+Hover Effects
+
+Menu items lift subtly
+
+Buttons glow or fill
+
+Images zoom gently
+
+Add tactile feel
+
+Micro-interactions
+
+Add to cart bounce
+
+Category change smooth transition
+
+Sticky order button pulse
+
+Navigation underline glide
+
+Premium Touches
+
+Smooth scrolling
+
+Reveal-on-scroll timing choreography
+
+Layered depth between background & foreground
+
+Think:
+Michelin star meets modern app.
+
+🧱 Required Pages / Sections
+🏠 Home
+
+Cinematic hero
+
+Emotional headline
+
+CTA → Order Online
+
+CTA → Catering
+
+Featured dishes
+
+Love from customers
+
+Instagram/gallery
+
+Footer
+
+🍕 Menu
+
+Categories
+
+Card/grid layout
+
+Popular highlights
+
+Interactive feel
+
+🎉 Catering (replaces reservations)
+
+Event & bulk order focus
+
+Packages
+
+Inquiry form
+
+Trust signals
+
+🛒 Order Online
+
+App-like layout
+
+Filters
+
+Cart
+
+Checkout emphasis
+
+👨‍🍳 About
+
+Story, passion, people, ingredients
+
+📸 Gallery
+
+Atmosphere & food beauty
+
+📞 Contact
+
+Map, phone, hours, form
+
+🖋 Typography
+
+Strong expressive headlines + clean modern body font.
+Big statements, generous spacing.
+
+📱 Experience Level
+
+Awwwards quality.
+Fluid like butter.
+Polished like a brand ready for expansion.
+
+🚫 Do NOT include
+
+Anything about dine-in or table reservations.
+
+💎 Final Result
+
+A visually rich, animated, emotionally engaging experience that makes stakeholders instantly confident in the brand.
+
+When revealed in a meeting, it should create silence… then excitement.
