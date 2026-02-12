@@ -12,7 +12,7 @@ export default function About() {
           <span className="text-primary tracking-widest uppercase font-medium">Our Story</span>
           <h1 className="font-serif text-5xl md:text-6xl font-bold mt-4 mb-8">Crafted with Heart</h1>
           <p className="text-xl text-muted-foreground leading-relaxed">
-            Rustic & Root began with a simple idea: that the best food is honest, simple, and shared.
+            kassems pizza & pasta  began with a simple idea: that the best food is honest, simple, and shared.
           </p>
         </motion.div>
 

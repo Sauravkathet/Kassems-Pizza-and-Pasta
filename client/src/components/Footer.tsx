@@ -8,7 +8,7 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="space-y-6">
             <Link href="/">
-              <span className="font-serif text-3xl font-bold text-primary cursor-pointer">Rustic & Root</span>
+              <span className="font-serif text-3xl font-bold text-primary cursor-pointer">kassems pizza & pasta </span>
             </Link>
             <p className="text-background/70 leading-relaxed">
               Serving farm-to-table cuisine with passion and rustic charm. We believe in the power of fresh ingredients and warm hospitality.
@@ -83,7 +83,7 @@ export function Footer() {
         </div>
         
         <div className="border-t border-background/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-background/40">
-          <p>&copy; {new Date().getFullYear()} Rustic & Root. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} kassems pizza & pasta . All rights reserved.</p>
           <div className="flex gap-6">
             <a href="#" className="hover:text-background transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-background transition-colors">Terms of Service</a>

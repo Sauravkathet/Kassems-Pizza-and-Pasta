@@ -1,14 +1,26 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import type { MenuItem } from "@shared/schema";
 
+export type ItemCustomizations = {
+  size?: string;
+  crust?: string;
+  toppings?: string[];
+  specialInstructions?: string;
+};
+
 type CartItem = {
   menuItem: MenuItem;
   quantity: number;
+  customizations?: ItemCustomizations;
 };
 
 type CartContextType = {
   items: CartItem[];
-  addToCart: (item: MenuItem, quantity: number) => void;
+  addToCart: (
+    item: MenuItem,
+    quantity: number,
+    customizations?: ItemCustomizations
+  ) => void;
   removeFromCart: (itemId: number) => void;
   updateQuantity: (itemId: number, quantity: number) => void;
   clearCart: () => void;
@@ -41,17 +53,25 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem("cart", JSON.stringify(items));
   }, [items]);
 
-  const addToCart = (menuItem: MenuItem, quantity: number) => {
+  const addToCart = (
+    menuItem: MenuItem,
+    quantity: number,
+    customizations?: ItemCustomizations
+  ) => {
     setItems((prev) => {
       const existing = prev.find((i) => i.menuItem.id === menuItem.id);
       if (existing) {
         return prev.map((i) =>
           i.menuItem.id === menuItem.id
-            ? { ...i, quantity: i.quantity + quantity }
+            ? {
+                ...i,
+                quantity: i.quantity + quantity,
+                customizations: customizations ?? i.customizations,
+              }
             : i
         );
       }
-      return [...prev, { menuItem, quantity }];
+      return [...prev, { menuItem, quantity, customizations }];
     });
     setIsOpen(true);
   };

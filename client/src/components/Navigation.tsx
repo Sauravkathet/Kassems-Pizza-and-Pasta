@@ -1,15 +1,21 @@
 import { Link, useLocation } from "wouter";
 import { useCart } from "@/lib/cart-context";
-import { ShoppingBag, Menu, X } from "lucide-react";
+import { ShoppingBag, Menu, X, ChefHat, Truck } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
 
-export function Navigation() {
+type NavigationProps = {
+  isTrackOrderOpen: boolean;
+  onTrackOrderOpen: () => void;
+};
+
+export function Navigation({ isTrackOrderOpen, onTrackOrderOpen }: NavigationProps) {
   const [location] = useLocation();
   const { itemCount, setIsOpen } = useCart();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const isTrackOrderActive = isTrackOrderOpen || location.startsWith("/track-order");
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -38,7 +44,7 @@ export function Navigation() {
       <div className="container mx-auto px-4 flex items-center justify-between">
         <Link href="/">
           <span className="font-serif text-2xl md:text-3xl font-bold text-primary cursor-pointer tracking-tighter">
-            Rustic & Root
+            kassems pizza & pasta 
           </span>
         </Link>
 
@@ -61,6 +67,36 @@ export function Navigation() {
             </Link>
           ))}
           <button
+            onClick={onTrackOrderOpen}
+            type="button"
+            title="Track Order"
+            aria-label="Track Order"
+            className={cn(
+              "relative p-2 hover:bg-secondary/10 rounded-full transition-colors group",
+              isTrackOrderActive && "bg-secondary/20"
+            )}
+          >
+            <Truck className={cn(
+              "w-6 h-6 text-foreground group-hover:text-primary transition-colors",
+              isTrackOrderActive && "text-primary"
+            )} />
+          </button>
+          <Link href="/kitchen">
+            <span
+              title="Kitchen"
+              aria-label="Kitchen"
+              className={cn(
+                "relative p-2 hover:bg-secondary/10 rounded-full transition-colors group cursor-pointer",
+                location === "/kitchen" && "bg-secondary/20"
+              )}
+            >
+              <ChefHat className={cn(
+                "w-6 h-6 text-foreground group-hover:text-primary transition-colors",
+                location === "/kitchen" && "text-primary"
+              )} />
+            </span>
+          </Link>
+          <button
             onClick={() => setIsOpen(true)}
             className="relative p-2 hover:bg-secondary/10 rounded-full transition-colors group"
           >
@@ -75,6 +111,36 @@ export function Navigation() {
 
         {/* Mobile Toggle */}
         <div className="flex items-center gap-4 md:hidden">
+          <button
+            onClick={onTrackOrderOpen}
+            type="button"
+            title="Track Order"
+            aria-label="Track Order"
+            className={cn(
+              "relative p-2 rounded-full hover:bg-secondary/10",
+              isTrackOrderActive && "bg-secondary/20"
+            )}
+          >
+            <Truck className={cn(
+              "w-6 h-6 text-foreground",
+              isTrackOrderActive && "text-primary"
+            )} />
+          </button>
+          <Link href="/kitchen">
+            <span
+              title="Kitchen"
+              aria-label="Kitchen"
+              className={cn(
+                "relative p-2 rounded-full hover:bg-secondary/10 cursor-pointer",
+                location === "/kitchen" && "bg-secondary/20"
+              )}
+            >
+              <ChefHat className={cn(
+                "w-6 h-6 text-foreground",
+                location === "/kitchen" && "text-primary"
+              )} />
+            </span>
+          </Link>
           <button
             onClick={() => setIsOpen(true)}
             className="relative p-2"

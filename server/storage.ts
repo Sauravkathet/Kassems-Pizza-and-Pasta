@@ -8,14 +8,33 @@ import {
   type CategoryWithItems,
   type CreateOrderRequest,
   type InsertCateringInquiry,
+  type KitchenOrder,
+  type OrderStatus,
   type Order,
   type CateringInquiry,
 } from "@shared/schema";
-import { eq } from "drizzle-orm";
+import { and, eq } from "drizzle-orm";
+
+function normalizeOrderStatus(status: string): OrderStatus {
+  if (
+    status === "accepted" ||
+    status === "preparing" ||
+    status === "ready" ||
+    status === "out_for_delivery" ||
+    status === "delivered"
+  ) {
+    return status;
+  }
+  return "pending";
+}
 
 export interface IStorage {
   getCategoriesWithItems(): Promise<CategoryWithItems[]>;
   createOrder(order: CreateOrderRequest): Promise<Order>;
+  getKitchenOrders(): Promise<KitchenOrder[]>;
+  getCustomerOrders(email?: string, phone?: string): Promise<KitchenOrder[]>;
+  updateOrderStatus(orderId: number, status: OrderStatus): Promise<KitchenOrder | null>;
+  deleteDeliveredOrder(orderId: number): Promise<"deleted" | "not_found" | "not_delivered">;
   createCateringInquiry(inquiry: InsertCateringInquiry): Promise<CateringInquiry>;
   seedMenu(): Promise<void>;
 }
@@ -67,6 +86,145 @@ export class DatabaseStorage implements IStorage {
     }
 
     return newOrder;
+  }
+
+  async getKitchenOrders(): Promise<KitchenOrder[]> {
+    const kitchenOrders = await db.query.orders.findMany({
+      orderBy: (orders, { desc }) => [desc(orders.createdAt), desc(orders.id)],
+      with: {
+        items: {
+          orderBy: (items, { asc }) => [asc(items.id)],
+          with: {
+            menuItem: true,
+          },
+        },
+      },
+    });
+
+    return kitchenOrders.map((order) => ({
+      id: order.id,
+      customerName: order.customerName,
+      customerEmail: order.customerEmail,
+      customerPhone: order.customerPhone,
+      status: normalizeOrderStatus(order.status),
+      totalAmount: order.totalAmount,
+      createdAt: order.createdAt ? order.createdAt.toISOString() : null,
+      items: order.items.map((item) => ({
+        id: item.id,
+        menuItemId: item.menuItemId,
+        name: item.menuItem?.name ?? `Item #${item.menuItemId}`,
+        quantity: item.quantity,
+        priceAtTime: Number(item.priceAtTime),
+        imageUrl: item.menuItem?.imageUrl ?? null,
+      })),
+    }));
+  }
+
+  async getCustomerOrders(email?: string, phone?: string): Promise<KitchenOrder[]> {
+    const queryFilter = email && phone
+      ? and(eq(orders.customerEmail, email), eq(orders.customerPhone, phone))
+      : email
+        ? eq(orders.customerEmail, email)
+        : phone
+          ? eq(orders.customerPhone, phone)
+          : undefined;
+
+    const customerOrders = await db.query.orders.findMany({
+      where: queryFilter,
+      orderBy: (orders, { desc }) => [desc(orders.createdAt), desc(orders.id)],
+      with: {
+        items: {
+          orderBy: (items, { asc }) => [asc(items.id)],
+          with: {
+            menuItem: true,
+          },
+        },
+      },
+    });
+
+    return customerOrders.map((order) => ({
+      id: order.id,
+      customerName: order.customerName,
+      customerEmail: order.customerEmail,
+      customerPhone: order.customerPhone,
+      status: normalizeOrderStatus(order.status),
+      totalAmount: order.totalAmount,
+      createdAt: order.createdAt ? order.createdAt.toISOString() : null,
+      items: order.items.map((item) => ({
+        id: item.id,
+        menuItemId: item.menuItemId,
+        name: item.menuItem?.name ?? `Item #${item.menuItemId}`,
+        quantity: item.quantity,
+        priceAtTime: Number(item.priceAtTime),
+        imageUrl: item.menuItem?.imageUrl ?? null,
+      })),
+    }));
+  }
+
+  async updateOrderStatus(orderId: number, status: OrderStatus): Promise<KitchenOrder | null> {
+    const [updated] = await db.update(orders).set({ status }).where(eq(orders.id, orderId)).returning();
+    if (!updated) {
+      return null;
+    }
+
+    const order = await db.query.orders.findFirst({
+      where: eq(orders.id, orderId),
+      with: {
+        items: {
+          orderBy: (items, { asc }) => [asc(items.id)],
+          with: {
+            menuItem: true,
+          },
+        },
+      },
+    });
+
+    if (!order) {
+      return null;
+    }
+
+    return {
+      id: order.id,
+      customerName: order.customerName,
+      customerEmail: order.customerEmail,
+      customerPhone: order.customerPhone,
+      status: normalizeOrderStatus(order.status),
+      totalAmount: order.totalAmount,
+      createdAt: order.createdAt ? order.createdAt.toISOString() : null,
+      items: order.items.map((item) => ({
+        id: item.id,
+        menuItemId: item.menuItemId,
+        name: item.menuItem?.name ?? `Item #${item.menuItemId}`,
+        quantity: item.quantity,
+        priceAtTime: Number(item.priceAtTime),
+        imageUrl: item.menuItem?.imageUrl ?? null,
+      })),
+    };
+  }
+
+  async deleteDeliveredOrder(orderId: number): Promise<"deleted" | "not_found" | "not_delivered"> {
+    return db.transaction(async (tx) => {
+      const [existingOrder] = await tx
+        .select({
+          id: orders.id,
+          status: orders.status,
+        })
+        .from(orders)
+        .where(eq(orders.id, orderId))
+        .limit(1);
+
+      if (!existingOrder) {
+        return "not_found";
+      }
+
+      if (normalizeOrderStatus(existingOrder.status) !== "delivered") {
+        return "not_delivered";
+      }
+
+      await tx.delete(orderItems).where(eq(orderItems.orderId, orderId));
+      await tx.delete(orders).where(eq(orders.id, orderId));
+      return "deleted";
+    });
   }
 
   async createCateringInquiry(inquiry: InsertCateringInquiry): Promise<CateringInquiry> {

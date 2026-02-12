@@ -207,7 +207,8 @@ export default function Catering() {
                             <Textarea 
                               placeholder="Type of event, dietary restrictions, special requests..." 
                               className="h-32 resize-none" 
-                              {...field} 
+                              {...field}
+                              value={field.value ?? ""}
                             />
                           </FormControl>
                           <FormMessage />

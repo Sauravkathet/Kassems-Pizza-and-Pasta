@@ -7,86 +7,115 @@ export default function Home() {
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
-        {/* Cinematic Background */}
+      <section className="relative min-h-[92vh] overflow-hidden">
         <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-black/40 z-10" />
-          <motion.div 
-            initial={{ scale: 1.1 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 10, ease: "easeOut" }}
-            className="w-full h-full"
+          <img
+            src="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=2000"
+            alt="Pizza oven background"
+            className="h-full w-full object-cover"
+          />
+          <video
+            className="h-full w-full object-cover"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+            poster="https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=2000"
           >
-             {/* Unsplash: Dark, moody rustic kitchen with ingredients on table */}
-            <img 
-              src="https://images.unsplash.com/photo-1556910103-1c02745a30bf?auto=format&fit=crop&q=80&w=2000" 
-              alt="Rustic Kitchen" 
-              className="w-full h-full object-cover"
+            <source
+              src="https://videos.pexels.com/video-files/3571264/3571264-hd_1920_1080_25fps.mp4"
+              type="video/mp4"
             />
-          </motion.div>
+          </video>
+          <div className="absolute inset-0 bg-gradient-to-r from-black/75 via-black/60 to-black/40" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.14),transparent_45%)]" />
         </div>
 
-        {/* Content */}
-        <div className="container relative z-20 px-4 text-center">
+        <div className="container relative z-20 mx-auto grid min-h-[92vh] items-center gap-10 px-4 py-24 md:grid-cols-[1.2fr_0.8fr]">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+            transition={{ duration: 0.7 }}
+            className="max-w-3xl"
           >
-            <span className="inline-block py-1 px-3 border border-white/30 rounded-full text-white/90 text-sm font-medium tracking-widest uppercase mb-6 backdrop-blur-sm">
-              Est. 2014
+            <span className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white/90 backdrop-blur-sm">
+              <Star className="h-3.5 w-3.5 text-amber-300" />
+              Family Owned Since 2014
             </span>
+
+            <h1 className="font-serif text-5xl font-bold leading-tight tracking-tight text-white drop-shadow-2xl md:text-7xl">
+              Authentic Pizza & Pasta,
+              <span className="block text-amber-200">Crafted Fresh Daily</span>
+            </h1>
+
+            <p className="mt-6 max-w-2xl text-lg text-white/90 md:text-xl">
+              Wood-fired pizzas, house-made sauces, and classic Italian comfort food
+              served fast without compromising quality.
+            </p>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <span className="rounded-full bg-white/15 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
+                4.8 Guest Rating
+              </span>
+              <span className="rounded-full bg-white/15 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
+                Avg. 30 Min Delivery
+              </span>
+              <span className="rounded-full bg-white/15 px-4 py-2 text-sm font-medium text-white backdrop-blur-sm">
+                Fresh Dough Daily
+              </span>
+            </div>
+
+            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+              <Link href="/menu">
+                <Button size="lg" className="h-14 rounded-full px-8 text-lg shadow-lg">
+                  View Menu <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+              </Link>
+              <Link href="/order">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="h-14 rounded-full border-white/50 bg-white/10 px-8 text-lg text-white backdrop-blur-sm hover:bg-white/20"
+                >
+                  Order Online
+                </Button>
+              </Link>
+            </div>
           </motion.div>
 
-          <motion.h1 
-            initial={{ opacity: 0, y: 30 }}
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-8 leading-tight tracking-tight drop-shadow-2xl"
+            transition={{ duration: 0.7, delay: 0.15 }}
+            className="rounded-2xl border border-white/20 bg-black/35 p-6 text-white backdrop-blur-md"
           >
-            Taste the <span className="text-primary italic">Wild</span> & <br/>
-            Savor the <span className="text-accent italic">Roots</span>
-          </motion.h1>
-
-          <motion.p 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto mb-10 font-light"
-          >
-            Experience authentic farm-to-table dining where every ingredient tells a story. 
-            Locally sourced, expertly crafted, and served with soul.
-          </motion.p>
-
-          <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.8 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
-          >
-            <Link href="/menu">
-              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white rounded-full px-8 h-14 text-lg">
-                View Menu <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
-            </Link>
-            <Link href="/order">
-              <Button size="lg" variant="outline" className="bg-white/10 hover:bg-white/20 border-white/40 text-white backdrop-blur-sm rounded-full px-8 h-14 text-lg">
-                Order Online
+            <h2 className="font-serif text-2xl font-bold">Now Serving</h2>
+            <p className="mt-1 text-sm text-white/80">Dine-in, pickup, and delivery</p>
+            <div className="mt-5 space-y-4 text-sm">
+              <div className="flex items-center justify-between rounded-lg bg-white/10 px-3 py-2">
+                <span>Today</span>
+                <span className="font-semibold">11:00 AM - 10:00 PM</span>
+              </div>
+              <div className="flex items-center justify-between rounded-lg bg-white/10 px-3 py-2">
+                <span>Phone</span>
+                <span className="font-semibold">(555) 123-4567</span>
+              </div>
+              <div className="flex items-center justify-between rounded-lg bg-white/10 px-3 py-2">
+                <span>Address</span>
+                <span className="font-semibold">Portland, OR</span>
+              </div>
+            </div>
+            <Link href="/contact">
+              <Button
+                variant="secondary"
+                className="mt-6 h-11 w-full rounded-full bg-white text-black hover:bg-white/90"
+              >
+                View Full Details
               </Button>
             </Link>
           </motion.div>
         </div>
-
-        {/* Scroll Indicator */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 1 }}
-          className="absolute bottom-10 left-1/2 -translate-x-1/2 z-20 flex flex-col items-center gap-2"
-        >
-          <span className="text-white/60 text-xs tracking-widest uppercase">Scroll to Discover</span>
-          <div className="w-[1px] h-12 bg-gradient-to-b from-white to-transparent" />
-        </motion.div>
       </section>
 
       {/* Intro Section */}
@@ -124,7 +153,7 @@ export default function Home() {
               <h2 className="text-primary font-medium tracking-widest uppercase">Our Philosophy</h2>
               <h3 className="font-serif text-4xl md:text-5xl font-bold text-foreground">Rooted in Tradition, <br/>Elevated by Passion.</h3>
               <p className="text-muted-foreground text-lg leading-relaxed">
-                At Rustic & Root, we believe that the best meals start with the best ingredients. 
+                At kassems pizza & pasta , we believe that the best meals start with the best ingredients. 
                 Our chefs work directly with local farmers to source seasonal produce, ethical meats, 
                 and artisanal goods.
               </p>

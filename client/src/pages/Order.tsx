@@ -1,74 +1,51 @@
 import { useCart } from "@/lib/cart-context";
-import { useCreateOrder } from "@/hooks/use-orders";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { createOrderRequestSchema } from "@shared/schema";
-import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Separator } from "@/components/ui/separator";
-import { Loader2, CheckCircle2, ShoppingBag } from "lucide-react";
-import { Link } from "wouter";
+import { ShoppingBag } from "lucide-react";
+import { Link, useLocation } from "wouter";
+import { saveCheckoutDraft } from "@/lib/checkout-session";
 
-type OrderFormValues = z.infer<typeof createOrderRequestSchema>;
+const checkoutCustomerSchema = createOrderRequestSchema.omit({ items: true });
+type OrderFormValues = z.infer<typeof checkoutCustomerSchema>;
 
 export default function Order() {
-  const { items, cartTotal, updateQuantity, removeFromCart, clearCart } = useCart();
-  const { mutate: createOrder, isPending, isSuccess } = useCreateOrder();
+  const { items, cartTotal, updateQuantity, removeFromCart } = useCart();
+  const [, setLocation] = useLocation();
 
   const form = useForm<OrderFormValues>({
-    resolver: zodResolver(createOrderRequestSchema),
+    resolver: zodResolver(checkoutCustomerSchema),
     defaultValues: {
       customerName: "",
       customerEmail: "",
       customerPhone: "",
-      items: [],
     },
   });
 
-  const onSubmit = (data: Omit<OrderFormValues, "items">) => {
+  const onSubmit = (data: OrderFormValues) => {
     if (items.length === 0) return;
 
-    const orderData = {
-      ...data,
+    saveCheckoutDraft({
+      customerName: data.customerName,
+      customerEmail: data.customerEmail,
+      customerPhone: data.customerPhone,
       items: items.map(item => ({
         menuItemId: item.menuItem.id,
+        name: item.menuItem.name,
+        price: Number(item.menuItem.price),
         quantity: item.quantity,
       })),
-    };
-
-    createOrder(orderData, {
-      onSuccess: () => {
-        clearCart();
-        window.scrollTo(0,0);
-      }
+      subtotal: Number(cartTotal.toFixed(2)),
+      tax: Number((cartTotal * 0.08).toFixed(2)),
+      total: Number((cartTotal * 1.08).toFixed(2)),
+      createdAt: new Date().toISOString(),
     });
-  };
-
-  if (isSuccess) {
-    return (
-      <div className="min-h-screen bg-background pt-24 pb-12 flex items-center justify-center">
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className="bg-white p-8 md:p-12 rounded-2xl shadow-xl text-center max-w-lg mx-4"
-        >
-          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <CheckCircle2 className="w-10 h-10 text-green-600" />
-          </div>
-          <h2 className="font-serif text-3xl font-bold mb-4 text-foreground">Order Confirmed!</h2>
-          <p className="text-muted-foreground mb-8">
-            Thank you for your order. We've received it and are preparing your delicious meal. 
-            You will receive a confirmation email shortly.
-          </p>
-          <Link href="/">
-            <Button className="w-full bg-primary hover:bg-primary/90 text-white h-12 rounded-lg">Return Home</Button>
-          </Link>
-        </motion.div>
-      </div>
-    );
+    setLocation("/payment");
   }
 
   return (
@@ -201,20 +178,13 @@ export default function Order() {
 
                     <div className="pt-4">
                       <Button 
-                        type="submit" 
-                        disabled={isPending}
+                        type="submit"
                         className="w-full h-14 text-lg font-bold bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20"
                       >
-                        {isPending ? (
-                          <>
-                            <Loader2 className="w-5 h-5 mr-2 animate-spin" /> Processing...
-                          </>
-                        ) : (
-                          `Place Order — $${(cartTotal * 1.08).toFixed(2)}`
-                        )}
+                        {`Continue To Payment — $${(cartTotal * 1.08).toFixed(2)}`}
                       </Button>
                       <p className="text-center text-xs text-muted-foreground mt-4">
-                        Secure checkout powered by Stripe (Mock). By placing this order you agree to our terms.
+                        Next step: choose payment method and complete payment securely.
                       </p>
                     </div>
                   </form>

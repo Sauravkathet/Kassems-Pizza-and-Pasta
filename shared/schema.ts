@@ -29,7 +29,7 @@ export const orders = pgTable("orders", {
   customerName: text("customer_name").notNull(),
   customerEmail: text("customer_email").notNull(),
   customerPhone: text("customer_phone").notNull(),
-  status: text("status").notNull().default("pending"), // pending, confirmed, completed
+  status: text("status").notNull().default("pending"), // pending, accepted, preparing, ready, out_for_delivery, delivered
   totalAmount: decimal("total_amount", { precision: 10, scale: 2 }).notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
@@ -98,6 +98,39 @@ export type OrderItem = typeof orderItems.$inferSelect;
 export type CateringInquiry = typeof cateringInquiries.$inferSelect;
 
 export type InsertCateringInquiry = z.infer<typeof insertCateringInquirySchema>;
+
+export const orderStatusSchema = z.enum([
+  "pending",
+  "accepted",
+  "preparing",
+  "ready",
+  "out_for_delivery",
+  "delivered",
+]);
+export type OrderStatus = z.infer<typeof orderStatusSchema>;
+
+export const kitchenOrderItemSchema = z.object({
+  id: z.number(),
+  menuItemId: z.number(),
+  name: z.string(),
+  quantity: z.number(),
+  priceAtTime: z.coerce.number().nonnegative(),
+  imageUrl: z.string().nullable().optional().default(null),
+});
+
+export const kitchenOrderSchema = z.object({
+  id: z.number(),
+  customerName: z.string(),
+  customerEmail: z.string(),
+  customerPhone: z.string(),
+  status: orderStatusSchema,
+  totalAmount: z.string(),
+  createdAt: z.string().nullable(),
+  items: z.array(kitchenOrderItemSchema),
+});
+
+export type KitchenOrder = z.infer<typeof kitchenOrderSchema>;
+export type KitchenOrderItem = z.infer<typeof kitchenOrderItemSchema>;
 
 // Request types
 export const createOrderRequestSchema = z.object({
