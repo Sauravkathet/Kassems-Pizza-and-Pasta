@@ -36,7 +36,7 @@ export default function Catering() {
         <div className="absolute inset-0 bg-black/50 z-10" />
         {/* Unsplash: Banquet table */}
         <img 
-          src="https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&q=80&w=2000"
+          src="https://lh3.googleusercontent.com/gps-cs-s/AHVAwep1rKI8zlLA4Cq0QM6E4jxS6VpsZ62sl1yepanf8W46twKaEDStLQrtld4TvMREvqXuysKl3_2gIN-tqL8TGM1qbuhR5jODKACIR45Ec8C3Gz1h-SHjn_jAddCTHB-U8GMiMZscBkw86pU=s1360-w1360-h1020"
           alt="Catering Event" 
           className="absolute inset-0 w-full h-full object-cover"
         />
