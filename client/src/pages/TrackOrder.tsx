@@ -54,41 +54,41 @@ const STATUS_CONFIG: Record<
     label: "Order Received",
     description: "We've received your order and it's in queue.",
     icon: Clock,
-    color: "text-rose-700",
-    bgColor: "bg-rose-100",
-    borderColor: "border-rose-200",
+    color: "text-primary",
+    bgColor: "bg-primary/10",
+    borderColor: "border-primary/25",
   },
   accepted: {
     label: "Accepted",
     description: "The kitchen has accepted your order.",
     icon: CheckCircle2,
-    color: "text-blue-700",
-    bgColor: "bg-blue-100",
-    borderColor: "border-blue-200",
+    color: "text-orange-700",
+    bgColor: "bg-orange-100",
+    borderColor: "border-orange-300",
   },
   preparing: {
     label: "Preparing",
     description: "Your food is being freshly prepared.",
     icon: ChefHat,
-    color: "text-orange-700",
-    bgColor: "bg-orange-100",
-    borderColor: "border-orange-200",
+    color: "text-yellow-800",
+    bgColor: "bg-yellow-100",
+    borderColor: "border-yellow-300",
   },
   ready: {
     label: "Ready",
     description: "Your order is packed and waiting.",
     icon: Package,
-    color: "text-emerald-700",
-    bgColor: "bg-emerald-100",
-    borderColor: "border-emerald-200",
+    color: "text-green-700",
+    bgColor: "bg-green-100",
+    borderColor: "border-green-300",
   },
   out_for_delivery: {
     label: "On The Way",
     description: "Your order is out for delivery.",
     icon: Truck,
-    color: "text-indigo-700",
-    bgColor: "bg-indigo-100",
-    borderColor: "border-indigo-200",
+    color: "text-secondary",
+    bgColor: "bg-secondary/10",
+    borderColor: "border-secondary/30",
   },
   delivered: {
     label: "Delivered",
@@ -96,7 +96,7 @@ const STATUS_CONFIG: Record<
     icon: ShoppingBag,
     color: "text-green-700",
     bgColor: "bg-green-100",
-    borderColor: "border-green-200",
+    borderColor: "border-green-300",
   },
 };
 
@@ -223,7 +223,7 @@ function OrderCard({ order }: { order: KitchenOrder }) {
       transition={{ duration: 0.4 }}
       className="group"
     >
-      <Card className="overflow-hidden border-2 border-transparent bg-white/90 shadow-md backdrop-blur-sm transition-all hover:border-primary/20 hover:shadow-xl">
+      <Card className="overflow-hidden border-2 border-transparent bg-card/95 shadow-md backdrop-blur-sm transition-all hover:border-primary/20 hover:shadow-xl">
         <CardContent className="p-0">
           {/* Order Header */}
           <div className="flex flex-wrap items-start justify-between gap-4 border-b border-border/60 bg-gradient-to-r from-muted/20 to-transparent p-5">
@@ -285,7 +285,7 @@ function OrderCard({ order }: { order: KitchenOrder }) {
 
             {/* Delivery Info (if applicable) */}
             {(order.status === "out_for_delivery" || order.status === "delivered") && (
-              <div className="mt-4 flex items-center gap-2 rounded-lg border border-indigo-200 bg-indigo-50/50 p-3 text-sm text-indigo-800">
+              <div className="mt-4 flex items-center gap-2 rounded-lg border border-primary/20 bg-primary/10 p-3 text-sm text-primary">
                 <Truck className="h-4 w-4" />
                 <span>Your order is with our delivery partner.</span>
               </div>
@@ -318,7 +318,7 @@ function SearchForm({
   hasLookup: boolean;
 }) {
   return (
-    <Card className="border-none bg-white/80 shadow-lg backdrop-blur-md">
+    <Card className="border border-border/50 bg-card/90 shadow-lg backdrop-blur-md">
       <CardContent className="p-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -327,7 +327,7 @@ function SearchForm({
               Enter the email or phone number you used at checkout.
             </p>
           </div>
-          <Badge variant="outline" className="gap-2 border-blue-200 bg-blue-50 px-3 py-1.5 text-blue-700">
+          <Badge variant="outline" className="gap-2 border-primary/25 bg-primary/10 px-3 py-1.5 text-primary">
             <Clock className="h-3.5 w-3.5" />
             Auto-refresh every 5s
           </Badge>
@@ -462,7 +462,7 @@ export default function TrackOrder() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-white/50 p-16 text-center backdrop-blur-sm"
+              className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card/55 p-16 text-center backdrop-blur-sm"
             >
               <div className="rounded-full bg-muted p-4">
                 <Search className="h-8 w-8 text-muted-foreground/60" />
@@ -478,7 +478,7 @@ export default function TrackOrder() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center rounded-2xl bg-white/70 p-16 backdrop-blur-sm"
+              className="flex flex-col items-center justify-center rounded-2xl border border-border/50 bg-card/70 p-16 backdrop-blur-sm"
             >
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
               <p className="mt-4 text-sm text-muted-foreground">Fetching your orders...</p>
@@ -504,7 +504,7 @@ export default function TrackOrder() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="flex flex-col items-center justify-center rounded-2xl border border-border bg-white/70 p-16 text-center backdrop-blur-sm"
+              className="flex flex-col items-center justify-center rounded-2xl border border-border bg-card/70 p-16 text-center backdrop-blur-sm"
             >
               <div className="rounded-full bg-muted p-4">
                 <Package className="h-8 w-8 text-muted-foreground/60" />

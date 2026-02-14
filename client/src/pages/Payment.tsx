@@ -5,7 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useCreateOrder } from "@/hooks/use-orders";
 import { useCart } from "@/lib/cart-context";
-import { clearCheckoutDraft, loadCheckoutDraft } from "@/lib/checkout-session";
+import { clearCheckoutDraft, loadCheckoutDraft, saveCheckoutDraft } from "@/lib/checkout-session";
+import { fallbackImageByName, resolveItemImage } from "@/lib/item-image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -16,9 +17,15 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { CreditCard, Loader2, ShieldCheck } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { CreditCard, Loader2, ShieldCheck, Store, Truck } from "lucide-react";
 
 const paymentSchema = z.object({
+  customerName: z.string().min(2, "Name is required"),
+  customerEmail: z.string().email("Invalid email"),
+  customerPhone: z.string().min(10, "Valid phone number required"),
+  fulfillmentType: z.enum(["pickup", "delivery"]),
+  deliveryAddress: z.string().optional(),
   paymentProvider: z.enum(["stripe", "square"]),
   cardHolder: z.string().min(2, "Cardholder name is required"),
   cardNumber: z
@@ -32,6 +39,14 @@ const paymentSchema = z.object({
   cvv: z
     .string()
     .regex(/^[0-9]{3,4}$/, "CVV must be 3 or 4 digits"),
+}).superRefine((value, ctx) => {
+  if (value.fulfillmentType === "delivery" && !value.deliveryAddress?.trim()) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ["deliveryAddress"],
+      message: "Delivery address is required",
+    });
+  }
 });
 
 type PaymentFormValues = z.infer<typeof paymentSchema>;
@@ -45,6 +60,11 @@ export default function Payment() {
   const form = useForm<PaymentFormValues>({
     resolver: zodResolver(paymentSchema),
     defaultValues: {
+      customerName: draft?.customerName ?? "",
+      customerEmail: draft?.customerEmail ?? "",
+      customerPhone: draft?.customerPhone ?? "",
+      fulfillmentType: draft?.fulfillmentType ?? "pickup",
+      deliveryAddress: draft?.deliveryAddress ?? "",
       paymentProvider: "stripe",
       cardHolder: "",
       cardNumber: "",
@@ -52,15 +72,29 @@ export default function Payment() {
       cvv: "",
     },
   });
+  const fulfillmentType = form.watch("fulfillmentType");
+  const deliveryAddress = form.watch("deliveryAddress");
 
-  const onSubmit = () => {
+  const onSubmit = (values: PaymentFormValues) => {
     if (!draft) {
       setLocation("/order");
       return;
     }
 
+    const normalizedDeliveryAddress =
+      values.fulfillmentType === "delivery" ? values.deliveryAddress?.trim() : undefined;
+
+    saveCheckoutDraft({
+      ...draft,
+      customerName: values.customerName,
+      customerEmail: values.customerEmail,
+      customerPhone: values.customerPhone,
+      fulfillmentType: values.fulfillmentType,
+      deliveryAddress: normalizedDeliveryAddress,
+    });
+
     const isConfirmed = window.confirm(
-      `Confirm order for ${draft.customerName} and charge $${draft.total.toFixed(2)}?`,
+      `Confirm ${values.fulfillmentType} order for ${values.customerName} and charge $${draft.total.toFixed(2)}?`,
     );
     if (!isConfirmed) {
       return;
@@ -68,9 +102,9 @@ export default function Payment() {
 
     createOrder(
       {
-        customerName: draft.customerName,
-        customerEmail: draft.customerEmail,
-        customerPhone: draft.customerPhone,
+        customerName: values.customerName,
+        customerEmail: values.customerEmail,
+        customerPhone: values.customerPhone,
         items: draft.items.map((item) => ({
           menuItemId: item.menuItemId,
           quantity: item.quantity,
@@ -79,8 +113,8 @@ export default function Payment() {
       {
         onSuccess: () => {
           const params = new URLSearchParams({
-            email: draft.customerEmail,
-            phone: draft.customerPhone,
+            email: values.customerEmail,
+            phone: values.customerPhone,
           });
           clearCheckoutDraft();
           clearCart();
@@ -94,13 +128,13 @@ export default function Payment() {
   if (!draft) {
     return (
       <div className="min-h-screen bg-background pt-24 pb-12 flex items-center justify-center">
-        <div className="bg-white p-8 rounded-2xl shadow-xl text-center max-w-lg mx-4">
+        <div className="bg-card p-8 rounded-2xl shadow-xl text-center max-w-lg mx-4 border border-border/60">
           <h2 className="font-serif text-3xl font-bold mb-4 text-foreground">No checkout session</h2>
           <p className="text-muted-foreground mb-8">
             Start from checkout to continue with payment.
           </p>
           <Link href="/order">
-            <Button className="w-full bg-primary hover:bg-primary/90 text-white h-12 rounded-lg">
+            <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground h-12 rounded-lg">
               Back To Checkout
             </Button>
           </Link>
@@ -110,24 +144,61 @@ export default function Payment() {
   }
 
   return (
-    <div className="bg-background min-h-screen pt-24 pb-20">
+    <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/35 pt-24 pb-20">
       <div className="container mx-auto px-4 max-w-6xl">
         <h1 className="font-serif text-4xl md:text-5xl font-bold mb-10 text-center">Payment</h1>
 
         <div className="grid lg:grid-cols-2 gap-12">
           <div className="space-y-6">
-            <div className="bg-white p-6 rounded-2xl shadow-sm border border-border/50">
+            <div className="bg-card p-6 rounded-2xl shadow-sm border border-border/60">
               <h2 className="font-serif text-2xl font-bold mb-5">Order Total</h2>
 
-              <div className="space-y-2 text-sm">
-                {draft.items.map((item) => (
-                  <div key={`${item.menuItemId}-${item.name}`} className="flex justify-between text-muted-foreground">
-                    <span>
-                      {item.name} x {item.quantity}
-                    </span>
-                    <span>${(Number(item.price) * item.quantity).toFixed(2)}</span>
-                  </div>
-                ))}
+              <div className="space-y-3">
+                {draft.items.map((item, index) => {
+                  const unitPrice = Number(item.price);
+                  const lineTotal = unitPrice * item.quantity;
+
+                  return (
+                    <div
+                      key={`${item.menuItemId}-${item.name}-${index}`}
+                      className="rounded-xl border border-border/60 bg-background/70 p-3"
+                    >
+                      <div className="flex gap-3">
+                        <div className="h-16 w-16 shrink-0 overflow-hidden rounded-md border border-border/50 bg-muted">
+                          <img
+                            src={resolveItemImage(item.name, item.imageUrl)}
+                            alt={item.name}
+                            className="h-full w-full object-cover"
+                            onError={(event) => {
+                              event.currentTarget.src = fallbackImageByName(item.name);
+                            }}
+                          />
+                        </div>
+
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-start justify-between gap-3">
+                            <div className="min-w-0">
+                              <p className="truncate font-semibold text-foreground">{item.name}</p>
+                              {item.customizationSummary && (
+                                <p className="mt-0.5 text-xs text-muted-foreground">{item.customizationSummary}</p>
+                              )}
+                            </div>
+                            <p className="text-sm font-semibold text-foreground">${lineTotal.toFixed(2)}</p>
+                          </div>
+
+                          {item.description && (
+                            <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">{item.description}</p>
+                          )}
+
+                          <div className="mt-2 flex items-center justify-between text-xs text-muted-foreground">
+                            <span>Qty {item.quantity}</span>
+                            <span>${unitPrice.toFixed(2)} each</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
 
               <div className="mt-6 border-t border-dashed pt-4 space-y-2">
@@ -144,22 +215,125 @@ export default function Payment() {
                   <span>${draft.total.toFixed(2)}</span>
                 </div>
               </div>
+
+              <div className="mt-6 rounded-xl border border-border/60 bg-background/70 p-4">
+                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Fulfillment</p>
+                <p className="mt-1 text-sm font-medium text-foreground capitalize">
+                  {fulfillmentType === "delivery" ? "Delivery" : "Pickup"}
+                </p>
+                {fulfillmentType === "delivery" && deliveryAddress?.trim() && (
+                  <p className="mt-1 text-xs text-muted-foreground">{deliveryAddress.trim()}</p>
+                )}
+              </div>
             </div>
 
-            <div className="bg-white p-5 rounded-2xl border border-border/50">
-              <p className="text-sm text-muted-foreground">Billing Contact</p>
-              <p className="font-semibold mt-1">{draft.customerName}</p>
-              <p className="text-sm text-muted-foreground">{draft.customerEmail}</p>
-              <p className="text-sm text-muted-foreground">{draft.customerPhone}</p>
-            </div>
           </div>
 
           <div className="space-y-6">
-            <div className="bg-white p-8 rounded-2xl shadow-lg border border-primary/10">
+            <div className="bg-card p-8 rounded-2xl shadow-lg border border-primary/15">
               <h2 className="font-serif text-2xl font-bold mb-6">Pay Securely</h2>
 
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                  <FormField
+                    control={form.control}
+                    name="customerName"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Full Name</FormLabel>
+                        <FormControl>
+                          <Input placeholder="John Doe" className="h-12" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="customerEmail"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="john@example.com" className="h-12" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="customerPhone"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Phone</FormLabel>
+                        <FormControl>
+                          <Input placeholder="(555) 123-4567" className="h-12" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="fulfillmentType"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Order Type</FormLabel>
+                        <FormControl>
+                          <div className="grid grid-cols-2 gap-3">
+                            <button
+                              type="button"
+                              onClick={() => field.onChange("pickup")}
+                              className={cn(
+                                "flex h-12 items-center justify-center gap-2 rounded-md border text-sm font-medium transition-colors",
+                                field.value === "pickup"
+                                  ? "border-primary bg-primary/10 text-primary"
+                                  : "border-input bg-background text-foreground hover:border-primary/40",
+                              )}
+                            >
+                              <Store className="h-4 w-4" />
+                              Pickup
+                            </button>
+                            <button
+                              type="button"
+                              onClick={() => field.onChange("delivery")}
+                              className={cn(
+                                "flex h-12 items-center justify-center gap-2 rounded-md border text-sm font-medium transition-colors",
+                                field.value === "delivery"
+                                  ? "border-primary bg-primary/10 text-primary"
+                                  : "border-input bg-background text-foreground hover:border-primary/40",
+                              )}
+                            >
+                              <Truck className="h-4 w-4" />
+                              Delivery
+                            </button>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {fulfillmentType === "delivery" && (
+                    <FormField
+                      control={form.control}
+                      name="deliveryAddress"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Delivery Address</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter full delivery address" className="h-12" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+
                   <FormField
                     control={form.control}
                     name="paymentProvider"
@@ -247,7 +421,7 @@ export default function Payment() {
                     <Button
                       type="submit"
                       disabled={isPending}
-                      className="w-full h-14 text-lg font-bold bg-primary hover:bg-primary/90 text-white"
+                      className="w-full h-14 text-lg font-bold bg-primary hover:bg-primary/90 text-primary-foreground"
                     >
                       {isPending ? (
                         <span className="inline-flex items-center gap-2">

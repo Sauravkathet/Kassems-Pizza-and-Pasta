@@ -1,40 +1,51 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  /* Rustic Premium Palette */
-  --primary: 24 85% 41%;      /* Burnt Orange #D35400 */
-  --primary-foreground: 40 33% 96%; /* Linen #FBF6EE */
-  
-  --secondary: 82 39% 30%;    /* Olive Green #556B2F */
-  --secondary-foreground: 40 33% 96%;
+  /* Pizza Brand Palette: Chili Red, Black, White, Orange, Yellow, Green */
+  --primary: 2 82% 48%;
+  --primary-foreground: 0 0% 98%;
 
-  --accent: 39 77% 83%;       /* Wheat #F5DEB3 */
-  --accent-foreground: 15 25% 20%; /* Espresso Brown #3E2723 */
-  
-  --background: 40 33% 96%;   /* Linen #FBF6EE */
-  --foreground: 15 25% 20%;   /* Espresso Brown #3E2723 */
-  
+  --secondary: 0 0% 8%;
+  --secondary-foreground: 0 0% 96%;
+
+  --accent: 30 92% 56%;
+  --accent-foreground: 0 0% 12%;
+
+  --background: 40 100% 98%;
+  --foreground: 0 0% 10%;
+
   --card: 0 0% 100%;
-  --card-foreground: 15 25% 20%;
-  
+  --card-foreground: 0 0% 10%;
+  --card-border: 28 24% 84%;
+
   --popover: 0 0% 100%;
-  --popover-foreground: 15 25% 20%;
-  
-  --muted: 40 20% 90%;
-  --muted-foreground: 15 15% 40%;
+  --popover-foreground: 0 0% 10%;
+  --popover-border: 28 24% 84%;
+
+  --muted: 36 44% 94%;
+  --muted-foreground: 0 0% 34%;
   
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 98%;
 
-  --border: 15 10% 85%;
-  --input: 15 10% 85%;
-  --ring: 24 85% 41%;
+  --border: 28 24% 84%;
+  --input: 28 24% 84%;
+  --ring: 2 82% 48%;
+  --primary-border: hsl(2 82% 40%);
+  --secondary-border: hsl(0 0% 18%);
+  --accent-border: hsl(30 82% 46%);
+  --muted-border: hsl(36 28% 80%);
+  --destructive-border: hsl(0 78% 42%);
+  --button-outline: hsl(var(--border) / 0.95);
+  --badge-outline: hsl(var(--border) / 0.95);
+  --brand-yellow: 46 95% 56%;
+  --brand-green: 146 55% 36%;
 
-  --font-serif: 'Playfair Display', serif;
+  --font-serif: 'Inter', sans-serif;
   --font-sans: 'Inter', sans-serif;
   
   --radius: 0.5rem;
@@ -43,11 +54,11 @@
 @layer base {
   body {
     @apply bg-background text-foreground antialiased font-sans;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.02'/%3E%3C/svg%3E");
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-serif font-bold tracking-tight text-foreground;
+    @apply font-sans text-foreground;
   }
 }
 
@@ -57,6 +68,18 @@
   }
   .text-shadow-lg {
     text-shadow: 0 4px 8px rgba(0,0,0,0.2);
+  }
+  .text-brand-yellow {
+    color: hsl(var(--brand-yellow));
+  }
+  .bg-brand-yellow {
+    background-color: hsl(var(--brand-yellow));
+  }
+  .text-brand-green {
+    color: hsl(var(--brand-green));
+  }
+  .bg-brand-green {
+    background-color: hsl(var(--brand-green));
   }
 }
 
@@ -68,5 +91,5 @@
   @apply bg-background;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-secondary/30 rounded-full hover:bg-secondary/50 transition-colors;
+  @apply bg-primary/40 rounded-full hover:bg-primary/60 transition-colors;
 }

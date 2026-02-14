@@ -34,7 +34,9 @@ function ScrollToTop() {
 }
 
 function Router() {
+  const [location] = useLocation();
   const [isTrackOrderOpen, setIsTrackOrderOpen] = useState(false);
+  const isKitchenRoute = location === "/kitchen";
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -58,7 +60,7 @@ function Router() {
           <Route component={NotFound} />
         </Switch>
       </main>
-      <Footer />
+      {!isKitchenRoute && <Footer />}
       <TrackOrderDrawer
         open={isTrackOrderOpen}
         onOpenChange={setIsTrackOrderOpen}

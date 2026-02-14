@@ -15,7 +15,7 @@ const images = [
 
 export default function Gallery() {
   return (
-    <div className="min-h-screen bg-background pt-24 pb-24">
+    <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/35 pt-24 pb-24">
       <div className="container px-4 mx-auto">
         <div className="text-center mb-16">
           <h1 className="font-serif text-5xl font-bold mb-4">A Visual Feast</h1>

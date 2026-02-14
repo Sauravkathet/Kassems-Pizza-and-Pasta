@@ -3,13 +3,18 @@ import { z } from "zod";
 const CHECKOUT_DRAFT_KEY = "checkout_draft_v1";
 
 const checkoutDraftSchema = z.object({
-  customerName: z.string().min(1),
-  customerEmail: z.string().email(),
-  customerPhone: z.string().min(1),
+  customerName: z.string().optional(),
+  customerEmail: z.string().email().optional(),
+  customerPhone: z.string().optional(),
+  fulfillmentType: z.enum(["pickup", "delivery"]).default("pickup"),
+  deliveryAddress: z.string().optional(),
   items: z.array(
     z.object({
       menuItemId: z.number().int().positive(),
       name: z.string(),
+      description: z.string().optional(),
+      imageUrl: z.string().optional(),
+      customizationSummary: z.string().optional(),
       price: z.coerce.number().nonnegative(),
       quantity: z.number().int().positive(),
     }),

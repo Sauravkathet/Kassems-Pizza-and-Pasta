@@ -30,13 +30,13 @@ export default function Catering() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-background">
       {/* Hero */}
       <section className="relative h-[60vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-black/50 z-10" />
+        <div className="absolute inset-0 z-10 bg-black/65" />
         {/* Unsplash: Banquet table */}
         <img 
-          src="https://lh3.googleusercontent.com/gps-cs-s/AHVAwep1rKI8zlLA4Cq0QM6E4jxS6VpsZ62sl1yepanf8W46twKaEDStLQrtld4TvMREvqXuysKl3_2gIN-tqL8TGM1qbuhR5jODKACIR45Ec8C3Gz1h-SHjn_jAddCTHB-U8GMiMZscBkw86pU=s1360-w1360-h1020"
+          src="https://lh3.googleusercontent.com/gps-cs-s/AHVAwep8B6GahV5zgzL2F4O6h79GYNl9lAcIdAfZ6CB31pDjhuT0AIXA0NXgSP7BlYGFCWKMcKVuVXhLN0y0m3ulhhwq_lrCmQl-2vExUk7_rH3CmDFXNubE185Qe0hRzAlyMC5wRxPrRt7qQdM=s1360-w1360-h1020"
           alt="Catering Event" 
           className="absolute inset-0 w-full h-full object-cover"
         />
@@ -44,7 +44,7 @@ export default function Catering() {
           <motion.h1 
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            className="font-serif text-5xl md:text-7xl font-bold mb-6"
+            className="font-serif text-5xl md:text-6xl font-bold mb-6 text-primary"
           >
             Gather & Feast
           </motion.h1>
@@ -59,11 +59,11 @@ export default function Catering() {
         </div>
       </section>
 
-      <section className="py-24 bg-background">
+      <section className="py-24">
         <div className="container px-4 mx-auto grid lg:grid-cols-2 gap-16">
           {/* Info */}
           <div className="space-y-8">
-            <h2 className="font-serif text-4xl font-bold text-foreground">Bring the Flavor to Your Event</h2>
+            <h2 className="text-4xl font-semibold text-foreground">Bring the Flavor to Your Event</h2>
             <div className="prose prose-lg text-muted-foreground">
               <p>
                 Our catering team specializes in creating bespoke menus that reflect the season and your unique taste. 
@@ -80,26 +80,26 @@ export default function Catering() {
             <div className="grid grid-cols-2 gap-4 pt-8">
                {/* Unsplash: Platter of food */}
               <img 
-                src="https://images.unsplash.com/photo-1555244162-803834f70033?auto=format&fit=crop&q=80&w=600" 
-                className="rounded-lg shadow-md aspect-square object-cover" 
+                src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweoeZ-h3EQvIvU-v88BlYPFnMmxF9-Gy-T1s9_Oui2Kz6mWDzTETZNikek4QjjDNQqTp7spWNRmn5tlwR6Nd2n5-WZQhzZZudPksdYu5LPrhSpCsz8SIiEDm3l7AxIkUi1g_IR20=s1360-w1360-h1020" 
+                className="aspect-square rounded-lg border border-border/70 object-cover shadow-md" 
                 alt="Catering 1" 
               />
                {/* Unsplash: Champagne pour */}
               <img 
-                src="https://images.unsplash.com/photo-1516997121675-4c2d1684aa3e?auto=format&fit=crop&q=80&w=600" 
-                className="rounded-lg shadow-md aspect-square object-cover mt-8" 
+                src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweqUtVvZgoi-ZexSyPk6fkJ5mYbcDn-W88dEbB1Z4jnbzw0E0Bos1EgrG8iWucU05GsESlNdO6l9E87JJGzT5phXG9Bzxvb5W369Rozb3web7DAbHnQuZ4XB4kgHE2SCI24PvDfc689HBKZa=s1360-w1360-h1020" 
+                className="mt-8 aspect-square rounded-lg border border-border/70 object-cover shadow-md" 
                 alt="Catering 2" 
               />
             </div>
           </div>
 
           {/* Form */}
-          <div className="bg-white p-8 md:p-12 rounded-2xl shadow-xl border border-border/50 h-fit">
+          <div className="h-fit rounded-2xl border border-border/70 bg-card p-8 shadow-xl md:p-12">
             {isSuccess ? (
               <div className="text-center py-20">
-                <CheckCircle2 className="w-20 h-20 text-green-600 mx-auto mb-6" />
-                <h3 className="font-serif text-3xl font-bold mb-4">Inquiry Received!</h3>
-                <p className="text-muted-foreground mb-8">
+                <CheckCircle2 className="mx-auto mb-6 h-20 w-20 text-primary" />
+                <h3 className="mb-4 text-3xl font-semibold text-foreground">Inquiry Received!</h3>
+                <p className="mb-8 text-muted-foreground">
                   Thanks for reaching out. Our events manager will review your details and get back to you within 24 hours.
                 </p>
                 <Button 
@@ -111,8 +111,8 @@ export default function Catering() {
               </div>
             ) : (
               <>
-                <h3 className="font-serif text-3xl font-bold mb-2">Request a Quote</h3>
-                <p className="text-muted-foreground mb-8">Tell us about your event and we'll craft the perfect proposal.</p>
+                <h3 className="mb-2 text-3xl font-semibold text-foreground">Request a Quote</h3>
+                <p className="mb-8 text-muted-foreground">Tell us about your event and we'll craft the perfect proposal.</p>
                 
                 <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -219,7 +219,7 @@ export default function Catering() {
                     <Button 
                       type="submit" 
                       disabled={isPending}
-                      className="w-full bg-primary hover:bg-primary/90 text-white font-bold h-12 text-lg"
+                      className="h-12 w-full text-lg font-semibold"
                     >
                       {isPending ? (
                         <><Loader2 className="w-5 h-5 mr-2 animate-spin" /> Submitting...</>

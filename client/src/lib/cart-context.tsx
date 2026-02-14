@@ -9,10 +9,28 @@ export type ItemCustomizations = {
 };
 
 type CartItem = {
+  lineItemId: string;
   menuItem: MenuItem;
   quantity: number;
   customizations?: ItemCustomizations;
 };
+
+function buildCustomizationKey(customizations?: ItemCustomizations): string {
+  if (!customizations) return "default";
+
+  const normalized = {
+    size: customizations.size?.trim() ?? "",
+    crust: customizations.crust?.trim() ?? "",
+    toppings: [...(customizations.toppings ?? [])].sort(),
+    specialInstructions: customizations.specialInstructions?.trim() ?? "",
+  };
+
+  return JSON.stringify(normalized);
+}
+
+function buildLineItemId(menuItemId: number, customizations?: ItemCustomizations): string {
+  return `${menuItemId}:${buildCustomizationKey(customizations)}`;
+}
 
 type CartContextType = {
   items: CartItem[];
@@ -21,8 +39,13 @@ type CartContextType = {
     quantity: number,
     customizations?: ItemCustomizations
   ) => void;
-  removeFromCart: (itemId: number) => void;
-  updateQuantity: (itemId: number, quantity: number) => void;
+  customizeCartItem: (
+    lineItemId: string,
+    item: MenuItem,
+    customizations?: ItemCustomizations
+  ) => void;
+  removeFromCart: (lineItemId: string | number) => void;
+  updateQuantity: (lineItemId: string | number, quantity: number) => void;
   clearCart: () => void;
   cartTotal: number;
   itemCount: number;
@@ -41,7 +64,27 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     const saved = localStorage.getItem("cart");
     if (saved) {
       try {
-        setItems(JSON.parse(saved));
+        const parsed = JSON.parse(saved) as unknown;
+        if (!Array.isArray(parsed)) {
+          setItems([]);
+          return;
+        }
+
+        const normalizedItems = parsed as Array<{
+          lineItemId?: string;
+          menuItem: MenuItem;
+          quantity: number;
+          customizations?: ItemCustomizations;
+        }>;
+
+        const normalized = normalizedItems
+          .filter((item) => item?.menuItem && typeof item.quantity === "number" && item.quantity > 0)
+          .map((item) => ({
+            ...item,
+            lineItemId: item.lineItemId ?? buildLineItemId(item.menuItem.id, item.customizations),
+          }));
+
+        setItems(normalized);
       } catch (e) {
         console.error("Failed to parse cart", e);
       }
@@ -58,36 +101,106 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     quantity: number,
     customizations?: ItemCustomizations
   ) => {
+    const lineItemId = buildLineItemId(menuItem.id, customizations);
+
     setItems((prev) => {
-      const existing = prev.find((i) => i.menuItem.id === menuItem.id);
+      const existing = prev.find((item) => item.lineItemId === lineItemId);
       if (existing) {
-        return prev.map((i) =>
-          i.menuItem.id === menuItem.id
+        return prev.map((item) =>
+          item.lineItemId === lineItemId
             ? {
-                ...i,
-                quantity: i.quantity + quantity,
-                customizations: customizations ?? i.customizations,
+                ...item,
+                quantity: item.quantity + quantity,
+                customizations: customizations ?? item.customizations,
               }
-            : i
+            : item
         );
       }
-      return [...prev, { menuItem, quantity, customizations }];
+      return [...prev, { lineItemId, menuItem, quantity, customizations }];
     });
     setIsOpen(true);
   };
 
-  const removeFromCart = (itemId: number) => {
-    setItems((prev) => prev.filter((i) => i.menuItem.id !== itemId));
+  const customizeCartItem = (
+    lineItemId: string,
+    menuItem: MenuItem,
+    customizations?: ItemCustomizations
+  ) => {
+    const nextLineItemId = buildLineItemId(menuItem.id, customizations);
+
+    setItems((prev) => {
+      const sourceItem = prev.find((item) => item.lineItemId === lineItemId);
+      if (!sourceItem) return prev;
+
+      if (nextLineItemId === lineItemId) {
+        return prev.map((item) =>
+          item.lineItemId === lineItemId
+            ? {
+                ...item,
+                menuItem,
+                customizations,
+              }
+            : item
+        );
+      }
+
+      const targetItem = prev.find((item) => item.lineItemId === nextLineItemId);
+
+      if (targetItem) {
+        return prev
+          .filter((item) => item.lineItemId !== lineItemId)
+          .map((item) =>
+            item.lineItemId === nextLineItemId
+              ? {
+                  ...item,
+                  quantity: item.quantity + sourceItem.quantity,
+                  menuItem,
+                  customizations,
+                }
+              : item
+          );
+      }
+
+      return prev.map((item) =>
+        item.lineItemId === lineItemId
+          ? {
+              ...item,
+              lineItemId: nextLineItemId,
+              menuItem,
+              customizations,
+            }
+          : item
+      );
+    });
   };
 
-  const updateQuantity = (itemId: number, quantity: number) => {
-    if (quantity <= 0) {
-      removeFromCart(itemId);
+  const removeFromCart = (lineItemId: string | number) => {
+    if (typeof lineItemId === "string") {
+      setItems((prev) => prev.filter((item) => item.lineItemId !== lineItemId));
       return;
     }
+
+    setItems((prev) => prev.filter((item) => item.menuItem.id !== lineItemId));
+  };
+
+  const updateQuantity = (lineItemId: string | number, quantity: number) => {
+    if (quantity <= 0) {
+      removeFromCart(lineItemId);
+      return;
+    }
+
+    if (typeof lineItemId === "string") {
+      setItems((prev) =>
+        prev.map((item) =>
+          item.lineItemId === lineItemId ? { ...item, quantity } : item
+        )
+      );
+      return;
+    }
+
     setItems((prev) =>
-      prev.map((i) =>
-        i.menuItem.id === itemId ? { ...i, quantity } : i
+      prev.map((item) =>
+        item.menuItem.id === lineItemId ? { ...item, quantity } : item
       )
     );
   };
@@ -106,6 +219,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       value={{
         items,
         addToCart,
+        customizeCartItem,
         removeFromCart,
         updateQuantity,
         clearCart,

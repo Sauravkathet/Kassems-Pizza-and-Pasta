@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 
 export default function About() {
   return (
-    <div className="min-h-screen bg-background pt-24 pb-24">
+    <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/35 pt-24 pb-24">
       <div className="container px-4 mx-auto max-w-4xl">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -27,8 +27,8 @@ export default function About() {
               <div className="absolute -inset-4 border-2 border-secondary/20 rounded-xl rotate-3" />
               {/* Unsplash: Woman holding vegetables */}
               <img 
-                src="https://images.unsplash.com/photo-1595855709940-5776d65c3631?auto=format&fit=crop&q=80&w=800" 
-                alt="Sourcing Ingredients"
+                src="https://scontent.fbir7-1.fna.fbcdn.net/v/t39.30808-6/485765508_1475081340412619_9161493469473066723_n.jpg?_nc_cat=101&ccb=1-7&_nc_sid=833d8c&_nc_ohc=xEuipd3nXtsQ7kNvwHwh799&_nc_oc=AdmPS27-zJy8pAu4KGnOSu0ONmnoh1ohZFyufGtaqFq2f5caFJDRN6JWzmYHANBqx-8&_nc_zt=23&_nc_ht=scontent.fbir7-1.fna&_nc_gid=DYt4Gf2BHK-9yOBb6wIOkA&oh=00_AfuePbVfu527hjU-A0fEg37oa94ykOd2kT9QRIRlmU6WVQ&oe=69953E60" 
+                alt="Our Suporters"
                 className="rounded-lg shadow-lg w-full relative z-10"
               />
             </div>
@@ -61,8 +61,8 @@ export default function About() {
               <div className="absolute -inset-4 border-2 border-primary/20 rounded-xl -rotate-3" />
               {/* Unsplash: Hands kneading dough */}
               <img 
-                src="https://images.unsplash.com/photo-1507048331197-7d4ac70811cf?auto=format&fit=crop&q=80&w=800" 
-                alt="Kneading Dough"
+                src="https://scontent.fbir7-1.fna.fbcdn.net/v/t39.30808-6/554694715_24701220746154991_1037812489477493969_n.jpg?_nc_cat=109&ccb=1-7&_nc_sid=0b6b33&_nc_ohc=Ws6zfPySp-4Q7kNvwG8IBnc&_nc_oc=AdmnZckyGYLzTe1hE0W4mDsTGqq_BCRbFb2XRB19fV_GQMMIJZ2_-7wNQHcovIV810A&_nc_zt=23&_nc_ht=scontent.fbir7-1.fna&_nc_gid=niJQLP7ZonGq0d6tKCiSOg&oh=00_AftENZvCF7TufnSRoDz9RBBgpr8bmu4ZYEliucFcjKV08w&oe=69955DDD" 
+                alt="quote image"
                 className="rounded-lg shadow-lg w-full relative z-10"
               />
             </div>

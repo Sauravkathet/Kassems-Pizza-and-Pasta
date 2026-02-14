@@ -1,92 +1,137 @@
 import { Link } from "wouter";
-import { Facebook, Instagram, Twitter, MapPin, Phone, Mail, Clock } from "lucide-react";
+import { Facebook, Instagram, Twitter, MapPin, Clock, Truck } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="bg-foreground text-background pt-20 pb-10">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+    <footer className="relative overflow-hidden border-t border-black/100 bg-black/90 pb-8 pt-16 text-secondary-foreground">
+      <div className="container relative mx-auto px-4">
+        <div className="mb-12 grid grid-cols-1 gap-10 md:grid-cols-2 lg:grid-cols-[1.35fr_1fr_1fr_1fr]">
           <div className="space-y-6">
-            <Link href="/">
-              <span className="font-serif text-3xl font-bold text-primary cursor-pointer">kassems pizza & pasta </span>
-            </Link>
-            <p className="text-background/70 leading-relaxed">
-              Serving farm-to-table cuisine with passion and rustic charm. We believe in the power of fresh ingredients and warm hospitality.
+            <div className="flex items-center gap-4">
+              <div className="flex h-16 w-16 items-center justify-center rounded-xl  shadow-sm">
+                <img
+                  src="/logo.png"
+                  alt="Kassems Pizza Logo"
+                  className="h-full w-full object-contain"
+                  loading="lazy"
+                  decoding="async"
+                  onError={(event) => {
+                    event.currentTarget.src = "/favicon.png";
+                  }}
+                />
+              </div>
+              <div className="min-w-0">
+                <Link href="/">
+                  <span className="block cursor-pointer text-2xl font-semibold tracking-tight text-secondary-foreground transition-colors hover:text-primary">
+                    Kassems Pizza & Pasta
+                  </span>
+                </Link>
+                <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary">
+                  Wood-fired kitchen
+                </p>
+              </div>
+            </div>
+            <p className="max-w-md text-sm leading-relaxed text-secondary-foreground/70">
+              Authentic Italian flavors crafted with passion. From our oven to your table, we serve quality pizzas and fresh pasta using premium ingredients and traditional recipes.
             </p>
-            <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300">
-                <Instagram className="w-5 h-5" />
+            <div className="flex gap-3">
+              <a
+                href="#"
+                aria-label="Instagram"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-white/10 text-secondary-foreground/80 transition-colors hover:border-primary hover:bg-primary hover:text-white"
+              >
+                <Instagram className="h-4 w-4" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300">
-                <Facebook className="w-5 h-5" />
+              <a
+                href="#"
+                aria-label="Facebook"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-white/10 text-secondary-foreground/80 transition-colors hover:border-primary hover:bg-primary hover:text-white"
+              >
+                <Facebook className="h-4 w-4" />
               </a>
-              <a href="#" className="w-10 h-10 rounded-full bg-background/10 flex items-center justify-center hover:bg-primary hover:text-primary-foreground transition-all duration-300">
-                <Twitter className="w-5 h-5" />
+              <a
+                href="#"
+                aria-label="Twitter"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-white/10 text-secondary-foreground/80 transition-colors hover:border-primary hover:bg-primary hover:text-white"
+              >
+                <Twitter className="h-4 w-4" />
               </a>
             </div>
           </div>
 
-          <div className="space-y-6">
-            <h4 className="font-serif text-xl font-bold text-accent">Quick Links</h4>
-            <ul className="space-y-4">
-              <li><Link href="/menu" className="text-background/70 hover:text-primary transition-colors">Our Menu</Link></li>
-              <li><Link href="/catering" className="text-background/70 hover:text-primary transition-colors">Catering Services</Link></li>
-              <li><Link href="/about" className="text-background/70 hover:text-primary transition-colors">Our Story</Link></li>
-              <li><Link href="/contact" className="text-background/70 hover:text-primary transition-colors">Contact Us</Link></li>
+          <div className="space-y-5">
+            <h4 className="border-l-4 border-primary pl-3 text-sm font-semibold uppercase tracking-[0.14em] text-secondary-foreground">Quick Links</h4>
+            <ul className="space-y-3">
+              <li><Link href="/menu" className="inline-block text-sm text-secondary-foreground/70 transition-colors hover:text-primary">Our Menu</Link></li>
+              <li><Link href="/catering" className="inline-block text-sm text-secondary-foreground/70 transition-colors hover:text-primary">Catering Services</Link></li>
+              <li><Link href="/about" className="inline-block text-sm text-secondary-foreground/70 transition-colors hover:text-primary">Our Story</Link></li>
+              <li><Link href="/contact" className="inline-block text-sm text-secondary-foreground/70 transition-colors hover:text-primary">Contact Us</Link></li>
             </ul>
           </div>
 
-          <div className="space-y-6">
-            <h4 className="font-serif text-xl font-bold text-accent">Contact</h4>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-background/70">
-                <MapPin className="w-5 h-5 text-primary shrink-0 mt-1" />
-                <span>123 Harvest Lane<br/>Portland, OR 97204</span>
+          <div className="space-y-5">
+            <h4 className="border-l-4 border-primary pl-3 text-sm font-semibold uppercase tracking-[0.14em] text-secondary-foreground">Contact</h4>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3 text-sm text-secondary-foreground/70">
+                <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                <span>341 Orrong Rd<br/>Kewdale, WA 6105</span>
               </li>
-              <li className="flex items-center gap-3 text-background/70">
-                <Phone className="w-5 h-5 text-primary shrink-0" />
-                <span>(555) 123-4567</span>
+              <li className="flex items-start gap-3 text-sm text-secondary-foreground/70">
+                <Truck className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+                <div>
+                  <p className="font-semibold text-secondary-foreground">$4.99 Delivery Fee</p>
+                  <p className="text-secondary-foreground/70">Pricing & fees. Enter address to see delivery time.</p>
+                  <p className="text-secondary-foreground/70">Too far to deliver in some locations.</p>
+                </div>
               </li>
-              <li className="flex items-center gap-3 text-background/70">
-                <Mail className="w-5 h-5 text-primary shrink-0" />
-                <span>hello@rusticandroot.com</span>
+              <li className="flex items-start gap-3 text-sm text-secondary-foreground/70">
+                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-secondary-foreground/80" />
+                <span>Open until 7:00 PM</span>
               </li>
             </ul>
           </div>
 
-          <div className="space-y-6">
-            <h4 className="font-serif text-xl font-bold text-accent">Hours</h4>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3 text-background/70">
-                <Clock className="w-5 h-5 text-primary shrink-0 mt-1" />
-                <div>
-                  <p className="font-medium text-background">Monday - Thursday</p>
-                  <p className="text-sm">11:00 AM - 9:00 PM</p>
+          <div className="space-y-5">
+            <h4 className="border-l-4 border-primary pl-3 text-sm font-semibold uppercase tracking-[0.14em] text-secondary-foreground">Hours</h4>
+            <ul className="space-y-3">
+              <li className="flex items-start gap-3">
+                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-secondary-foreground/80" />
+                <div className="text-sm">
+                  <p className="font-semibold text-secondary-foreground">Sunday</p>
+                  <p className="text-secondary-foreground/70">11:30 AM - 9:15 PM</p>
                 </div>
               </li>
-              <li className="flex items-start gap-3 text-background/70">
-                <Clock className="w-5 h-5 text-primary shrink-0 mt-1" />
-                <div>
-                  <p className="font-medium text-background">Friday - Saturday</p>
-                  <p className="text-sm">11:00 AM - 10:00 PM</p>
+              <li className="flex items-start gap-3">
+                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-secondary-foreground/80" />
+                <div className="text-sm">
+                  <p className="font-semibold text-secondary-foreground">Monday - Wednesday</p>
+                  <p className="text-secondary-foreground/70">11:30 AM - 8:45 PM</p>
                 </div>
               </li>
-              <li className="flex items-start gap-3 text-background/70">
-                <Clock className="w-5 h-5 text-primary shrink-0 mt-1" />
-                <div>
-                  <p className="font-medium text-background">Sunday</p>
-                  <p className="text-sm">10:00 AM - 8:00 PM</p>
+              <li className="flex items-start gap-3">
+                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-secondary-foreground/80" />
+                <div className="text-sm">
+                  <p className="font-semibold text-secondary-foreground">Thursday</p>
+                  <p className="text-secondary-foreground/70">11:30 AM - 9:00 PM</p>
+                </div>
+              </li>
+              <li className="flex items-start gap-3">
+                <Clock className="mt-0.5 h-4 w-4 shrink-0 text-secondary-foreground/80" />
+                <div className="text-sm">
+                  <p className="font-semibold text-secondary-foreground">Friday - Saturday</p>
+                  <p className="text-secondary-foreground/70">11:30 AM - 9:15 PM</p>
                 </div>
               </li>
             </ul>
           </div>
         </div>
         
-        <div className="border-t border-background/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-background/40">
-          <p>&copy; {new Date().getFullYear()} kassems pizza & pasta . All rights reserved.</p>
+        {/* Footer Bottom */}
+        <div className="flex flex-col items-center justify-between gap-4 border-t border-white/15 pt-6 text-xs text-secondary-foreground/70 md:flex-row">
+          <p>&copy; {new Date().getFullYear()} Kassems Pizza & Pasta. All rights reserved.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-background transition-colors">Privacy Policy</a>
-            <a href="#" className="hover:text-background transition-colors">Terms of Service</a>
+            <a href="#" className="transition-colors hover:text-primary">Privacy Policy</a>
+            <a href="#" className="transition-colors hover:text-primary">Terms of Service</a>
           </div>
         </div>
       </div>

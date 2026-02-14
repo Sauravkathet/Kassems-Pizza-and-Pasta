@@ -1,8 +1,11 @@
-import { MapPin, Phone, Mail, Clock } from "lucide-react";
+import { MapPin, Clock, Truck } from "lucide-react";
 
 export default function Contact() {
+  const mapEmbedUrl =
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3384.3613573388643!2d115.92405487543652!3d-31.978218274007606!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2a32bbf47f51caa9%3A0x71fff8dc45db42f1!2sKassems%20Pizza%20%26%20Pasta!5e0!3m2!1sen!2snp!4v1771048330554!5m2!1sen!2snp";
+
   return (
-    <div className="min-h-screen bg-background pt-32 pb-32">
+    <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/35 pt-32 pb-32">
       <div className="container px-4 mx-auto max-w-7xl">
         <div className="text-center mb-20">
           <h1 className="font-serif text-5xl md:text-6xl font-bold mb-4">Get in Touch</h1>
@@ -21,9 +24,8 @@ export default function Contact() {
                 <div className="flex-1">
                   <h3 className="font-serif text-2xl font-semibold mb-3">Our Location</h3>
                   <p className="text-muted-foreground text-base leading-relaxed">
-                    123 Harvest Lane<br/>
-                    Portland, Oregon 97204<br/>
-                    United States
+                    341 Orrong Rd<br/>
+                    Kewdale, WA 6105
                   </p>
                 </div>
               </div>
@@ -56,18 +58,16 @@ export default function Contact() {
 
             <div className="bg-card border border-border rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex gap-5 items-start">
-                <div className="w-14 h-14 bg-accent/30 text-foreground rounded-lg flex items-center justify-center shrink-0">
-                  <Phone className="w-7 h-7" />
+                <div className="w-14 h-14 bg-primary/10 text-primary rounded-lg flex items-center justify-center shrink-0">
+                  <Truck className="w-7 h-7" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-serif text-2xl font-semibold mb-3">Contact Information</h3>
-                  <div className="space-y-2 text-base">
-                    <a href="tel:5551234567" className="text-muted-foreground hover:text-primary transition-colors block">
-                      Phone: (555) 123-4567
-                    </a>
-                    <a href="mailto:hello@rusticandroot.com" className="text-muted-foreground hover:text-primary transition-colors block">
-                      Email: hello@rusticandroot.com
-                    </a>
+                  <h3 className="font-serif text-2xl font-semibold mb-3">Delivery & Availability</h3>
+                  <div className="space-y-2 text-base text-muted-foreground">
+                    <p className="font-medium text-foreground">$4.99 Delivery Fee</p>
+                    <p>Pricing & fees. Enter address to see delivery time.</p>
+                    <p>Too far to deliver in some locations.</p>
+                    <p className="font-medium text-foreground">Open until 7:00 PM</p>
                   </div>
                 </div>
               </div>
@@ -75,14 +75,15 @@ export default function Contact() {
           </div>
 
           <div className="h-[500px] lg:h-[700px] bg-muted rounded-xl overflow-hidden shadow-xl border border-border">
-            <iframe 
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3106.1465229344265!2d-122.67648168465036!3d45.52024767910166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x54950a0b7310d519%3A0xc3224e7855364177!2sPioneer%20Courthouse%20Square!5e0!3m2!1sen!2sus!4v1645564858585!5m2!1sen!2sus" 
-              width="100%" 
-              height="100%" 
-              style={{ border: 0 }} 
-              allowFullScreen 
+            <iframe
+              src={mapEmbedUrl}
+              width="100%"
+              height="100%"
+              style={{ border: 0 }}
+              allowFullScreen
               loading="lazy"
-              title="kassems pizza & pasta  Location Map"
+              referrerPolicy="no-referrer-when-downgrade"
+              title="kassems pizza & pasta Location Map"
             />
           </div>
         </div>
