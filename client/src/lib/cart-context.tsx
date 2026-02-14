@@ -6,6 +6,9 @@ export type ItemCustomizations = {
   crust?: string;
   toppings?: string[];
   specialInstructions?: string;
+  comboPizzas?: string[];
+  comboSide?: string;
+  comboDrink?: string;
 };
 
 type CartItem = {
@@ -23,6 +26,9 @@ function buildCustomizationKey(customizations?: ItemCustomizations): string {
     crust: customizations.crust?.trim() ?? "",
     toppings: [...(customizations.toppings ?? [])].sort(),
     specialInstructions: customizations.specialInstructions?.trim() ?? "",
+    comboPizzas: [...(customizations.comboPizzas ?? [])].sort(),
+    comboSide: customizations.comboSide?.trim() ?? "",
+    comboDrink: customizations.comboDrink?.trim() ?? "",
   };
 
   return JSON.stringify(normalized);

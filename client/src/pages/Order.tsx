@@ -34,6 +34,18 @@ type AddOnOption = {
   isPopular?: boolean;
 };
 
+type ComboPizzaOption = {
+  id: string;
+  label: string;
+  priceDelta: number;
+  isPopular?: boolean;
+};
+
+type ComboSimpleOption = {
+  id: string;
+  label: string;
+};
+
 const TAX_RATE = 0.08;
 const currency = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -94,6 +106,48 @@ const CHICKEN_PARADISO_HINTS = [
   "#4, Ordered by 5+ others",
 ];
 
+const COMBO_THREE_PIZZA_OPTIONS: ComboPizzaOption[] = [
+  { id: "pizza-all-cheese", label: "All Cheese Pizza", priceDelta: 0 },
+  { id: "pizza-aussie", label: "Aussie Pizza", priceDelta: 0 },
+  { id: "pizza-belmont-bomber", label: "Belmont Bomber Pizza", priceDelta: 0 },
+  { id: "pizza-carlisle-cougar", label: "Carlisle Cougar Pizza", priceDelta: 0 },
+  { id: "pizza-chicken-paradiso", label: "Chicken Paradiso Pizza", priceDelta: 0 },
+  { id: "pizza-hawaiian", label: "Hawaiian Pizza", priceDelta: 0 },
+  { id: "pizza-italian", label: "Italian Pizza", priceDelta: 0 },
+  { id: "pizza-joey-pepperoni", label: "Joey Pepperoni Pizza", priceDelta: 0 },
+  { id: "pizza-kassems-special", label: "Kassems Special Pizza", priceDelta: 0 },
+  { id: "pizza-margherita", label: "Margherita Pizza", priceDelta: 0 },
+  { id: "pizza-marinara", label: "Marinara Pizza", priceDelta: 0 },
+  { id: "pizza-meat-lovers", label: "Meat Lovers Pizza", priceDelta: 0 },
+  { id: "pizza-perth-demons", label: "Perth Demons Pizza", priceDelta: 0 },
+  { id: "pizza-portofino", label: "Portofino Pizza", priceDelta: 0 },
+  { id: "pizza-ronaldo", label: "Ronaldo Pizza", priceDelta: 0 },
+  { id: "pizza-sunrise", label: "Sunrise Pizza", priceDelta: 0 },
+  { id: "pizza-supreme", label: "Supreme Pizza", priceDelta: 0 },
+  { id: "pizza-tropicana", label: "Tropicana Pizza", priceDelta: 0 },
+  { id: "pizza-vegetarian", label: "Vegetarian Pizza (V)", priceDelta: 0 },
+  { id: "pizza-celine-special", label: "Celine's Special Pizza", priceDelta: 3 },
+  { id: "pizza-eagles", label: "Eagles Pizza", priceDelta: 3 },
+  { id: "pizza-godfather", label: "Godfather Pizza", priceDelta: 3 },
+  { id: "pizza-maharaja", label: "Maharaja Pizza", priceDelta: 3 },
+  { id: "pizza-supreme-seafood", label: "Supreme Pizza with Seafood", priceDelta: 3, isPopular: true },
+  { id: "pizza-punjabi-chicken", label: "Punjabi Chicken", priceDelta: 3, isPopular: true },
+  { id: "pizza-vegetarian-seafood", label: "Vegetarian Pizza with Seafood (V)", priceDelta: 3 },
+];
+
+const COMBO_THREE_SIDE_OPTIONS: ComboSimpleOption[] = [{ id: "side-garlic-bread", label: "Garlic Bread" }];
+
+const COMBO_THREE_DRINK_OPTIONS: ComboSimpleOption[] = [
+  { id: "drink-pepsi", label: "Pepsi" },
+  { id: "drink-pepsi-max", label: "Pepsi Max" },
+  { id: "drink-pepsi-max-vanilla", label: "Pepsi Max Vanilla" },
+  { id: "drink-sunkist", label: "Sunkist" },
+  { id: "drink-solo", label: "Solo" },
+  { id: "drink-mountain-dew", label: "Mountain Dew" },
+];
+
+const COMBO_THREE_HINTS = ["#1, Ordered by 5+ others"];
+
 function isPizzaCategory(categoryName: string): boolean {
   return /pizza/i.test(categoryName);
 }
@@ -102,10 +156,23 @@ function normalizeMenuName(value: string): string {
   return value.trim().toLowerCase().replace(/\s+/g, " ");
 }
 
+function isComboThreeName(itemName: string): boolean {
+  return normalizeMenuName(itemName) === "combo three";
+}
+
 function formatCustomizationSummary(customizations?: ItemCustomizations): string | null {
   if (!customizations) return null;
 
   const parts: string[] = [];
+  if (customizations.comboPizzas && customizations.comboPizzas.length > 0) {
+    parts.push(`Pizzas: ${customizations.comboPizzas.join(", ")}`);
+  }
+  if (customizations.comboSide) {
+    parts.push(`Side: ${customizations.comboSide}`);
+  }
+  if (customizations.comboDrink) {
+    parts.push(`Drink: ${customizations.comboDrink}`);
+  }
   if (customizations.size) {
     parts.push(customizations.size);
   }
@@ -130,6 +197,12 @@ export default function Order() {
   } | null>(null);
   const [selectedSizeId, setSelectedSizeId] = useState<string>("size-large");
   const [selectedAddOnIds, setSelectedAddOnIds] = useState<string[]>([]);
+  const [selectedComboPizzaIds, setSelectedComboPizzaIds] = useState<string[]>([
+    "pizza-hawaiian",
+    "pizza-meat-lovers",
+  ]);
+  const [selectedComboSideId, setSelectedComboSideId] = useState<string | null>(null);
+  const [selectedComboDrinkId, setSelectedComboDrinkId] = useState<string>(COMBO_THREE_DRINK_OPTIONS[0].id);
   const [selectedItemQuantity, setSelectedItemQuantity] = useState<number>(1);
 
   const form = useForm<OrderFormValues>({
@@ -172,6 +245,9 @@ export default function Order() {
   const selectedIsPizza = selectedItemContext
     ? isPizzaCategory(selectedItemContext.categoryName)
     : false;
+  const selectedIsComboThree = selectedItemContext
+    ? isComboThreeName(selectedItemContext.item.name)
+    : false;
 
   const selectedIsChickenParadiso =
     selectedItemContext && normalizeMenuName(selectedItemContext.item.name) === "chicken paradiso";
@@ -186,16 +262,35 @@ export default function Order() {
     [selectedAddOnIds],
   );
 
+  const selectedComboPizzaOptions = useMemo(
+    () => COMBO_THREE_PIZZA_OPTIONS.filter((option) => selectedComboPizzaIds.includes(option.id)),
+    [selectedComboPizzaIds],
+  );
+  const selectedComboSideOption = useMemo(
+    () => COMBO_THREE_SIDE_OPTIONS.find((option) => option.id === selectedComboSideId),
+    [selectedComboSideId],
+  );
+  const selectedComboDrinkOption = useMemo(
+    () => COMBO_THREE_DRINK_OPTIONS.find((option) => option.id === selectedComboDrinkId),
+    [selectedComboDrinkId],
+  );
+
   const selectedUnitPrice = useMemo(() => {
     if (!selectedItemContext) return 0;
 
     const basePrice = Number(selectedItemContext.item.price);
+    if (selectedIsComboThree) {
+      const comboPizzaDelta = selectedComboPizzaOptions.reduce((sum, option) => sum + option.priceDelta, 0);
+      return basePrice + comboPizzaDelta;
+    }
     if (!selectedIsPizza) return basePrice;
 
     const sizeDelta = selectedSizeOption?.priceDelta ?? 0;
     const addOnDelta = selectedAddOnOptions.reduce((sum, option) => sum + option.priceDelta, 0);
     return basePrice + sizeDelta + addOnDelta;
-  }, [selectedAddOnOptions, selectedIsPizza, selectedItemContext, selectedSizeOption]);
+  }, [selectedAddOnOptions, selectedComboPizzaOptions, selectedIsComboThree, selectedIsPizza, selectedItemContext, selectedSizeOption]);
+
+  const selectedComboIsValid = !selectedIsComboThree || (selectedComboPizzaIds.length === 2 && Boolean(selectedComboDrinkOption));
 
   const onSubmit = (data: OrderFormValues) => {
     if (items.length === 0) return;
@@ -231,6 +326,9 @@ export default function Order() {
     setSelectedItemContext({ item, categoryName });
     setSelectedSizeId("size-large");
     setSelectedAddOnIds([]);
+    setSelectedComboPizzaIds(["pizza-hawaiian", "pizza-meat-lovers"]);
+    setSelectedComboSideId(null);
+    setSelectedComboDrinkId(COMBO_THREE_DRINK_OPTIONS[0].id);
     setSelectedItemQuantity(1);
   };
 
@@ -254,20 +352,39 @@ export default function Order() {
     });
   };
 
+  const handleComboPizzaToggle = (pizzaId: string) => {
+    setSelectedComboPizzaIds((previous) => {
+      if (previous.includes(pizzaId)) {
+        return previous.filter((id) => id !== pizzaId);
+      }
+
+      if (previous.length >= 2) {
+        return previous;
+      }
+
+      return [...previous, pizzaId];
+    });
+  };
+
   const handleAddSelectedItemToCart = () => {
     if (!selectedItemContext) return;
+    if (selectedIsComboThree && !selectedComboIsValid) return;
 
-    const selectedSize = selectedIsPizza ? selectedSizeOption?.label : undefined;
-    const selectedAddOns = selectedIsPizza
-      ? selectedAddOnOptions.map((option) => option.label)
-      : undefined;
-
-    const customizations: ItemCustomizations | undefined = selectedIsPizza
-      ? {
-          size: selectedSize,
-          toppings: selectedAddOns && selectedAddOns.length > 0 ? selectedAddOns : undefined,
-        }
-      : undefined;
+    let customizations: ItemCustomizations | undefined;
+    if (selectedIsComboThree) {
+      customizations = {
+        comboPizzas: selectedComboPizzaOptions.map((option) => option.label),
+        comboSide: selectedComboSideOption?.label,
+        comboDrink: selectedComboDrinkOption?.label,
+      };
+    } else if (selectedIsPizza) {
+      const selectedSize = selectedSizeOption?.label;
+      const selectedAddOns = selectedAddOnOptions.map((option) => option.label);
+      customizations = {
+        size: selectedSize,
+        toppings: selectedAddOns.length > 0 ? selectedAddOns : undefined,
+      };
+    }
 
     const menuItemToAdd: MenuItem = {
       ...selectedItemContext.item,
@@ -645,6 +762,149 @@ export default function Order() {
                   </div>
                 )}
 
+                {selectedIsComboThree && (
+                  <div className="space-y-4">
+                    <div className="rounded-xl border border-border/70 bg-muted/20 p-4">
+                      <div className="mb-3 flex items-center gap-2">
+                        <span className="text-sm font-semibold text-foreground">92% (113)</span>
+                        <Badge variant="outline" className="border-primary/30 bg-primary/10 text-primary">
+                          Most popular
+                        </Badge>
+                      </div>
+                      <ul className="space-y-1 text-xs text-muted-foreground">
+                        {COMBO_THREE_HINTS.map((hint) => (
+                          <li key={hint}>{hint}</li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="rounded-xl border border-border/70 p-4">
+                      <div className="mb-3 flex items-center justify-between gap-2">
+                        <p className="text-sm font-semibold text-foreground">Choice of Pizza</p>
+                        <p className="text-xs text-muted-foreground">Choose 2 | Required</p>
+                      </div>
+                      <p className="mb-2 text-xs text-muted-foreground">
+                        Selected {selectedComboPizzaIds.length}/2
+                      </p>
+
+                      <div className="space-y-2">
+                        {COMBO_THREE_PIZZA_OPTIONS.map((option) => {
+                          const isSelected = selectedComboPizzaIds.includes(option.id);
+                          const limitReached = selectedComboPizzaIds.length >= 2;
+                          const isDisabled = !isSelected && limitReached;
+
+                          return (
+                            <button
+                              key={option.id}
+                              type="button"
+                              onClick={() => handleComboPizzaToggle(option.id)}
+                              disabled={isDisabled}
+                              className={`flex w-full items-center justify-between rounded-lg border px-3 py-2 text-left transition-colors ${
+                                isSelected
+                                  ? "border-primary bg-primary/5"
+                                  : "border-border/70 hover:border-primary/40"
+                              } ${isDisabled ? "cursor-not-allowed opacity-50" : ""}`}
+                            >
+                              <div className="flex items-center gap-2">
+                                <span
+                                  className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px] font-bold ${
+                                    isSelected
+                                      ? "border-primary bg-primary text-primary-foreground"
+                                      : "border-border text-transparent"
+                                  }`}
+                                >
+                                  ✓
+                                </span>
+                                <span className="text-sm text-foreground">{option.label}</span>
+                              </div>
+                              <div className="text-right">
+                                {option.priceDelta > 0 && (
+                                  <p className="text-sm font-semibold text-foreground">+{currency.format(option.priceDelta)}</p>
+                                )}
+                                {option.isPopular && (
+                                  <p className="text-[11px] font-medium text-primary">Popular</p>
+                                )}
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="rounded-xl border border-border/70 p-4">
+                      <div className="mb-3 flex items-center justify-between gap-2">
+                        <p className="text-sm font-semibold text-foreground">Choice of Side</p>
+                        <p className="text-xs text-muted-foreground">Choose up to 1</p>
+                      </div>
+
+                      <div className="space-y-2">
+                        {COMBO_THREE_SIDE_OPTIONS.map((option) => {
+                          const isSelected = selectedComboSideId === option.id;
+                          return (
+                            <button
+                              key={option.id}
+                              type="button"
+                              onClick={() =>
+                                setSelectedComboSideId((current) => (current === option.id ? null : option.id))
+                              }
+                              className={`flex w-full items-center justify-between rounded-lg border px-3 py-2 text-left transition-colors ${
+                                isSelected
+                                  ? "border-primary bg-primary/5"
+                                  : "border-border/70 hover:border-primary/40"
+                              }`}
+                            >
+                              <span className="text-sm text-foreground">{option.label}</span>
+                              <span
+                                className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px] font-bold ${
+                                  isSelected
+                                    ? "border-primary bg-primary text-primary-foreground"
+                                    : "border-border text-transparent"
+                                }`}
+                              >
+                                ✓
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+
+                    <div className="rounded-xl border border-border/70 p-4">
+                      <div className="mb-3 flex items-center justify-between gap-2">
+                        <p className="text-sm font-semibold text-foreground">Choice of Drink</p>
+                        <p className="text-xs text-muted-foreground">Choose 1 | Required</p>
+                      </div>
+
+                      <div className="space-y-2">
+                        {COMBO_THREE_DRINK_OPTIONS.map((option) => {
+                          const isSelected = selectedComboDrinkId === option.id;
+                          return (
+                            <button
+                              key={option.id}
+                              type="button"
+                              onClick={() => setSelectedComboDrinkId(option.id)}
+                              className={`flex w-full items-center justify-between rounded-lg border px-3 py-2 text-left transition-colors ${
+                                isSelected
+                                  ? "border-primary bg-primary/5"
+                                  : "border-border/70 hover:border-primary/40"
+                              }`}
+                            >
+                              <span className="text-sm text-foreground">{option.label}</span>
+                              <span
+                                className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full border ${
+                                  isSelected ? "border-primary bg-primary" : "border-border"
+                                }`}
+                              >
+                                <span className="h-1.5 w-1.5 rounded-full bg-white" />
+                              </span>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
                 {selectedIsPizza && (
                   <div className="space-y-4">
                     <div className="rounded-xl border border-border/70 p-4">
@@ -765,8 +1025,14 @@ export default function Order() {
               </div>
 
               <div className="mt-auto border-t border-border/70 p-6">
-                <Button onClick={handleAddSelectedItemToCart} className="h-11 w-full text-sm font-semibold">
-                  Add To Cart | {currency.format(selectedUnitPrice * selectedItemQuantity)}
+                <Button
+                  onClick={handleAddSelectedItemToCart}
+                  disabled={!selectedComboIsValid}
+                  className="h-11 w-full text-sm font-semibold"
+                >
+                  {selectedComboIsValid
+                    ? `Add To Cart | ${currency.format(selectedUnitPrice * selectedItemQuantity)}`
+                    : "Select required options"}
                 </Button>
               </div>
             </div>

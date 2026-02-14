@@ -65,12 +65,56 @@ function drinkPaletteByName(itemName: string): { from: string; to: string; tag: 
   return { from: "#334155", to: "#1f2937", tag: "Soft Drink" };
 }
 
-export function fallbackImageByName(itemName: string): string {
-  if (!isDrinkName(itemName)) {
-    return "/logo.png";
-  }
+function foodPaletteByName(itemName: string): { from: string; to: string; tag: string } {
+  const normalized = normalizeName(itemName);
 
-  const palette = drinkPaletteByName(itemName);
+  if (
+    normalized.includes("pizza") ||
+    normalized.includes("pepperoni") ||
+    normalized.includes("margherita") ||
+    normalized.includes("supreme") ||
+    normalized.includes("hawaiian") ||
+    normalized.includes("paradiso") ||
+    normalized.includes("lovers")
+  ) {
+    return { from: "#b91c1c", to: "#7f1d1d", tag: "Pizza" };
+  }
+  if (
+    normalized.includes("pasta") ||
+    normalized.includes("spaghetti") ||
+    normalized.includes("penne") ||
+    normalized.includes("fettuccine") ||
+    normalized.includes("ravioli") ||
+    normalized.includes("gnocchi") ||
+    normalized.includes("lasagna")
+  ) {
+    return { from: "#d97706", to: "#92400e", tag: "Pasta" };
+  }
+  if (normalized.includes("salad")) {
+    return { from: "#16a34a", to: "#166534", tag: "Salad" };
+  }
+  if (
+    normalized.includes("cake") ||
+    normalized.includes("cheesecake") ||
+    normalized.includes("slice") ||
+    normalized.includes("chocolate")
+  ) {
+    return { from: "#7c3aed", to: "#5b21b6", tag: "Dessert" };
+  }
+  if (
+    normalized.includes("chips") ||
+    normalized.includes("wedges") ||
+    normalized.includes("nachos") ||
+    normalized.includes("garlic bread") ||
+    normalized.includes("nuggets")
+  ) {
+    return { from: "#475569", to: "#1f2937", tag: "Sides" };
+  }
+  return { from: "#9a3412", to: "#7c2d12", tag: "Chef Special" };
+}
+
+export function fallbackImageByName(itemName: string): string {
+  const palette = isDrinkName(itemName) ? drinkPaletteByName(itemName) : foodPaletteByName(itemName);
   const label = escapeSvgText(itemName);
   const tag = escapeSvgText(palette.tag);
 
@@ -99,8 +143,17 @@ function isLogoImageUrl(imageUrl?: string | null): boolean {
   return trimmed.endsWith("/logo.png") || trimmed === "logo.png" || trimmed.includes("/logo.png?");
 }
 
+function isUnreliableRemoteUrl(imageUrl?: string | null): boolean {
+  if (!imageUrl) return true;
+  const trimmed = imageUrl.trim().toLowerCase();
+  return (
+    trimmed.includes("source.unsplash.com") ||
+    trimmed.includes("loremflickr.com")
+  );
+}
+
 export function resolveItemImage(itemName: string, imageUrl?: string | null): string {
-  if (!isLogoImageUrl(imageUrl)) {
+  if (!isLogoImageUrl(imageUrl) && !isUnreliableRemoteUrl(imageUrl)) {
     return imageUrl as string;
   }
   return fallbackImageByName(itemName);

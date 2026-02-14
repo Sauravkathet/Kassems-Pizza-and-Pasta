@@ -33,14 +33,15 @@ function normalizeMenuName(value: string): string {
 }
 
 const MENU_CATEGORY_SEEDS = [
-  { name: "Pizza", slug: "pizza", sortOrder: 1 },
-  { name: "VIP Range Pizza", slug: "vip-range-pizza", sortOrder: 2 },
-  { name: "Pasta", slug: "pasta", sortOrder: 3 },
-  { name: "Mayas Main Meals", slug: "mayas-main-meals", sortOrder: 4 },
-  { name: "SALADS", slug: "salads", sortOrder: 5 },
-  { name: "Sara's Sides", slug: "saras-sides", sortOrder: 6 },
-  { name: "Merwans Sweet Temptations", slug: "merwans-sweet-temptations", sortOrder: 7 },
-  { name: "Daniella's Drinks", slug: "daniellas-drinks", sortOrder: 8 },
+  { name: "Combos", slug: "combos", sortOrder: 1 },
+  { name: "Pizza", slug: "pizza", sortOrder: 2 },
+  { name: "VIP Range Pizza", slug: "vip-range-pizza", sortOrder: 3 },
+  { name: "Pasta", slug: "pasta", sortOrder: 4 },
+  { name: "Mayas Main Meals", slug: "mayas-main-meals", sortOrder: 5 },
+  { name: "SALADS", slug: "salads", sortOrder: 6 },
+  { name: "Sara's Sides", slug: "saras-sides", sortOrder: 7 },
+  { name: "Merwans Sweet Temptations", slug: "merwans-sweet-temptations", sortOrder: 8 },
+  { name: "Daniella's Drinks", slug: "daniellas-drinks", sortOrder: 9 },
 ] as const;
 
 type MenuCategorySlug = (typeof MENU_CATEGORY_SEEDS)[number]["slug"];
@@ -55,14 +56,29 @@ type MenuItemSeed = {
   isSpicy?: boolean;
 };
 
-function imageKeywordForCategory(categorySlug: MenuCategorySlug): string {
-  if (categorySlug === "pizza" || categorySlug === "vip-range-pizza") return "pizza";
-  if (categorySlug === "pasta") return "pasta";
-  if (categorySlug === "mayas-main-meals") return "main meal";
-  if (categorySlug === "salads") return "salad";
-  if (categorySlug === "saras-sides") return "side dish";
-  if (categorySlug === "merwans-sweet-temptations") return "dessert";
-  return "drink";
+function imageTagsForCategory(categorySlug: MenuCategorySlug): string {
+  if (categorySlug === "combos") {
+    return "pizza-combo,meal,restaurant";
+  }
+  if (categorySlug === "pizza" || categorySlug === "vip-range-pizza") {
+    return "pizza,italian-food,pizzeria";
+  }
+  if (categorySlug === "pasta") {
+    return "pasta,italian-food,restaurant";
+  }
+  if (categorySlug === "mayas-main-meals") {
+    return "grilled-food,main-course,restaurant";
+  }
+  if (categorySlug === "salads") {
+    return "salad,fresh-food,healthy-meal";
+  }
+  if (categorySlug === "saras-sides") {
+    return "fries,snacks,side-dish";
+  }
+  if (categorySlug === "merwans-sweet-temptations") {
+    return "dessert,cake,sweets";
+  }
+  return "soft-drink,beverage,bottle";
 }
 
 function buildMenuImageUrl(itemName: string, categorySlug: MenuCategorySlug): string {
@@ -78,18 +94,51 @@ function buildMenuImageUrl(itemName: string, categorySlug: MenuCategorySlug): st
     hash = (hash * 31 + hashKey.charCodeAt(i)) >>> 0;
   }
   const sig = (hash % 10000) + 1;
-
-  const categoryHint = categorySlug.replace(/-/g, " ");
-  const pizzaBoost =
-    categorySlug === "pizza" || categorySlug === "vip-range-pizza"
-      ? "wood fired, gourmet, close-up"
-      : "";
-  const query = `${normalizedItemName}, ${imageKeywordForCategory(categorySlug)}, ${categoryHint}, restaurant food, ${pizzaBoost}`;
-
-  return `https://source.unsplash.com/900x675/?${encodeURIComponent(query)}&sig=${sig}`;
+  const tags = imageTagsForCategory(categorySlug);
+  return `https://loremflickr.com/900/675/${tags}?lock=${sig}`;
 }
 
 const MENU_ITEM_SEEDS: MenuItemSeed[] = [
+  // Combos
+  {
+    categorySlug: "combos",
+    name: "Combo Three",
+    description: "Two large pizza standard range with a footlong garlic bread and choice of 1.25L drink.",
+    price: "58.00",
+    isPopular: true,
+  },
+  {
+    categorySlug: "combos",
+    name: "Combo Four",
+    description: "Two family pizza standard range with a footlong garlic bread and choice of 1.25L drink.",
+    price: "68.00",
+    isPopular: true,
+  },
+  {
+    categorySlug: "combos",
+    name: "Combo Two",
+    description: "One family pizza standard range with a footlong garlic bread and choice of 1.25L drink.",
+    price: "45.00",
+  },
+  {
+    categorySlug: "combos",
+    name: "Combo One",
+    description: "One large pizza standard range with a footlong garlic bread and choice of 1.25L drink.",
+    price: "40.00",
+  },
+  {
+    categorySlug: "combos",
+    name: "Combo Six",
+    description: "Three family pizza standard range with a footlong garlic bread and choice of 1.25L drink.",
+    price: "88.00",
+  },
+  {
+    categorySlug: "combos",
+    name: "Combo Five",
+    description: "Three large pizza standard range with a footlong garlic bread and choice of 1.25L coca cola.",
+    price: "78.00",
+  },
+
   // Pizza
   {
     categorySlug: "pizza",
@@ -527,6 +576,103 @@ const MENU_ITEM_SEEDS: MenuItemSeed[] = [
     name: "355ml Red Bull",
     description: "355ml.",
     price: "6.80",
+  },
+  {
+    categorySlug: "daniellas-drinks",
+    name: "1.25L Soft Drink Flavours",
+    description: "1.25 L Soft Drink.",
+    price: "7.00",
+    isPopular: true,
+  },
+  {
+    categorySlug: "daniellas-drinks",
+    name: "1.1L Lemonade",
+    description: "1.1 L.",
+    price: "7.00",
+  },
+  {
+    categorySlug: "daniellas-drinks",
+    name: "250ml Pop Top Apple",
+    description: "250 mL.",
+    price: "3.40",
+  },
+  {
+    categorySlug: "daniellas-drinks",
+    name: "250ml Pop Top Orange",
+    description: "250 mL.",
+    price: "3.40",
+  },
+  {
+    categorySlug: "daniellas-drinks",
+    name: "250ml Pop Top Apple Black Currant",
+    description: "250 mL.",
+    price: "3.40",
+  },
+  {
+    categorySlug: "daniellas-drinks",
+    name: "500ml Lipton Mango",
+    description: "500 mL.",
+    price: "6.00",
+  },
+  {
+    categorySlug: "daniellas-drinks",
+    name: "500ml Lipton Peach",
+    description: "500 mL.",
+    price: "6.00",
+  },
+  {
+    categorySlug: "daniellas-drinks",
+    name: "500ml Lipton Lemon",
+    description: "500 mL.",
+    price: "6.00",
+  },
+  {
+    categorySlug: "daniellas-drinks",
+    name: "600ml Gatorade Blue Bolt",
+    description: "600 mL.",
+    price: "6.00",
+  },
+  {
+    categorySlug: "daniellas-drinks",
+    name: "600ml Gatorade Fierce Grape",
+    description: "600 mL.",
+    price: "6.00",
+  },
+  {
+    categorySlug: "daniellas-drinks",
+    name: "600ml Gatorade Tropical",
+    description: "600 mL.",
+    price: "6.00",
+  },
+  {
+    categorySlug: "daniellas-drinks",
+    name: "600ml Gatorade Lemon Lime",
+    description: "600 mL.",
+    price: "6.00",
+  },
+  {
+    categorySlug: "daniellas-drinks",
+    name: "750ml Cool Ridge Water",
+    description: "750 mL.",
+    price: "5.95",
+  },
+  {
+    categorySlug: "daniellas-drinks",
+    name: "600ml Cool Ridge Water",
+    description: "600 mL.",
+    price: "4.55",
+  },
+  {
+    categorySlug: "daniellas-drinks",
+    name: "1.5L Cool Ridge Water",
+    description: "1.5 L.",
+    price: "7.30",
+  },
+  {
+    categorySlug: "daniellas-drinks",
+    name: "500ml Cool Ridge Sparkling Water",
+    description: "500 mL.",
+    price: "5.15",
   },
 ];
 
