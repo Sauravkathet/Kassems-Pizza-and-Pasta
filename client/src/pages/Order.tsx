@@ -721,10 +721,10 @@ export default function Order() {
       </div>
 
       <Sheet open={Boolean(selectedItemContext)} onOpenChange={handleSheetOpenChange}>
-        <SheetContent className="w-full overflow-y-auto border-l-border/60 bg-background p-0 sm:max-w-xl">
+        <SheetContent className="h-[100svh] w-full overflow-y-auto border-l-border/60 bg-background p-0 sm:h-full sm:max-w-xl">
           {selectedItemContext && (
             <div className="flex min-h-full flex-col">
-              <div className="relative h-56 w-full overflow-hidden border-b bg-muted">
+              <div className="relative h-48 w-full overflow-hidden border-b bg-muted sm:h-56">
                 <img
                   src={resolveItemImage(selectedItemContext.item.name, selectedItemContext.item.imageUrl)}
                   alt={selectedItemContext.item.name}
@@ -735,7 +735,7 @@ export default function Order() {
                 />
               </div>
 
-              <div className="space-y-5 p-6">
+              <div className="space-y-5 p-4 sm:p-6">
                 <SheetHeader className="space-y-3 text-left">
                   <SheetTitle className="text-2xl font-semibold text-foreground">
                     {selectedItemContext.item.name}
@@ -779,7 +779,7 @@ export default function Order() {
                     </div>
 
                     <div className="rounded-xl border border-border/70 p-4">
-                      <div className="mb-3 flex items-center justify-between gap-2">
+                      <div className="mb-3 flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between">
                         <p className="text-sm font-semibold text-foreground">Choice of Pizza</p>
                         <p className="text-xs text-muted-foreground">Choose 2 | Required</p>
                       </div>
@@ -799,13 +799,13 @@ export default function Order() {
                               type="button"
                               onClick={() => handleComboPizzaToggle(option.id)}
                               disabled={isDisabled}
-                              className={`flex w-full items-center justify-between rounded-lg border px-3 py-2 text-left transition-colors ${
+                              className={`flex w-full items-start justify-between gap-3 rounded-lg border px-3 py-2 text-left transition-colors ${
                                 isSelected
                                   ? "border-primary bg-primary/5"
                                   : "border-border/70 hover:border-primary/40"
                               } ${isDisabled ? "cursor-not-allowed opacity-50" : ""}`}
                             >
-                              <div className="flex items-center gap-2">
+                              <div className="flex min-w-0 flex-1 items-start gap-2">
                                 <span
                                   className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px] font-bold ${
                                     isSelected
@@ -815,9 +815,9 @@ export default function Order() {
                                 >
                                   ✓
                                 </span>
-                                <span className="text-sm text-foreground">{option.label}</span>
+                                <span className="min-w-0 break-words text-sm leading-snug text-foreground">{option.label}</span>
                               </div>
-                              <div className="text-right">
+                              <div className="shrink-0 text-right">
                                 {option.priceDelta > 0 && (
                                   <p className="text-sm font-semibold text-foreground">+{currency.format(option.priceDelta)}</p>
                                 )}
@@ -832,7 +832,7 @@ export default function Order() {
                     </div>
 
                     <div className="rounded-xl border border-border/70 p-4">
-                      <div className="mb-3 flex items-center justify-between gap-2">
+                      <div className="mb-3 flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between">
                         <p className="text-sm font-semibold text-foreground">Choice of Side</p>
                         <p className="text-xs text-muted-foreground">Choose up to 1</p>
                       </div>
@@ -847,13 +847,13 @@ export default function Order() {
                               onClick={() =>
                                 setSelectedComboSideId((current) => (current === option.id ? null : option.id))
                               }
-                              className={`flex w-full items-center justify-between rounded-lg border px-3 py-2 text-left transition-colors ${
+                              className={`flex w-full items-start justify-between gap-3 rounded-lg border px-3 py-2 text-left transition-colors ${
                                 isSelected
                                   ? "border-primary bg-primary/5"
                                   : "border-border/70 hover:border-primary/40"
                               }`}
                             >
-                              <span className="text-sm text-foreground">{option.label}</span>
+                              <span className="min-w-0 flex-1 break-words text-sm leading-snug text-foreground">{option.label}</span>
                               <span
                                 className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px] font-bold ${
                                   isSelected
@@ -870,7 +870,7 @@ export default function Order() {
                     </div>
 
                     <div className="rounded-xl border border-border/70 p-4">
-                      <div className="mb-3 flex items-center justify-between gap-2">
+                      <div className="mb-3 flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between">
                         <p className="text-sm font-semibold text-foreground">Choice of Drink</p>
                         <p className="text-xs text-muted-foreground">Choose 1 | Required</p>
                       </div>
@@ -883,13 +883,13 @@ export default function Order() {
                               key={option.id}
                               type="button"
                               onClick={() => setSelectedComboDrinkId(option.id)}
-                              className={`flex w-full items-center justify-between rounded-lg border px-3 py-2 text-left transition-colors ${
+                              className={`flex w-full items-start justify-between gap-3 rounded-lg border px-3 py-2 text-left transition-colors ${
                                 isSelected
                                   ? "border-primary bg-primary/5"
                                   : "border-border/70 hover:border-primary/40"
                               }`}
                             >
-                              <span className="text-sm text-foreground">{option.label}</span>
+                              <span className="min-w-0 flex-1 break-words text-sm leading-snug text-foreground">{option.label}</span>
                               <span
                                 className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded-full border ${
                                   isSelected ? "border-primary bg-primary" : "border-border"
@@ -908,7 +908,7 @@ export default function Order() {
                 {selectedIsPizza && (
                   <div className="space-y-4">
                     <div className="rounded-xl border border-border/70 p-4">
-                      <div className="mb-3 flex items-center justify-between gap-2">
+                      <div className="mb-3 flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between">
                         <p className="text-sm font-semibold text-foreground">Choice of Preparation</p>
                         <p className="text-xs text-muted-foreground">Choose 1 | Required</p>
                       </div>
@@ -927,11 +927,11 @@ export default function Order() {
                                   : "border-border/70 hover:border-primary/40"
                               }`}
                             >
-                              <div>
-                                <p className="text-sm font-medium text-foreground">{option.label}</p>
-                                <p className="text-xs text-muted-foreground">{option.rankText}</p>
+                              <div className="min-w-0 flex-1 pr-2">
+                                <p className="break-words text-sm font-medium leading-snug text-foreground">{option.label}</p>
+                                <p className="break-words text-xs text-muted-foreground">{option.rankText}</p>
                               </div>
-                              <div className="text-right">
+                              <div className="shrink-0 text-right">
                                 <p className="text-sm font-semibold text-foreground">
                                   {option.priceDelta > 0 ? `+${currency.format(option.priceDelta)}` : currency.format(0)}
                                 </p>
@@ -946,7 +946,7 @@ export default function Order() {
                     </div>
 
                     <div className="rounded-xl border border-border/70 p-4">
-                      <div className="mb-3 flex items-center justify-between gap-2">
+                      <div className="mb-3 flex flex-col items-start gap-1 sm:flex-row sm:items-center sm:justify-between">
                         <p className="text-sm font-semibold text-foreground">Choice of Add Ons</p>
                         <p className="text-xs text-muted-foreground">Choose up to 3</p>
                       </div>
@@ -963,13 +963,13 @@ export default function Order() {
                               type="button"
                               onClick={() => handleAddOnToggle(option.id)}
                               disabled={isDisabled}
-                              className={`flex w-full items-center justify-between rounded-lg border px-3 py-2 text-left transition-colors ${
+                              className={`flex w-full items-start justify-between gap-3 rounded-lg border px-3 py-2 text-left transition-colors ${
                                 isSelected
                                   ? "border-primary bg-primary/5"
                                   : "border-border/70 hover:border-primary/40"
                               } ${isDisabled ? "cursor-not-allowed opacity-50" : ""}`}
                             >
-                              <div className="flex items-center gap-2">
+                              <div className="flex min-w-0 flex-1 items-start gap-2">
                                 <span
                                   className={`inline-flex h-4 w-4 shrink-0 items-center justify-center rounded border text-[10px] font-bold ${
                                     isSelected
@@ -979,9 +979,9 @@ export default function Order() {
                                 >
                                   ✓
                                 </span>
-                                <span className="text-sm text-foreground">{option.label}</span>
+                                <span className="min-w-0 break-words text-sm leading-snug text-foreground">{option.label}</span>
                               </div>
-                              <div className="text-right">
+                              <div className="shrink-0 text-right">
                                 <p className="text-sm font-semibold text-foreground">+{currency.format(option.priceDelta)}</p>
                                 {option.isPopular && (
                                   <p className="text-[11px] font-medium text-primary">Popular</p>
@@ -1024,7 +1024,7 @@ export default function Order() {
                 </div>
               </div>
 
-              <div className="mt-auto border-t border-border/70 p-6">
+              <div className="mt-auto border-t border-border/70 p-4 sm:p-6">
                 <Button
                   onClick={handleAddSelectedItemToCart}
                   disabled={!selectedComboIsValid}

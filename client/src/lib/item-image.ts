@@ -2,14 +2,51 @@ function normalizeName(value: string): string {
   return value.trim().toLowerCase().replace(/\s+/g, " ");
 }
 
-function escapeSvgText(value: string): string {
-  return value
-    .replace(/&/g, "&amp;")
-    .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;")
-    .replace(/"/g, "&quot;")
-    .replace(/'/g, "&#39;");
+function hashString(value: string): number {
+  let hash = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
+  }
+  return hash;
 }
+
+const IMAGE_FALLBACKS = {
+  combo: [
+    "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=900",
+    "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&q=80&w=900",
+  ],
+  pizza: [
+    "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=900",
+    "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&q=80&w=900",
+    "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&q=80&w=900",
+  ],
+  pasta: [
+    "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&q=80&w=900",
+    "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&q=80&w=900",
+  ],
+  salad: [
+    "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=900",
+    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=900",
+  ],
+  sides: [
+    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=900",
+    "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&q=80&w=900",
+  ],
+  dessert: [
+    "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=900",
+    "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&q=80&w=900",
+  ],
+  drink: [
+    "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&q=80&w=900",
+    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=900",
+  ],
+  meal: [
+    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=900",
+    "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&q=80&w=900",
+  ],
+} as const;
+
+type ImageFallbackKey = keyof typeof IMAGE_FALLBACKS;
 
 function isDrinkName(name: string): boolean {
   const normalized = normalizeName(name);
@@ -29,56 +66,13 @@ function isDrinkName(name: string): boolean {
   );
 }
 
-function drinkPaletteByName(itemName: string): { from: string; to: string; tag: string } {
+function inferImageFallbackKey(itemName: string): ImageFallbackKey {
   const normalized = normalizeName(itemName);
 
-  if (normalized.includes("pepsi") || normalized.includes("cola")) {
-    return { from: "#1d4ed8", to: "#1e3a8a", tag: "Cola Drink" };
-  }
-  if (normalized.includes("red bull")) {
-    return { from: "#dc2626", to: "#1f2937", tag: "Energy Drink" };
-  }
-  if (normalized.includes("water")) {
-    return { from: "#0891b2", to: "#0e7490", tag: "Water" };
-  }
-  if (normalized.includes("lipton peach")) {
-    return { from: "#f97316", to: "#9a3412", tag: "Iced Tea" };
-  }
-  if (normalized.includes("lipton")) {
-    return { from: "#ca8a04", to: "#854d0e", tag: "Iced Tea" };
-  }
-  if (normalized.includes("gatorade")) {
-    return { from: "#16a34a", to: "#14532d", tag: "Sports Drink" };
-  }
-  if (normalized.includes("pop top")) {
-    return { from: "#ea580c", to: "#9a3412", tag: "Fruit Drink" };
-  }
-  if (
-    normalized.includes("solo") ||
-    normalized.includes("sunkist") ||
-    normalized.includes("passsiona") ||
-    normalized.includes("lemonade")
-  ) {
-    return { from: "#f59e0b", to: "#92400e", tag: "Citrus Soda" };
-  }
+  if (isDrinkName(itemName)) return "drink";
+  if (normalized.includes("combo")) return "combo";
+  if (normalized.includes("salad")) return "salad";
 
-  return { from: "#334155", to: "#1f2937", tag: "Soft Drink" };
-}
-
-function foodPaletteByName(itemName: string): { from: string; to: string; tag: string } {
-  const normalized = normalizeName(itemName);
-
-  if (
-    normalized.includes("pizza") ||
-    normalized.includes("pepperoni") ||
-    normalized.includes("margherita") ||
-    normalized.includes("supreme") ||
-    normalized.includes("hawaiian") ||
-    normalized.includes("paradiso") ||
-    normalized.includes("lovers")
-  ) {
-    return { from: "#b91c1c", to: "#7f1d1d", tag: "Pizza" };
-  }
   if (
     normalized.includes("pasta") ||
     normalized.includes("spaghetti") ||
@@ -88,52 +82,46 @@ function foodPaletteByName(itemName: string): { from: string; to: string; tag: s
     normalized.includes("gnocchi") ||
     normalized.includes("lasagna")
   ) {
-    return { from: "#d97706", to: "#92400e", tag: "Pasta" };
+    return "pasta";
   }
-  if (normalized.includes("salad")) {
-    return { from: "#16a34a", to: "#166534", tag: "Salad" };
-  }
+
   if (
     normalized.includes("cake") ||
     normalized.includes("cheesecake") ||
     normalized.includes("slice") ||
-    normalized.includes("chocolate")
+    normalized.includes("chocolate") ||
+    normalized.includes("dessert")
   ) {
-    return { from: "#7c3aed", to: "#5b21b6", tag: "Dessert" };
+    return "dessert";
   }
+
   if (
     normalized.includes("chips") ||
     normalized.includes("wedges") ||
     normalized.includes("nachos") ||
     normalized.includes("garlic bread") ||
-    normalized.includes("nuggets")
+    normalized.includes("nuggets") ||
+    normalized.includes("side")
   ) {
-    return { from: "#475569", to: "#1f2937", tag: "Sides" };
+    return "sides";
   }
-  return { from: "#9a3412", to: "#7c2d12", tag: "Chef Special" };
+
+  if (
+    normalized.includes("meal") ||
+    normalized.includes("wings") ||
+    normalized.includes("parmigiana")
+  ) {
+    return "meal";
+  }
+
+  return "pizza";
 }
 
 export function fallbackImageByName(itemName: string): string {
-  const palette = isDrinkName(itemName) ? drinkPaletteByName(itemName) : foodPaletteByName(itemName);
-  const label = escapeSvgText(itemName);
-  const tag = escapeSvgText(palette.tag);
-
-  const svg = `
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 675">
-  <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="${palette.from}" />
-      <stop offset="100%" stop-color="${palette.to}" />
-    </linearGradient>
-  </defs>
-  <rect width="900" height="675" fill="url(#bg)" />
-  <rect x="88" y="146" width="724" height="382" rx="34" fill="rgba(0,0,0,0.18)" stroke="rgba(255,255,255,0.22)" />
-  <text x="450" y="316" text-anchor="middle" font-family="Arial, sans-serif" font-size="52" font-weight="700" fill="#ffffff">${label}</text>
-  <text x="450" y="372" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="500" fill="rgba(255,255,255,0.9)">${tag}</text>
-</svg>
-  `.trim();
-
-  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+  const key = inferImageFallbackKey(itemName);
+  const pool = IMAGE_FALLBACKS[key];
+  const index = hashString(normalizeName(itemName)) % pool.length;
+  return pool[index];
 }
 
 function isLogoImageUrl(imageUrl?: string | null): boolean {
@@ -148,7 +136,8 @@ function isUnreliableRemoteUrl(imageUrl?: string | null): boolean {
   const trimmed = imageUrl.trim().toLowerCase();
   return (
     trimmed.includes("source.unsplash.com") ||
-    trimmed.includes("loremflickr.com")
+    trimmed.includes("loremflickr.com") ||
+    trimmed.includes("placehold.co")
   );
 }
 

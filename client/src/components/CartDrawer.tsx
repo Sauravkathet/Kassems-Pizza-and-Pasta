@@ -377,10 +377,10 @@ export function CartDrawer() {
           if (!open) setEditing(null);
         }}
       >
-        <DialogContent className="max-h-[92vh] overflow-y-auto border-border/60 bg-background p-0 sm:max-w-lg">
+        <DialogContent className="max-h-[92svh] w-[calc(100vw-1rem)] overflow-y-auto overflow-x-hidden border-border/60 bg-background p-0 sm:w-full sm:max-w-lg">
           {editing && editingItem && (
             <div className="flex flex-col">
-              <div className="h-44 overflow-hidden border-b border-border/60 bg-muted">
+              <div className="h-36 overflow-hidden border-b border-border/60 bg-muted sm:h-44">
                 <img
                   src={resolveItemImage(editingItem.menuItem.name, editingItem.menuItem.imageUrl)}
                   alt={editingItem.menuItem.name}
@@ -391,9 +391,11 @@ export function CartDrawer() {
                 />
               </div>
 
-              <div className="space-y-4 p-6">
+              <div className="space-y-4 p-4 sm:p-6">
                 <DialogHeader className="space-y-2 text-left">
-                  <DialogTitle className="text-xl font-semibold text-foreground">Customize {editingItem.menuItem.name}</DialogTitle>
+                  <DialogTitle className="pr-8 text-xl font-semibold leading-tight text-foreground">
+                    Customize {editingItem.menuItem.name}
+                  </DialogTitle>
                   <DialogDescription className="text-sm text-muted-foreground">
                     Update preparation and add-ons, then continue to checkout.
                   </DialogDescription>
@@ -414,14 +416,14 @@ export function CartDrawer() {
                             current ? { ...current, selectedSizeId: option.id } : current,
                           )
                         }
-                        className={`flex items-center justify-between rounded-md border px-2.5 py-2 text-left text-sm transition-colors ${
+                        className={`flex items-start justify-between gap-3 rounded-md border px-2.5 py-2 text-left text-sm transition-colors ${
                           editing.selectedSizeId === option.id
                             ? "border-primary bg-primary/5"
                             : "border-border/70 hover:border-primary/40"
                         }`}
                       >
-                        <span>{option.label}</span>
-                        <span className="font-semibold text-foreground">
+                        <span className="min-w-0 flex-1 leading-snug text-foreground">{option.label}</span>
+                        <span className="shrink-0 font-semibold text-foreground">
                           {option.priceDelta > 0 ? `+$${option.priceDelta.toFixed(2)}` : "$0.00"}
                         </span>
                       </button>
@@ -430,7 +432,7 @@ export function CartDrawer() {
                 </div>
 
                 <div className="space-y-3 rounded-lg border border-border/60 p-3">
-                  <div className="flex items-center justify-between">
+                  <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                     <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">Choice of Add Ons</p>
                     <p className="text-[11px] text-muted-foreground">Choose up to 3</p>
                   </div>
@@ -446,14 +448,14 @@ export function CartDrawer() {
                           type="button"
                           onClick={() => handleToggleAddOn(option.id)}
                           disabled={isDisabled}
-                          className={`flex items-center justify-between rounded-md border px-2.5 py-2 text-left text-sm transition-colors ${
+                          className={`flex items-start justify-between gap-3 rounded-md border px-2.5 py-2 text-left text-sm transition-colors ${
                             isSelected
                               ? "border-primary bg-primary/5"
                               : "border-border/70 hover:border-primary/40"
                           } ${isDisabled ? "cursor-not-allowed opacity-50" : ""}`}
                         >
-                          <span>{option.label}</span>
-                          <span className="font-semibold text-foreground">+${option.priceDelta.toFixed(2)}</span>
+                          <span className="min-w-0 flex-1 leading-snug text-foreground">{option.label}</span>
+                          <span className="shrink-0 font-semibold text-foreground">+${option.priceDelta.toFixed(2)}</span>
                         </button>
                       );
                     })}
@@ -461,11 +463,11 @@ export function CartDrawer() {
                 </div>
               </div>
 
-              <div className="flex gap-2 border-t border-border/60 p-4">
-                <Button type="button" variant="outline" className="flex-1" onClick={() => setEditing(null)}>
+              <div className="flex flex-col-reverse gap-2 border-t border-border/60 p-4 sm:flex-row">
+                <Button type="button" variant="outline" className="w-full sm:flex-1" onClick={() => setEditing(null)}>
                   Cancel
                 </Button>
-                <Button type="button" className="flex-1" onClick={applyCustomization}>
+                <Button type="button" className="w-full sm:flex-1" onClick={applyCustomization}>
                   Apply Changes
                 </Button>
               </div>
