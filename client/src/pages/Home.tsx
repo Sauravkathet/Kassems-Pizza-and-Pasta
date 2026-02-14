@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <div className="overflow-hidden">
       {/* Hero Section */}
-      <section className="relative min-h-screen min-h-[100svh] overflow-hidden">
+      <section className="relative min-h-[100svh] overflow-hidden">
         <div className="absolute inset-0 z-0">
        
           <video
@@ -31,7 +31,7 @@ export default function Home() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.14),transparent_45%)]" />
         </div>
 
-        <div className="container relative z-20 mx-auto grid min-h-screen min-h-[100svh] items-center gap-8 px-4 pb-12 pt-24 sm:pb-16 sm:pt-28 md:grid-cols-[1.2fr_0.8fr] md:py-20">
+        <div className="container relative z-20 mx-auto grid min-h-[100svh] items-center gap-8 px-4 pb-12 pt-24 sm:pb-16 sm:pt-28 md:grid-cols-[1.2fr_0.8fr] md:py-20">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -89,7 +89,7 @@ export default function Home() {
               <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
               {/* Unsplash: Chef plating food */}
               <img 
-                src="https://images.unsplash.com/photo-1559339352-11d035aa65de?auto=format&fit=crop&q=80&w=1000" 
+                src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweqMO99yhA6m0TUyiikAUhYVFsGpgjYAO18SS4ELm4KV9g0m86Hy8tovujBsje0emNNtCa-HHpUP-WzQVbRNV59YrOFeRrC1zlazpqdyFdHheh_6xsLxPR86kfAcw2I2SZQB-y_9d7ihUb0=s1360-w1360-h1020" 
                 alt="Chef Plating" 
                 className="rounded-2xl shadow-2xl relative z-10 w-full"
               />
@@ -143,37 +143,37 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured Dishes (Mock) */}
+      {/* Featured Pizzas */}
       <section className="bg-white py-20">
         <div className="container px-4 mx-auto">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="mb-3 font-serif text-3xl font-bold text-black md:text-4xl">Seasonal Favorites</h2>
-            <p className="text-sm text-black/70 md:text-base">Our menu changes with the seasons to ensure the freshest flavors.</p>
+            <h2 className="mb-3 font-serif text-3xl font-bold text-black md:text-4xl">Pizza Favorites</h2>
+            <p className="text-sm text-black/70 md:text-base">Top picks from our pizza menu, made fresh to order every day.</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
               {
-                title: "Roasted Rack of Lamb",
-                desc: "Herb-crusted lamb with rosemary potatoes and mint glaze.",
-                price: "$32",
-                // Unsplash: Lamb dish
-                img: "https://images.unsplash.com/photo-1551248429-40975aa4de74?auto=format&fit=crop&q=80&w=800" 
+                title: "Chicken Paradiso",
+                desc: "Tomato sauce, cheese, capsicum, crispy turkey, tomato, marinated chicken and garlic.",
+                price: "A$19.00",
+                // Unsplash: chicken pizza
+                img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=800",
               },
               {
-                title: "Wild Mushroom Risotto",
-                desc: "Arborio rice, porcini mushrooms, parmesan crisp, truffle oil.",
-                price: "$24",
-                // Unsplash: Risotto
-                img: "https://images.unsplash.com/photo-1476124369491-e7addf5db371?auto=format&fit=crop&q=80&w=800"
+                title: "Meat Lovers",
+                desc: "Tomato or BBQ sauce, cheese, beef, pepperoni and crispy turkey.",
+                price: "A$19.00",
+                // Unsplash: meat pizza
+                img: "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&q=80&w=800",
               },
               {
-                title: "Pan-Seared Scallops",
-                desc: "Jumbo scallops, cauliflower purée, crispy pancetta, lemon butter.",
-                price: "$28",
-                // Unsplash: Scallops
-                img: "https://images.unsplash.com/photo-1548592358-8b9a957b4c48?auto=format&fit=crop&q=80&w=800"
-              }
+                title: "Supreme",
+                desc: "Tomato sauce, cheese, beef, onion, mushroom, pepperoni, crispy turkey, capsicum, tomatoes, pineapple and olives.",
+                price: "A$19.00",
+                // Unsplash: supreme pizza
+                img: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&q=80&w=800",
+              },
             ].map((item, i) => (
               <motion.div
                 key={i}
