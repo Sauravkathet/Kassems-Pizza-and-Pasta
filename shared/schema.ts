@@ -53,6 +53,20 @@ export const cateringInquiries = pgTable("catering_inquiries", {
   createdAt: timestamp("created_at").defaultNow(),
 });
 
+export const notices = pgTable("notices", {
+  id: serial("id").primaryKey(),
+  title: text("title").notNull(),
+  body: text("body").notNull(),
+  priority: text("priority").notNull().default("normal"),
+  isActive: boolean("is_active").notNull().default(true),
+  publishedAt: timestamp("published_at").notNull().defaultNow(),
+  expiresAt: timestamp("expires_at"),
+  actionLabel: text("action_label"),
+  actionUrl: text("action_url"),
+  createdAt: timestamp("created_at").defaultNow(),
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
 // === RELATIONS ===
 
 export const categoriesRelations = relations(categories, ({ many }) => ({
@@ -88,6 +102,7 @@ export const insertMenuItemSchema = createInsertSchema(menuItems).omit({ id: tru
 export const insertOrderSchema = createInsertSchema(orders).omit({ id: true, createdAt: true, status: true, totalAmount: true });
 export const insertOrderItemSchema = createInsertSchema(orderItems).omit({ id: true });
 export const insertCateringInquirySchema = createInsertSchema(cateringInquiries).omit({ id: true, createdAt: true });
+export const insertNoticeSchema = createInsertSchema(notices).omit({ id: true, createdAt: true, updatedAt: true });
 
 // === EXPLICIT API CONTRACT TYPES ===
 
@@ -96,8 +111,10 @@ export type MenuItem = typeof menuItems.$inferSelect;
 export type Order = typeof orders.$inferSelect;
 export type OrderItem = typeof orderItems.$inferSelect;
 export type CateringInquiry = typeof cateringInquiries.$inferSelect;
+export type Notice = typeof notices.$inferSelect;
 
 export type InsertCateringInquiry = z.infer<typeof insertCateringInquirySchema>;
+export type InsertNotice = z.infer<typeof insertNoticeSchema>;
 
 export const orderStatusSchema = z.enum([
   "pending",
@@ -144,6 +161,9 @@ export const createOrderRequestSchema = z.object({
 });
 
 export type CreateOrderRequest = z.infer<typeof createOrderRequestSchema>;
+
+export const noticePrioritySchema = z.enum(["low", "normal", "high"]);
+export type NoticePriority = z.infer<typeof noticePrioritySchema>;
 
 // Response types
 export type CategoryWithItems = Category & { items: MenuItem[] };

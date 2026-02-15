@@ -701,26 +701,17 @@ export class DatabaseStorage implements IStorage {
     const allCategories = await db.query.categories.findMany({
       orderBy: (categories, { asc }) => [asc(categories.sortOrder)],
       with: {
-        items: true,
+        items: {
+          orderBy: (items, { asc }) => [asc(items.id)],
+        },
       },
     });
 
     return allCategories
-      .filter((category) => ALLOWED_CATEGORY_SLUGS.has(category.slug))
-      .map((category) => {
-        const allowedItemNames = ALLOWED_MENU_ITEM_NAMES_BY_SLUG.get(category.slug);
-        if (!allowedItemNames) {
-          return {
-            ...category,
-            items: [],
-          };
-        }
-
-        return {
-          ...category,
-          items: category.items.filter((item) => allowedItemNames.has(normalizeMenuName(item.name))),
-        };
-      })
+      .map((category) => ({
+        ...category,
+        items: category.items,
+      }))
       .filter((category) => category.items.length > 0);
   }
 

@@ -241,6 +241,15 @@ export function CartDrawer() {
     setLocation("/payment");
   };
 
+  const handleBackToMenu = () => {
+    setIsOpen(false);
+    setLocation("/menu");
+  };
+
+  const handleAddMore = () => {
+    setIsOpen(false);
+  };
+
   return (
     <>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -257,7 +266,12 @@ export function CartDrawer() {
               <div className="flex h-48 flex-col items-center justify-center space-y-4 text-muted-foreground">
                 <ShoppingBagIcon className="h-12 w-12 opacity-20" />
                 <p>Looks like you haven&apos;t added anything yet.</p>
-                <Button variant="outline" onClick={() => setIsOpen(false)}>Continue Browsing</Button>
+                <div className="flex w-full max-w-xs flex-col gap-2">
+                  <Button variant="outline" onClick={handleAddMore}>Add More</Button>
+                  <Button className="bg-primary text-primary-foreground hover:bg-primary/90" onClick={handleBackToMenu}>
+                    Back to Menu
+                  </Button>
+                </div>
               </div>
             ) : (
               <div className="space-y-6">
@@ -344,6 +358,23 @@ export function CartDrawer() {
 
           {items.length > 0 && (
             <div className="space-y-4 border-t border-border/40 pt-6">
+              <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="order-2 h-11 sm:order-1"
+                  onClick={handleAddMore}
+                >
+                  Add More
+                </Button>
+                <Button
+                  type="button"
+                  className="order-1 h-11 bg-secondary text-secondary-foreground hover:bg-secondary/90 sm:order-2"
+                  onClick={handleBackToMenu}
+                >
+                  Back to Menu
+                </Button>
+              </div>
               <div className="space-y-2">
                 <div className="flex justify-between text-sm text-muted-foreground">
                   <span>Subtotal</span>

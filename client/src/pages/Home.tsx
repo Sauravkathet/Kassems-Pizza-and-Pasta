@@ -1,13 +1,49 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Quote, ChefHat, Leaf, Users } from "lucide-react";
+import { ArrowRight, ChefHat, Leaf, Users, TicketPercent } from "lucide-react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import heroVideo from "@assets/pizzavideo1.mp4";
 
 export default function Home() {
+  const offerHighlights = [
+    "20% OFF on all Family Pizzas every Tuesday",
+    "Buy 1 Large Pizza, Get Garlic Bread 50% OFF",
+    "Free 600ml Drink on orders above A$45",
+    "Combo Three deal from A$58 for limited time",
+    "Student lunch offer: Pasta + Drink from A$19",
+    "Weekend special: 2 Large Pizzas + Drink from A$34",
+  ];
   
   return (
-    <div className="overflow-hidden">
+    <div className="overflow-hidden pt-19 md:pt-16">
+      {/* Offers Marquee */}
+      <section className="relative z-30 w-full bg-[#0c0c0c] py-2.5 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] sm:py-3">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_55%)]" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-14 bg-gradient-to-r from-[#0c0c0c] via-[#0c0c0c]/95 to-transparent sm:w-20" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-14 bg-gradient-to-l from-[#0c0c0c] via-[#0c0c0c]/95 to-transparent sm:w-20" />
+
+        <div className="flex w-full items-center gap-2 px-3 sm:gap-4 sm:px-4 md:px-6">
+          <div className="shrink-0 rounded-full border border-white/20 bg-white/[0.06] px-2.5 py-1 sm:px-3 sm:py-1.5">
+            <span className="inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] text-white/90 sm:text-[11px]">
+              <TicketPercent className="h-3.5 w-3.5 text-primary" />
+              Live Offers
+            </span>
+          </div>
+
+          <div className="relative min-w-0 flex-1 overflow-hidden">
+            <div className="offer-marquee-track flex w-max items-center gap-2.5 pr-6 sm:gap-3 sm:pr-8">
+              {[...offerHighlights, ...offerHighlights].map((offer, index) => (
+                <Link key={`${offer}-${index}`} href="/menu">
+                  <span className="inline-flex cursor-pointer items-center rounded-full border border-white/15 bg-white/[0.04] px-3 py-1.5 whitespace-nowrap text-[11px] font-medium text-white/85 transition-colors hover:border-primary/70 hover:bg-primary/15 hover:text-white md:px-4 md:text-sm">
+                    {offer}
+                  </span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Hero Section */}
       <section className="relative min-h-[100svh] overflow-hidden">
         <div className="absolute inset-0 z-0">
@@ -31,30 +67,30 @@ export default function Home() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.14),transparent_45%)]" />
         </div>
 
-        <div className="container relative z-20 mx-auto grid min-h-[100svh] items-center gap-8 px-4 pb-12 pt-24 sm:pb-16 sm:pt-28 md:grid-cols-[1.2fr_0.8fr] md:py-20">
+        <div className="container relative z-20 mx-auto grid min-h-[100svh] items-center gap-7 px-4 pb-12 pt-16 sm:gap-8 sm:pb-16 sm:pt-20 md:grid-cols-[1.2fr_0.8fr] md:py-20">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
-            className="max-w-3xl"
+            className="max-w-3xl text-center md:text-left"
           >
            
 
-            <h1 className="font-serif text-3xl font-bold leading-tight tracking-tight text-white drop-shadow-2xl sm:text-4xl md:text-5xl lg:text-6xl">
-              Authentic Pizza & Pasta,
+            <h1 className="font-serif text-[2.1rem] font-bold leading-[1.1] tracking-tight text-white drop-shadow-2xl sm:text-4xl md:text-5xl lg:text-6xl">
+              Kassems Pizza & Pasta,
               <span className="block text-primary">Crafted Fresh Daily</span>
             </h1>
 
-            <p className="mt-4 max-w-2xl text-sm text-white/90 sm:text-base md:mt-5 md:text-lg">
+            <p className="mt-4 mx-auto max-w-2xl text-sm text-white/90 sm:text-base md:mt-5 md:mx-0 md:text-lg">
               Wood-fired pizzas, house-made sauces, and classic Italian comfort food
               served fast without compromising quality.
             </p>
 
          
 
-            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center md:justify-start">
               <Link href="/menu">
-                <Button size="lg" className="h-12 rounded-full px-7 text-base shadow-lg">
+                <Button size="lg" className="h-12 w-full rounded-full px-7 text-base shadow-lg sm:w-auto">
                   View Menu <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
@@ -62,7 +98,7 @@ export default function Home() {
                 <Button
                   size="lg"
                   variant="outline"
-                  className="h-12 rounded-full border-white/50 bg-white/10 px-7 text-base text-white backdrop-blur-sm hover:bg-white/20"
+                  className="h-12 w-full rounded-full border-white/50 bg-white/10 px-7 text-base text-white backdrop-blur-sm hover:bg-white/20 sm:w-auto"
                 >
                   Order Online
                 </Button>

@@ -17,6 +17,9 @@ import Contact from "@/pages/Contact";
 import Kitchen from "@/pages/Kitchen";
 import Payment from "@/pages/Payment";
 import TrackOrder from "@/pages/TrackOrder";
+import Notices from "@/pages/Notices";
+import Admin from "@/pages/Admin";
+import AdminLogin from "@/pages/AdminLogin";
 import NotFound from "@/pages/not-found";
 
 import { Navigation } from "@/components/Navigation";
@@ -37,18 +40,22 @@ function Router() {
   const [location] = useLocation();
   const [isTrackOrderOpen, setIsTrackOrderOpen] = useState(false);
   const isKitchenRoute = location === "/kitchen";
+  const isAdminRoute = location.startsWith("/admin");
 
   return (
     <div className="flex flex-col min-h-screen">
       <ScrollToTop />
-      <Navigation
-        isTrackOrderOpen={isTrackOrderOpen}
-        onTrackOrderOpen={() => setIsTrackOrderOpen(true)}
-      />
+      {!isAdminRoute && (
+        <Navigation
+          isTrackOrderOpen={isTrackOrderOpen}
+          onTrackOrderOpen={() => setIsTrackOrderOpen(true)}
+        />
+      )}
       <main className="flex-1">
         <Switch>
           <Route path="/" component={Home} />
           <Route path="/menu" component={Menu} />
+          <Route path="/notices" component={Notices} />
           <Route path="/order" component={Order} />
           <Route path="/payment" component={Payment} />
           <Route path="/track-order" component={TrackOrder} />
@@ -57,14 +64,19 @@ function Router() {
           <Route path="/gallery" component={Gallery} />
           <Route path="/contact" component={Contact} />
           <Route path="/kitchen" component={Kitchen} />
+          <Route path="/admin/login" component={AdminLogin} />
+          <Route path="/admin" component={Admin} />
           <Route component={NotFound} />
         </Switch>
       </main>
-      {!isKitchenRoute && <Footer />}
-      <TrackOrderDrawer
-        open={isTrackOrderOpen}
-        onOpenChange={setIsTrackOrderOpen}
-      />
+      {!isKitchenRoute && !isAdminRoute && <Footer />}
+      {!isAdminRoute && (
+        <TrackOrderDrawer
+          open={isTrackOrderOpen}
+          onOpenChange={setIsTrackOrderOpen}
+        />
+      )}
+      {!isAdminRoute && <CartDrawer />}
     </div>
   );
 }
@@ -75,7 +87,6 @@ function App() {
       <CartProvider>
         <TooltipProvider>
           <Router />
-          <CartDrawer />
           <Toaster />
         </TooltipProvider>
       </CartProvider>

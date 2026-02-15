@@ -63,9 +63,11 @@ export function Footer() {
             <h4 className="border-l-4 border-primary pl-3 text-sm font-semibold uppercase tracking-[0.14em] text-secondary-foreground">Quick Links</h4>
             <ul className="space-y-3">
               <li><Link href="/menu" className="inline-block text-sm text-secondary-foreground/70 transition-colors hover:text-primary">Our Menu</Link></li>
+              <li><Link href="/notices" className="inline-block text-sm text-secondary-foreground/70 transition-colors hover:text-primary">Notice Board</Link></li>
               <li><Link href="/catering" className="inline-block text-sm text-secondary-foreground/70 transition-colors hover:text-primary">Catering Services</Link></li>
               <li><Link href="/about" className="inline-block text-sm text-secondary-foreground/70 transition-colors hover:text-primary">Our Story</Link></li>
               <li><Link href="/contact" className="inline-block text-sm text-secondary-foreground/70 transition-colors hover:text-primary">Contact Us</Link></li>
+              <li><Link href="/admin/login" className="inline-block text-sm text-secondary-foreground/70 transition-colors hover:text-primary">Admin Portal</Link></li>
             </ul>
           </div>
 

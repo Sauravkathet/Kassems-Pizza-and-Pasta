@@ -63,6 +63,23 @@
 }
 
 @layer utilities {
+  @keyframes offer-marquee-slide {
+    0% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  .offer-marquee-track {
+    animation: offer-marquee-slide 32s linear infinite;
+  }
+
+  .offer-marquee-track:hover {
+    animation-play-state: paused;
+  }
+
   .text-shadow {
     text-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }

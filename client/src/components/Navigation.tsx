@@ -1,6 +1,6 @@
 import { Link, useLocation } from "wouter";
 import { useCart } from "@/lib/cart-context";
-import { ShoppingBag, Menu, X, ChefHat, Truck } from "lucide-react";
+import { ShoppingBag, Menu, X, Truck } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
@@ -45,6 +45,7 @@ export function Navigation({ isTrackOrderOpen, onTrackOrderOpen }: NavigationPro
   const navLinks = [
     { href: "/", label: "Home" },
     { href: "/menu", label: "Menu" },
+    { href: "/notices", label: "Notices" },
     { href: "/catering", label: "Catering" },
     { href: "/about", label: "Story" },
     { href: "/gallery", label: "Gallery" },
@@ -54,10 +55,10 @@ export function Navigation({ isTrackOrderOpen, onTrackOrderOpen }: NavigationPro
   return (
     <nav
       className={cn(
-        "fixed left-0 right-0 top-0 z-50 border-transparent transition-all duration-300",
+        "fixed left-0 right-0 top-0 z-50 border-b py-2.5 transition-all duration-300 md:py-3",
         isHeroNav
-          ? "border-transparent bg-gradient-to-b from-black/92 via-black/58 to-transparent py-3.5 backdrop-blur-sm md:py-4"
-          : "border-white/15 bg-black/90 py-2.5 shadow-[0_10px_35px_rgba(0,0,0,0.45)] backdrop-blur-xl md:py-3"
+          ? "border-white/10 bg-black/90 backdrop-blur-md"
+          : "border-white/15 bg-black shadow-[0_10px_35px_rgba(0,0,0,0.45)] backdrop-blur-xl",
       )}
     >
       <div className="container mx-auto flex items-center justify-between px-4">
@@ -65,7 +66,7 @@ export function Navigation({ isTrackOrderOpen, onTrackOrderOpen }: NavigationPro
           <span className="inline-flex cursor-pointer items-center gap-2">
             <span
               className={cn(
-                "flex h-8 w-8 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/35 bg-white/95  shadow-sm sm:h-9 sm:w-9 md:h-10 md:w-10",
+                "flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/35 bg-white/95 shadow-sm sm:h-11 sm:w-11 md:h-12 md:w-12",
                 !isHeroNav && "border-primary/30 bg-orange-50",
               )}
             >
@@ -140,30 +141,6 @@ export function Navigation({ isTrackOrderOpen, onTrackOrderOpen }: NavigationPro
               isTrackOrderActive && "text-primary",
             )} />
           </button>
-          <Link href="/kitchen">
-            <span
-              title="Kitchen"
-              aria-label="Kitchen"
-              className={cn(
-                "group relative inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full transition-colors lg:h-11 lg:w-11",
-                location === "/kitchen"
-                  ? isHeroNav
-                    ? "bg-white/10"
-                    : "bg-primary/12"
-                  : isHeroNav
-                    ? "hover:bg-white/6"
-                    : "hover:bg-secondary-foreground/6",
-              )}
-            >
-              <ChefHat className={cn(
-                "h-5 w-5 transition-colors lg:h-[22px] lg:w-[22px]",
-                isHeroNav
-                  ? "text-white/90 group-hover:text-primary"
-                  : "text-secondary-foreground/90 group-hover:text-primary",
-                location === "/kitchen" && "text-primary",
-              )} />
-            </span>
-          </Link>
           <button
             onClick={() => setIsOpen(true)}
             className={cn(
@@ -213,30 +190,6 @@ export function Navigation({ isTrackOrderOpen, onTrackOrderOpen }: NavigationPro
               )}
             />
           </button>
-          <Link href="/kitchen">
-            <span
-              title="Kitchen"
-              aria-label="Kitchen"
-              className={cn(
-                "inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full transition-colors",
-                location === "/kitchen"
-                  ? isHeroNav
-                    ? "bg-white/10"
-                    : "bg-primary/12"
-                  : isHeroNav
-                    ? "hover:bg-white/6"
-                    : "hover:bg-secondary-foreground/6",
-              )}
-            >
-              <ChefHat
-                className={cn(
-                  "h-5 w-5",
-                  isHeroNav ? "text-white/90" : "text-secondary-foreground/90",
-                  location === "/kitchen" && "text-primary",
-                )}
-              />
-            </span>
-          </Link>
           <button
             onClick={() => setIsOpen(true)}
             className={cn(
@@ -303,28 +256,6 @@ export function Navigation({ isTrackOrderOpen, onTrackOrderOpen }: NavigationPro
               isTrackOrderActive && "text-primary",
             )} />
           </button>
-          <Link href="/kitchen">
-            <span
-              title="Kitchen"
-              aria-label="Kitchen"
-              className={cn(
-                "relative inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full transition-colors",
-                location === "/kitchen"
-                  ? isHeroNav
-                    ? "bg-white/10"
-                    : "bg-primary/12"
-                  : isHeroNav
-                    ? "hover:bg-white/6"
-                    : "hover:bg-secondary-foreground/6",
-              )}
-            >
-              <ChefHat className={cn(
-                "h-5 w-5",
-                isHeroNav ? "text-white/90" : "text-secondary-foreground/90",
-                location === "/kitchen" && "text-primary",
-              )} />
-            </span>
-          </Link>
           <button
             onClick={() => setIsOpen(true)}
             className={cn(
@@ -428,21 +359,6 @@ export function Navigation({ isTrackOrderOpen, onTrackOrderOpen }: NavigationPro
                     <span>Track Order</span>
                     <Truck className="h-4 w-4" />
                   </button>
-
-                  <Link href="/kitchen">
-                    <span
-                      onClick={() => setMobileMenuOpen(false)}
-                      className={cn(
-                        "flex cursor-pointer items-center justify-between rounded-xl border px-4 py-3 text-sm font-medium transition-colors",
-                        location === "/kitchen"
-                          ? "border-primary/35 bg-primary/10 text-primary"
-                          : "border-white/15 bg-white/[0.03] text-white/90 hover:bg-white/[0.05]"
-                      )}
-                    >
-                      <span>Kitchen Panel</span>
-                      <ChefHat className="h-4 w-4" />
-                    </span>
-                  </Link>
 
                   <button
                     onClick={() => {
