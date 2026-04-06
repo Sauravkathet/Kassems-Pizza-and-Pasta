@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api, customerOrdersPath, orderPath, orderStatusPath, type CreateOrderRequest } from "@shared/routes";
 import type { OrderStatus } from "@shared/schema";
 import { useToast } from "@/hooks/use-toast";
+import { getWebSocketBaseUrl, withApiBase } from "@/lib/queryClient";
 
 export function useCreateOrder() {
   const { toast } = useToast();
@@ -10,7 +11,7 @@ export function useCreateOrder() {
 
   return useMutation({
     mutationFn: async (data: CreateOrderRequest) => {
-      const res = await fetch(api.orders.create.path, {
+      const res = await fetch(withApiBase(api.orders.create.path), {
         method: api.orders.create.method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -44,7 +45,7 @@ export function useKitchenOrders() {
   return useQuery({
     queryKey: [api.orders.kitchenList.path],
     queryFn: async () => {
-      const res = await fetch(api.orders.kitchenList.path);
+      const res = await fetch(withApiBase(api.orders.kitchenList.path));
       if (!res.ok) {
         throw new Error("Failed to fetch kitchen orders");
       }
@@ -62,7 +63,7 @@ export function useCustomerOrders(email?: string, phone?: string) {
     queryKey: [api.orders.customerList.path, email ?? "", phone ?? ""],
     enabled: hasLookup,
     queryFn: async () => {
-      const res = await fetch(customerOrdersPath(email, phone));
+      const res = await fetch(withApiBase(customerOrdersPath(email, phone)));
       if (!res.ok) {
         if (res.status === 400) {
           const error = api.orders.customerList.responses[400].parse(await res.json());
@@ -88,7 +89,7 @@ export function useUpdateOrderStatus() {
 
   return useMutation({
     mutationFn: async ({ orderId, status }: UpdateOrderStatusInput) => {
-      const res = await fetch(orderStatusPath(orderId), {
+      const res = await fetch(withApiBase(orderStatusPath(orderId)), {
         method: api.orders.updateStatus.method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status }),
@@ -129,7 +130,7 @@ export function useDeleteDeliveredOrder() {
 
   return useMutation({
     mutationFn: async (orderId: number) => {
-      const res = await fetch(orderPath(orderId), {
+      const res = await fetch(withApiBase(orderPath(orderId)), {
         method: api.orders.deleteDelivered.method,
       });
 
@@ -177,8 +178,12 @@ export function useKitchenRealtime() {
     const connect = () => {
       if (stopped) return;
 
+      const wsBase = getWebSocketBaseUrl();
       const protocol = window.location.protocol === "https:" ? "wss" : "ws";
-      socket = new WebSocket(`${protocol}://${window.location.host}/ws/kitchen`);
+      const wsUrl = wsBase
+        ? `${wsBase}/ws/kitchen`
+        : `${protocol}://${window.location.host}/ws/kitchen`;
+      socket = new WebSocket(wsUrl);
 
       socket.onopen = () => {
         setIsLive(true);

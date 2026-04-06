@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { api, type InsertCateringInquiry } from "@shared/routes";
 import { useToast } from "@/hooks/use-toast";
+import { withApiBase } from "@/lib/queryClient";
 
 export function useCreateCateringInquiry() {
   const { toast } = useToast();
@@ -9,7 +10,7 @@ export function useCreateCateringInquiry() {
     mutationFn: async (data: InsertCateringInquiry) => {
       // JSON dates are tricky, but Zod coerce helps on server.
       // Here we assume the server handles ISO strings from JSON.stringify correctly via Zod
-      const res = await fetch(api.catering.create.path, {
+      const res = await fetch(withApiBase(api.catering.create.path), {
         method: api.catering.create.method,
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

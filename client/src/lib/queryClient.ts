@@ -10,6 +10,17 @@ export function withApiBase(path: string): string {
   return `${apiBase}${normalized}`;
 }
 
+export function getWebSocketBaseUrl(): string {
+  if (!apiBase) return "";
+  try {
+    const url = new URL(apiBase);
+    url.protocol = url.protocol === "https:" ? "wss:" : "ws:";
+    return url.origin;
+  } catch {
+    return "";
+  }
+}
+
 async function throwIfResNotOk(res: Response) {
   if (!res.ok) {
     const text = (await res.text()) || res.statusText;
