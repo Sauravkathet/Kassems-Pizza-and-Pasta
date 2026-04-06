@@ -3,7 +3,14 @@ import { ArrowRight, ChefHat, Leaf, Users, TicketPercent } from "lucide-react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import heroVideo from "@assets/pizzavideo1.mp4";
-import { MARKETING_IMAGES, SITE_NAME, SITE_SHORT_NAME, SITE_TAGLINE } from "@shared/site-content";
+import {
+  HOME_FEATURED_PIZZAS,
+  HOME_HERO_MEDIA,
+  MARKETING_IMAGES,
+  SITE_NAME,
+  SITE_SHORT_NAME,
+  SITE_TAGLINE,
+} from "@shared/site-content";
 
 export default function Home() {
   const offerHighlights = [
@@ -14,6 +21,9 @@ export default function Home() {
     "Student lunch offer: Pasta + Drink from A$19",
     "Weekend special: 2 Large Pizzas + Drink from A$34",
   ];
+
+  const heroVideoUrl = HOME_HERO_MEDIA.videoUrl || heroVideo;
+  const heroPoster = HOME_HERO_MEDIA.posterUrl || undefined;
   
   return (
     <div className="overflow-hidden pt-19 md:pt-16">
@@ -56,10 +66,10 @@ export default function Home() {
             loop
             playsInline
             preload="metadata"
-            
+            poster={heroPoster}
           >
             <source
-              src={heroVideo}
+              src={heroVideoUrl}
               type="video/mp4"
             />
           </video>
@@ -188,29 +198,10 @@ export default function Home() {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "Chicken Paradiso",
-                desc: "Tomato sauce, cheese, capsicum, crispy turkey, tomato, marinated chicken and garlic.",
-                price: "A$19.00",
-                // Unsplash: chicken pizza
-                img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=800",
-              },
-              {
-                title: "Meat Lovers",
-                desc: "Tomato or BBQ sauce, cheese, beef, pepperoni and crispy turkey.",
-                price: "A$19.00",
-                // Unsplash: meat pizza
-                img: "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&q=80&w=800",
-              },
-              {
-                title: "Supreme",
-                desc: "Tomato sauce, cheese, beef, onion, mushroom, pepperoni, crispy turkey, capsicum, tomatoes, pineapple and olives.",
-                price: "A$19.00",
-                // Unsplash: supreme pizza
-                img: "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&q=80&w=800",
-              },
-            ].map((item, i) => (
+            {HOME_FEATURED_PIZZAS.map((item, i) => {
+              const featuredImage =
+                MARKETING_IMAGES.homeFeatured?.[i] ?? item.imageUrl;
+              return (
               <motion.div
                 key={i}
                 initial={{ opacity: 0, y: 30 }}
@@ -222,7 +213,7 @@ export default function Home() {
                 <div className="overflow-hidden rounded-2xl mb-4 aspect-[4/3] relative">
                   <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors z-10" />
                   <img 
-                    src={item.img} 
+                    src={featuredImage} 
                     alt={item.title} 
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
@@ -238,7 +229,8 @@ export default function Home() {
                   </span>
                 </Link>
               </motion.div>
-            ))}
+            );
+            })}
           </div>
         </div>
       </section>

@@ -3,7 +3,7 @@ import { SITE_NAME } from "@shared/site-content";
 
 export default function Contact() {
   const mapEmbedUrl =
-    "https://www.google.com/maps?q=Melbourne%2C%20VIC%2C%20Australia&output=embed";
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.355882615599!2d144.9940565!3d-37.671450799999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad64fbcd57b2959%3A0xadcab37dfde12565!2sSR%20Pizza%20%26%20Bakery!5e1!3m2!1sen!2snp!4v1775491666453!5m2!1sen!2snp";
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/35 pt-32 pb-32">

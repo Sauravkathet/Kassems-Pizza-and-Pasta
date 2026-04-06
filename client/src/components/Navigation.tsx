@@ -4,7 +4,7 @@ import { ShoppingBag, Menu, X, Truck } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
-import { SITE_SHORT_NAME } from "@shared/site-content";
+import { BRAND_IMAGES, SITE_SHORT_NAME } from "@shared/site-content";
 
 type NavigationProps = {
   isTrackOrderOpen: boolean;
@@ -56,7 +56,7 @@ export function Navigation({ isTrackOrderOpen, onTrackOrderOpen }: NavigationPro
   return (
     <nav
       className={cn(
-        "fixed left-0 right-0 top-0 z-50 border-b py-2.5 transition-all duration-300 md:py-3",
+        "fixed left-0 right-0 top-0 z-50 border-b py-1.5 transition-all duration-300 md:py-2",
         isHeroNav
           ? "border-white/10 bg-black/90 backdrop-blur-md"
           : "border-white/15 bg-black shadow-[0_10px_35px_rgba(0,0,0,0.45)] backdrop-blur-xl",
@@ -67,24 +67,23 @@ export function Navigation({ isTrackOrderOpen, onTrackOrderOpen }: NavigationPro
           <span className="inline-flex cursor-pointer items-center gap-2">
             <span
               className={cn(
-                "flex h-10 w-10 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/35 bg-white/95 shadow-sm sm:h-11 sm:w-11 md:h-12 md:w-12",
-                !isHeroNav && "border-primary/30 bg-orange-50",
+                "flex h-12 w-12 shrink-0 items-center justify-center overflow-hidden rounded-lg border border-white/35 bg-black shadow-sm sm:h-12 sm:w-12 md:h-14 md:w-14",
               )}
             >
               <img
-                src="/logo.png"
+                src={BRAND_IMAGES.logo}
                 alt={`${SITE_SHORT_NAME} logo`}
                 className="h-full w-full object-contain"
                 loading="eager"
                 decoding="async"
                 onError={(event) => {
-                  event.currentTarget.src = "/favicon.png";
+                  event.currentTarget.src = BRAND_IMAGES.logoFallback;
                 }}
               />
             </span>
             <span
               className={cn(
-                "hidden text-base font-semibold tracking-tight transition-colors sm:block md:text-lg lg:text-xl",
+                "hidden text-[0.95rem] font-semibold tracking-tight transition-colors sm:block md:text-base lg:text-lg",
                 isHeroNav ? "text-white drop-shadow-sm" : "text-secondary-foreground",
               )}
             >
@@ -94,12 +93,12 @@ export function Navigation({ isTrackOrderOpen, onTrackOrderOpen }: NavigationPro
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden items-center gap-6 xl:gap-8 lg:flex">
+        <div className="hidden items-center gap-5 xl:gap-6 lg:flex">
           {navLinks.map((link) => (
             <Link key={link.href} href={link.href}>
               <span
                 className={cn(
-                  "group relative cursor-pointer text-sm font-medium transition-colors",
+                  "group relative cursor-pointer text-[0.95rem] font-medium transition-colors",
                   location === link.href
                     ? isHeroNav
                       ? "text-primary"
@@ -124,7 +123,7 @@ export function Navigation({ isTrackOrderOpen, onTrackOrderOpen }: NavigationPro
             title="Track Order"
             aria-label="Track Order"
             className={cn(
-              "group relative rounded-full p-2 transition-colors",
+              "group relative rounded-full p-1.5 transition-colors",
               isTrackOrderActive
                 ? isHeroNav
                   ? "bg-white/10"
@@ -135,7 +134,7 @@ export function Navigation({ isTrackOrderOpen, onTrackOrderOpen }: NavigationPro
             )}
           >
             <Truck className={cn(
-              "h-6 w-6 transition-colors",
+              "h-5.5 w-5.5 transition-colors",
               isHeroNav
                 ? "text-white/90 group-hover:text-primary"
                 : "text-secondary-foreground/90 group-hover:text-primary",
@@ -145,13 +144,13 @@ export function Navigation({ isTrackOrderOpen, onTrackOrderOpen }: NavigationPro
           <button
             onClick={() => setIsOpen(true)}
             className={cn(
-              "group relative rounded-full p-2 transition-colors",
+              "group relative rounded-full p-1.5 transition-colors",
               isHeroNav ? "hover:bg-white/6" : "hover:bg-secondary-foreground/6",
             )}
           >
             <ShoppingBag
               className={cn(
-                "h-6 w-6 transition-colors",
+                "h-5.5 w-5.5 transition-colors",
                 isHeroNav
                   ? "text-white/90 group-hover:text-primary"
                   : "text-secondary-foreground/90 group-hover:text-primary",

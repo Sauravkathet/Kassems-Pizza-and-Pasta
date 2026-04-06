@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { resolveItemImage } from "@/lib/item-image";
 import type { KitchenOrder, OrderStatus } from "@shared/schema";
 import {
   AlertCircle,
@@ -149,20 +150,6 @@ function OrderStatusTimeline({ status }: { status: OrderStatus }) {
   );
 }
 
-function fallbackItemImage(name: string) {
-  const n = name.toLowerCase();
-  if (n.includes("pizza")) {
-    return "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=300";
-  }
-  if (n.includes("pasta")) {
-    return "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&q=80&w=300";
-  }
-  if (n.includes("salad")) {
-    return "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=300";
-  }
-  return "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=300";
-}
-
 function DrawerOrderItem({
   item,
   imageUrl,
@@ -175,7 +162,7 @@ function DrawerOrderItem({
     <div className="flex items-center gap-3 rounded-lg border border-border/60 bg-muted/20 p-2">
       <div className="h-14 w-14 shrink-0 overflow-hidden rounded-md border border-border/60 bg-muted">
         <img
-          src={imageUrl || fallbackItemImage(item.name)}
+          src={resolveItemImage(item.name, imageUrl)}
           alt={item.name}
           className="h-full w-full object-cover"
         />

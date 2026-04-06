@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { Instagram, MapPin, Clock, Phone, Mail } from "lucide-react";
-import { SITE_NAME, SITE_SHORT_NAME } from "@shared/site-content";
+import { BRAND_IMAGES, SITE_NAME, SITE_SHORT_NAME } from "@shared/site-content";
 
 export function Footer() {
   return (
@@ -11,13 +11,13 @@ export function Footer() {
             <div className="flex items-center gap-4">
               <div className="flex h-16 w-16 items-center justify-center rounded-xl  shadow-sm">
                 <img
-                  src="/logo.png"
+                  src={BRAND_IMAGES.logo}
                   alt={`${SITE_SHORT_NAME} logo`}
                   className="h-full w-full object-contain"
                   loading="lazy"
                   decoding="async"
                   onError={(event) => {
-                    event.currentTarget.src = "/favicon.png";
+                    event.currentTarget.src = BRAND_IMAGES.logoFallback;
                   }}
                 />
               </div>

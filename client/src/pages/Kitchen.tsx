@@ -436,20 +436,6 @@ function formatOrderAge(createdAt: string | null, nowMs: number): string {
   return remHours === 0 ? `${days}d ago` : `${days}d ${remHours}h ago`;
 }
 
-function fallbackItemImage(name: string): string {
-  const normalized = name.toLowerCase();
-  if (normalized.includes("pizza")) {
-    return "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=300";
-  }
-  if (normalized.includes("pasta")) {
-    return "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&q=80&w=300";
-  }
-  if (normalized.includes("salad")) {
-    return "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=300";
-  }
-  return "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=300";
-}
-
 export default function Kitchen() {
   const { data: orders = [], isLoading, isError, error, refetch, isFetching } = useKitchenOrders();
   const { isLive } = useKitchenRealtime();
