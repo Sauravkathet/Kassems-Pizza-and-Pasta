@@ -1,12 +1,12 @@
 const buildUnsplashUrl = (photoId: string, width = 1200, height = 900) =>
   `https://images.unsplash.com/photo-${photoId}?auto=format&fit=crop&q=80&w=${width}&h=${height}`;
 
-export const SITE_NAME = "Pizza Hub & Grill";
-export const SITE_SHORT_NAME = "Pizza Hub & Grill";
-export const SITE_TAGLINE = "Fire-Kissed Pizza & House-Made Pasta";
+export const SITE_NAME = "SR Pizza";
+export const SITE_SHORT_NAME = "SR Pizza";
+export const SITE_TAGLINE = "Melbourne's Halal Stone-Fired Pizza Experience";
 export const SITE_DESCRIPTION =
-  "A polished pizza-and-pasta demo with bold branding, vibrant food photography, and a smooth ordering flow.";
-export const SITE_SUPPORT_EMAIL = "support@pizzahubgrill.com";
+  "Stone-fired halal pizza for live stations, weddings, and events across Melbourne with a fully mobile setup.";
+export const SITE_SUPPORT_EMAIL = "shehzadraffikpizza@gmail.com";
 
 export const ITEM_IMAGE_FALLBACKS = {
   combo: [

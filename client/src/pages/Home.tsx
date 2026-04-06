@@ -83,8 +83,8 @@ export default function Home() {
             </h1>
 
             <p className="mt-4 mx-auto max-w-2xl text-sm text-white/90 sm:text-base md:mt-5 md:mx-0 md:text-lg">
-              Wood-fired pizzas, house-made sauces, and classic Italian comfort food
-              served fast without compromising quality.
+              Halal stone-fired pizza crafted live for weddings and events, with a fully mobile setup
+              across Melbourne.
             </p>
 
          
@@ -146,12 +146,12 @@ export default function Home() {
               <h2 className="text-sm font-medium uppercase tracking-[0.2em] text-primary">Our Philosophy</h2>
               <h3 className="font-serif text-3xl md:text-4xl font-bold text-black">Rooted in Tradition, <br/>Elevated by Passion.</h3>
               <p className="text-base leading-relaxed text-black/70">
-                At {SITE_NAME}, we believe the best meals start with bold ingredients, patient craft,
-                and a little theatre from the oven.
+                At {SITE_NAME}, we believe the best events are powered by fresh dough, bold flavors,
+                and the energy of a live stone-fired station.
               </p>
               <p className="text-base leading-relaxed text-black/70">
-                Whether you&apos;re dropping in for a quick slice or showing off a polished food-ordering demo,
-                our goal is to make every interaction feel warm, premium, and memorable.
+                Self-taught and proud to have catered 50+ events, we bring the oven to backyards,
+                garages, and offices for a memorable experience.
               </p>
               
               <div className="grid grid-cols-3 gap-6 pt-6">

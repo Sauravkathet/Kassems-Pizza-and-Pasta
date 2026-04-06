@@ -1,9 +1,9 @@
-import { MapPin, Clock, Truck } from "lucide-react";
+import { MapPin, ChefHat, Phone } from "lucide-react";
 import { SITE_NAME } from "@shared/site-content";
 
 export default function Contact() {
   const mapEmbedUrl =
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3384.3613573388643!2d115.92405487543652!3d-31.978218274007606!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2a32bbf47f51caa9%3A0x71fff8dc45db42f1!2sKassems%20Pizza%20%26%20Pasta!5e0!3m2!1sen!2snp!4v1771048330554!5m2!1sen!2snp";
+    "https://www.google.com/maps?q=Melbourne%2C%20VIC%2C%20Australia&output=embed";
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/35 pt-32 pb-32">
@@ -11,7 +11,7 @@ export default function Contact() {
         <div className="text-center mb-20">
           <h1 className="font-serif text-5xl md:text-6xl font-bold mb-4">Get in Touch</h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            We&apos;d love to welcome you to {SITE_NAME}. Visit us for a warm, polished dine-in or delivery experience.
+            We&apos;d love to bring {SITE_NAME} to your event. Book live station catering across Melbourne with a fully mobile setup.
           </p>
         </div>
 
@@ -25,8 +25,8 @@ export default function Contact() {
                 <div className="flex-1">
                   <h3 className="font-serif text-2xl font-semibold mb-3">Our Location</h3>
                   <p className="text-muted-foreground text-base leading-relaxed">
-                    341 Orrong Rd<br/>
-                    Kewdale, WA 6105
+                    Melbourne, VIC, Australia<br/>
+                    Mobile set-up available (Backyards, Garages, Offices)
                   </p>
                 </div>
               </div>
@@ -35,22 +35,22 @@ export default function Contact() {
             <div className="bg-card border border-border rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex gap-5 items-start">
                 <div className="w-14 h-14 bg-secondary/10 text-secondary rounded-lg flex items-center justify-center shrink-0">
-                  <Clock className="w-7 h-7" />
+                  <ChefHat className="w-7 h-7" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-serif text-2xl font-semibold mb-3">Business Hours</h3>
+                  <h3 className="font-serif text-2xl font-semibold mb-3">Services</h3>
                   <div className="text-muted-foreground text-base space-y-2">
                     <div className="flex justify-between items-center">
-                      <span className="font-medium text-foreground">Monday - Thursday</span>
-                      <span>11:00 AM - 9:00 PM</span>
+                      <span className="font-medium text-foreground">Live Station</span>
+                      <span>Stone-fired pizza on-site</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="font-medium text-foreground">Friday - Saturday</span>
-                      <span>11:00 AM - 10:00 PM</span>
+                      <span className="font-medium text-foreground">Weddings & Events</span>
+                      <span>Custom catering</span>
                     </div>
                     <div className="flex justify-between items-center">
-                      <span className="font-medium text-foreground">Sunday</span>
-                      <span>10:00 AM - 8:00 PM</span>
+                      <span className="font-medium text-foreground">Experience</span>
+                      <span>50+ events catered</span>
                     </div>
                   </div>
                 </div>
@@ -60,15 +60,28 @@ export default function Contact() {
             <div className="bg-card border border-border rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow">
               <div className="flex gap-5 items-start">
                 <div className="w-14 h-14 bg-primary/10 text-primary rounded-lg flex items-center justify-center shrink-0">
-                  <Truck className="w-7 h-7" />
+                  <Phone className="w-7 h-7" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="font-serif text-2xl font-semibold mb-3">Delivery & Availability</h3>
+                  <h3 className="font-serif text-2xl font-semibold mb-3">Bookings</h3>
                   <div className="space-y-2 text-base text-muted-foreground">
-                    <p className="font-medium text-foreground">$4.99 Delivery Fee</p>
-                    <p>Pricing & fees. Enter address to see delivery time.</p>
-                    <p>Too far to deliver in some locations.</p>
-                    <p className="font-medium text-foreground">Open until 7:00 PM</p>
+                    <p className="font-medium text-foreground">Book via DM</p>
+                    <p>
+                      <a className="underline hover:text-primary" href="mailto:shehzadraffikpizza@gmail.com">
+                        shehzadraffikpizza@gmail.com
+                      </a>
+                    </p>
+                    <p>
+                      <a className="underline hover:text-primary" href="tel:+61415743566">
+                        +61 415 743 566
+                      </a>
+                    </p>
+                    <p>
+                      Instagram:{" "}
+                      <a className="underline hover:text-primary" href="https://instagram.com/s.r.pizza">
+                        @s.r.pizza
+                      </a>
+                    </p>
                   </div>
                 </div>
               </div>

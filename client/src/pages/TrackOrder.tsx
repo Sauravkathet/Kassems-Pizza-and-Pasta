@@ -532,7 +532,7 @@ export default function TrackOrder() {
             <a href={`mailto:${SITE_SUPPORT_EMAIL}`} className="underline hover:text-primary">
               {SITE_SUPPORT_EMAIL}
             </a>{" "}
-            or call (555) 123-4567.
+            or call +61 415 743 566.
           </p>
         </motion.div>
       </div>
