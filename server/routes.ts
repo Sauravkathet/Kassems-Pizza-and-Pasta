@@ -33,6 +33,8 @@ const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? "admin123";
 const ADMIN_SESSION_SECRET =
   process.env.ADMIN_SESSION_SECRET ?? "replace-this-secret-before-production";
 const ADMIN_COOKIE_SECURE = process.env.NODE_ENV === "production";
+const ADMIN_COOKIE_SAMESITE =
+  process.env.ADMIN_COOKIE_SAMESITE ?? (process.env.CORS_ORIGIN ? "None" : "Lax");
 
 const adminLoginSchema = z.object({
   username: z.string().min(2, "Username is required").max(80),
@@ -182,7 +184,7 @@ function setAdminSessionCookie(res: Response, token: string): void {
     `${ADMIN_COOKIE_NAME}=${encodeURIComponent(token)}`,
     "Path=/",
     "HttpOnly",
-    "SameSite=Lax",
+    `SameSite=${ADMIN_COOKIE_SAMESITE}`,
     `Max-Age=${ADMIN_SESSION_TTL_SECONDS}`,
   ];
 
@@ -198,7 +200,7 @@ function clearAdminSessionCookie(res: Response): void {
     `${ADMIN_COOKIE_NAME}=`,
     "Path=/",
     "HttpOnly",
-    "SameSite=Lax",
+    `SameSite=${ADMIN_COOKIE_SAMESITE}`,
     "Max-Age=0",
   ];
 

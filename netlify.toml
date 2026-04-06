@@ -4,8 +4,8 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  VITE_API_BASE_URL = "https://srpizzza.onrender.com"
 # Set this in Netlify UI (or here) to point the frontend at your backend.
-# VITE_API_BASE_URL = "https://your-backend.onrender.com"
 
 [[redirects]]
   from = "/*"
