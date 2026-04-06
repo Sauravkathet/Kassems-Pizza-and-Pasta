@@ -93,6 +93,14 @@ app.use((req, res, next) => {
   next();
 });
 
+app.get("/", (_req, res) => {
+  res.status(200).send("SR Pizza & Bakery API is running.");
+});
+
+app.get("/api/health", (_req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 (async () => {
   await registerRoutes(httpServer, app);
 
