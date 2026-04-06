@@ -4,6 +4,7 @@ import { ShoppingBag, Menu, X, Truck } from "lucide-react";
 import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { SITE_SHORT_NAME } from "@shared/site-content";
 
 type NavigationProps = {
   isTrackOrderOpen: boolean;
@@ -72,7 +73,7 @@ export function Navigation({ isTrackOrderOpen, onTrackOrderOpen }: NavigationPro
             >
               <img
                 src="/logo.png"
-                alt="Kassems Pizza Logo"
+                alt={`${SITE_SHORT_NAME} logo`}
                 className="h-full w-full object-contain"
                 loading="eager"
                 decoding="async"
@@ -87,7 +88,7 @@ export function Navigation({ isTrackOrderOpen, onTrackOrderOpen }: NavigationPro
                 isHeroNav ? "text-white drop-shadow-sm" : "text-secondary-foreground",
               )}
             >
-              kassems pizza & pasta
+              {SITE_SHORT_NAME}
             </span>
           </span>
         </Link>

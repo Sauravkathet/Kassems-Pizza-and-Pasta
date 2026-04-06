@@ -412,7 +412,7 @@ export default function Order() {
               </p>
             </div>
 
-            <div className="grid grid-cols-2 gap-3 sm:gap-4">
+            <div className="grid grid-cols-1 gap-3 min-[440px]:grid-cols-2 sm:gap-4">
               <div className="rounded-2xl border border-border/70 bg-background p-4">
                 <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">Items in Cart</p>
                 <p className="mt-1 text-2xl font-semibold text-foreground">{itemCount}</p>
@@ -499,9 +499,9 @@ export default function Order() {
                         {category.items.map((item) => (
                           <article
                             key={item.id}
-                            className="flex gap-3 rounded-xl border border-border/60 bg-background/70 p-3 shadow-sm transition-colors hover:border-primary/30"
+                            className="flex flex-col gap-3 rounded-xl border border-border/60 bg-background/70 p-3 shadow-sm transition-colors hover:border-primary/30 min-[420px]:flex-row"
                           >
-                            <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg border bg-muted">
+                            <div className="h-32 w-full overflow-hidden rounded-lg border bg-muted min-[420px]:h-20 min-[420px]:w-20 min-[420px]:shrink-0">
                               <img
                                 src={resolveItemImage(item.name, item.imageUrl)}
                                 alt={item.name}
@@ -512,15 +512,15 @@ export default function Order() {
                               />
                             </div>
                             <div className="min-w-0 flex-1">
-                              <div className="flex items-start justify-between gap-2">
+                              <div className="flex flex-col gap-1 min-[420px]:flex-row min-[420px]:items-start min-[420px]:justify-between">
                                 <p className="line-clamp-1 font-semibold text-foreground">{item.name}</p>
-                                <p className="font-semibold text-primary">{currency.format(Number(item.price))}</p>
+                                <p className="font-semibold text-primary min-[420px]:text-right">{currency.format(Number(item.price))}</p>
                               </div>
                               <p className="mt-1 line-clamp-2 text-xs text-muted-foreground">
                                 {item.description}
                               </p>
 
-                              <div className="mt-2 flex items-center justify-between gap-2">
+                              <div className="mt-2 flex flex-wrap items-center justify-between gap-2">
                                 <div className="flex flex-wrap gap-1.5">
                                   {item.isPopular && (
                                     <Badge variant="outline" className="border-primary/30 bg-primary/10 text-[10px] text-primary">
@@ -575,8 +575,8 @@ export default function Order() {
                   {items.map(({ lineItemId, menuItem, quantity, customizations }) => {
                     const customizationSummary = formatCustomizationSummary(customizations);
                     return (
-                      <div key={lineItemId} className="flex gap-3 rounded-lg border border-border/60 bg-background/70 p-3">
-                        <div className="h-16 w-16 shrink-0 overflow-hidden rounded-md border bg-muted">
+                      <div key={lineItemId} className="flex flex-col gap-3 rounded-lg border border-border/60 bg-background/70 p-3 min-[420px]:flex-row">
+                        <div className="h-28 w-full overflow-hidden rounded-md border bg-muted min-[420px]:h-16 min-[420px]:w-16 min-[420px]:shrink-0">
                           <img
                             src={resolveItemImage(menuItem.name, menuItem.imageUrl)}
                             alt={menuItem.name}
@@ -587,7 +587,7 @@ export default function Order() {
                           />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <div className="flex items-start justify-between gap-2">
+                          <div className="flex flex-col gap-2 min-[420px]:flex-row min-[420px]:items-start min-[420px]:justify-between">
                             <div className="min-w-0">
                               <p className="line-clamp-1 text-sm font-semibold text-foreground">{menuItem.name}</p>
                               {customizationSummary && (
@@ -596,11 +596,11 @@ export default function Order() {
                                 </p>
                               )}
                             </div>
-                            <p className="text-sm font-semibold text-foreground">
+                            <p className="text-sm font-semibold text-foreground min-[420px]:text-right">
                               {currency.format(Number(menuItem.price) * quantity)}
                             </p>
                           </div>
-                          <div className="mt-2 flex items-center justify-between">
+                          <div className="mt-2 flex flex-wrap items-center justify-between gap-3">
                             <div className="inline-flex items-center rounded-full border border-input bg-background">
                               <button
                                 type="button"
@@ -703,7 +703,7 @@ export default function Order() {
                     <Button
                       type="submit"
                       disabled={items.length === 0}
-                      className="h-12 w-full text-base font-semibold"
+                      className="h-auto min-h-12 w-full px-4 py-3 text-center text-sm font-semibold whitespace-normal sm:text-base"
                     >
                       {items.length === 0
                         ? "Add Items To Continue"

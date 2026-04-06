@@ -1,4 +1,5 @@
 import { MapPin, Clock, Truck } from "lucide-react";
+import { SITE_NAME } from "@shared/site-content";
 
 export default function Contact() {
   const mapEmbedUrl =
@@ -10,7 +11,7 @@ export default function Contact() {
         <div className="text-center mb-20">
           <h1 className="font-serif text-5xl md:text-6xl font-bold mb-4">Get in Touch</h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            We'd love to welcome you to kassems pizza & pasta . Visit us for an unforgettable farm-to-table dining experience.
+            We&apos;d love to welcome you to {SITE_NAME}. Visit us for a warm, polished dine-in or delivery experience.
           </p>
         </div>
 
@@ -83,7 +84,7 @@ export default function Contact() {
               allowFullScreen
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
-              title="kassems pizza & pasta Location Map"
+              title={`${SITE_NAME} location map`}
             />
           </div>
         </div>

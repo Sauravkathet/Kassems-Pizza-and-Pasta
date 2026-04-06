@@ -14,6 +14,7 @@ import {
   type CateringInquiry,
 } from "@shared/schema";
 import { and, eq } from "drizzle-orm";
+import { MENU_CATEGORY_IMAGE_POOLS } from "@shared/site-content";
 
 function normalizeOrderStatus(status: string): OrderStatus {
   if (
@@ -56,29 +57,12 @@ type MenuItemSeed = {
   isSpicy?: boolean;
 };
 
-function imageTagsForCategory(categorySlug: MenuCategorySlug): string {
-  if (categorySlug === "combos") {
-    return "pizza-combo,meal,restaurant";
+function hashString(value: string): number {
+  let hash = 0;
+  for (let i = 0; i < value.length; i += 1) {
+    hash = (hash * 31 + value.charCodeAt(i)) >>> 0;
   }
-  if (categorySlug === "pizza" || categorySlug === "vip-range-pizza") {
-    return "pizza,italian-food,pizzeria";
-  }
-  if (categorySlug === "pasta") {
-    return "pasta,italian-food,restaurant";
-  }
-  if (categorySlug === "mayas-main-meals") {
-    return "grilled-food,main-course,restaurant";
-  }
-  if (categorySlug === "salads") {
-    return "salad,fresh-food,healthy-meal";
-  }
-  if (categorySlug === "saras-sides") {
-    return "fries,snacks,side-dish";
-  }
-  if (categorySlug === "merwans-sweet-temptations") {
-    return "dessert,cake,sweets";
-  }
-  return "soft-drink,beverage,bottle";
+  return hash;
 }
 
 function buildMenuImageUrl(itemName: string, categorySlug: MenuCategorySlug): string {
@@ -87,15 +71,10 @@ function buildMenuImageUrl(itemName: string, categorySlug: MenuCategorySlug): st
     .replace(/[^a-z0-9\s]/g, " ")
     .replace(/\s+/g, " ")
     .trim();
-
+  const pool = MENU_CATEGORY_IMAGE_POOLS[categorySlug];
   const hashKey = `${categorySlug}:${normalizedItemName}`;
-  let hash = 0;
-  for (let i = 0; i < hashKey.length; i += 1) {
-    hash = (hash * 31 + hashKey.charCodeAt(i)) >>> 0;
-  }
-  const sig = (hash % 10000) + 1;
-  const tags = imageTagsForCategory(categorySlug);
-  return `https://loremflickr.com/900/675/${tags}?lock=${sig}`;
+  const index = hashString(hashKey) % pool.length;
+  return pool[index];
 }
 
 const MENU_ITEM_SEEDS: MenuItemSeed[] = [

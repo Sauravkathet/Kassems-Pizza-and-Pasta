@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Loader2, CheckCircle2 } from "lucide-react";
+import { MARKETING_IMAGES } from "@shared/site-content";
 
 export default function Catering() {
   const { mutate, isPending, isSuccess } = useCreateCateringInquiry();
@@ -36,8 +37,8 @@ export default function Catering() {
         <div className="absolute inset-0 z-10 bg-black/65" />
         {/* Unsplash: Banquet table */}
         <img 
-          src="https://lh3.googleusercontent.com/gps-cs-s/AHVAwep8B6GahV5zgzL2F4O6h79GYNl9lAcIdAfZ6CB31pDjhuT0AIXA0NXgSP7BlYGFCWKMcKVuVXhLN0y0m3ulhhwq_lrCmQl-2vExUk7_rH3CmDFXNubE185Qe0hRzAlyMC5wRxPrRt7qQdM=s1360-w1360-h1020"
-          alt="Catering Event" 
+          src={MARKETING_IMAGES.cateringHero}
+          alt="Catering spread"
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="relative z-20 text-center text-white px-4">
@@ -80,15 +81,15 @@ export default function Catering() {
             <div className="grid grid-cols-2 gap-4 pt-8">
                {/* Unsplash: Platter of food */}
               <img 
-                src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweoeZ-h3EQvIvU-v88BlYPFnMmxF9-Gy-T1s9_Oui2Kz6mWDzTETZNikek4QjjDNQqTp7spWNRmn5tlwR6Nd2n5-WZQhzZZudPksdYu5LPrhSpCsz8SIiEDm3l7AxIkUi1g_IR20=s1360-w1360-h1020" 
+                src={MARKETING_IMAGES.cateringSpread}
                 className="aspect-square rounded-lg border border-border/70 object-cover shadow-md" 
-                alt="Catering 1" 
+                alt="Family-style catering platter" 
               />
                {/* Unsplash: Champagne pour */}
               <img 
-                src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweqUtVvZgoi-ZexSyPk6fkJ5mYbcDn-W88dEbB1Z4jnbzw0E0Bos1EgrG8iWucU05GsESlNdO6l9E87JJGzT5phXG9Bzxvb5W369Rozb3web7DAbHnQuZ4XB4kgHE2SCI24PvDfc689HBKZa=s1360-w1360-h1020" 
+                src={MARKETING_IMAGES.cateringDrinks}
                 className="mt-8 aspect-square rounded-lg border border-border/70 object-cover shadow-md" 
-                alt="Catering 2" 
+                alt="Drinks ready for service" 
               />
             </div>
           </div>

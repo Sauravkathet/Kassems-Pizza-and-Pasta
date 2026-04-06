@@ -11,6 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import type { KitchenOrder, OrderStatus } from "@shared/schema";
+import { SITE_SHORT_NAME } from "@shared/site-content";
 
 type AdminSession = {
   username: string;
@@ -724,7 +725,7 @@ export default function Admin() {
       <div className="container mx-auto max-w-7xl space-y-5 px-4 sm:space-y-6">
         <header className="flex flex-col gap-4 rounded-2xl border border-border/80 bg-card/95 p-4 shadow-sm sm:p-5 md:flex-row md:items-center md:justify-between">
           <div className="space-y-1">
-            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">Kassems Admin Console</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">{SITE_SHORT_NAME} Admin Console</p>
             <h1 className="text-3xl font-bold text-foreground">Operations Dashboard</h1>
             <p className="text-sm text-muted-foreground">
               Signed in as <span className="font-semibold text-foreground">{session?.username ?? "Admin"}</span>

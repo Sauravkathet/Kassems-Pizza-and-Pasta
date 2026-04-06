@@ -26,6 +26,7 @@ import { Navigation } from "@/components/Navigation";
 import { Footer } from "@/components/Footer";
 import { CartDrawer } from "@/components/CartDrawer";
 import { TrackOrderDrawer } from "@/components/TrackOrderDrawer";
+import { SITE_NAME } from "@shared/site-content";
 
 // Scroll to top on route change
 function ScrollToTop() {
@@ -82,6 +83,10 @@ function Router() {
 }
 
 function App() {
+  useEffect(() => {
+    document.title = SITE_NAME;
+  }, []);
+
   return (
     <QueryClientProvider client={queryClient}>
       <CartProvider>

@@ -1,3 +1,5 @@
+import { ITEM_IMAGE_FALLBACKS } from "@shared/site-content";
+
 function normalizeName(value: string): string {
   return value.trim().toLowerCase().replace(/\s+/g, " ");
 }
@@ -10,43 +12,7 @@ function hashString(value: string): number {
   return hash;
 }
 
-const IMAGE_FALLBACKS = {
-  combo: [
-    "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=900",
-    "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&q=80&w=900",
-  ],
-  pizza: [
-    "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=900",
-    "https://images.unsplash.com/photo-1593560708920-61dd98c46a4e?auto=format&fit=crop&q=80&w=900",
-    "https://images.unsplash.com/photo-1534308983496-4fabb1a015ee?auto=format&fit=crop&q=80&w=900",
-  ],
-  pasta: [
-    "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&q=80&w=900",
-    "https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?auto=format&fit=crop&q=80&w=900",
-  ],
-  salad: [
-    "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=900",
-    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=900",
-  ],
-  sides: [
-    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=900",
-    "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&q=80&w=900",
-  ],
-  dessert: [
-    "https://images.unsplash.com/photo-1488477181946-6428a0291777?auto=format&fit=crop&q=80&w=900",
-    "https://images.unsplash.com/photo-1551024601-bec78aea704b?auto=format&fit=crop&q=80&w=900",
-  ],
-  drink: [
-    "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&q=80&w=900",
-    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=900",
-  ],
-  meal: [
-    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=900",
-    "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&q=80&w=900",
-  ],
-} as const;
-
-type ImageFallbackKey = keyof typeof IMAGE_FALLBACKS;
+type ImageFallbackKey = keyof typeof ITEM_IMAGE_FALLBACKS;
 
 function isDrinkName(name: string): boolean {
   const normalized = normalizeName(name);
@@ -119,7 +85,7 @@ function inferImageFallbackKey(itemName: string): ImageFallbackKey {
 
 export function fallbackImageByName(itemName: string): string {
   const key = inferImageFallbackKey(itemName);
-  const pool = IMAGE_FALLBACKS[key];
+  const pool = ITEM_IMAGE_FALLBACKS[key];
   const index = hashString(normalizeName(itemName)) % pool.length;
   return pool[index];
 }
@@ -137,7 +103,9 @@ function isUnreliableRemoteUrl(imageUrl?: string | null): boolean {
   return (
     trimmed.includes("source.unsplash.com") ||
     trimmed.includes("loremflickr.com") ||
-    trimmed.includes("placehold.co")
+    trimmed.includes("placehold.co") ||
+    trimmed.includes("googleusercontent.com") ||
+    trimmed.includes("fbcdn.net")
   );
 }
 

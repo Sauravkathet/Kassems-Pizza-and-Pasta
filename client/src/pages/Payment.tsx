@@ -148,7 +148,7 @@ export default function Payment() {
       <div className="container mx-auto px-4 max-w-6xl">
         <h1 className="font-serif text-4xl md:text-5xl font-bold mb-10 text-center">Payment</h1>
 
-        <div className="grid lg:grid-cols-2 gap-12">
+        <div className="grid gap-8 lg:grid-cols-2 lg:gap-12">
           <div className="space-y-6">
             <div className="bg-card p-6 rounded-2xl shadow-sm border border-border/60">
               <h2 className="font-serif text-2xl font-bold mb-5">Order Total</h2>
@@ -163,8 +163,8 @@ export default function Payment() {
                       key={`${item.menuItemId}-${item.name}-${index}`}
                       className="rounded-xl border border-border/60 bg-background/70 p-3"
                     >
-                      <div className="flex gap-3">
-                        <div className="h-16 w-16 shrink-0 overflow-hidden rounded-md border border-border/50 bg-muted">
+                      <div className="flex flex-col gap-3 min-[420px]:flex-row">
+                        <div className="h-28 w-full overflow-hidden rounded-md border border-border/50 bg-muted min-[420px]:h-16 min-[420px]:w-16 min-[420px]:shrink-0">
                           <img
                             src={resolveItemImage(item.name, item.imageUrl)}
                             alt={item.name}
@@ -176,14 +176,14 @@ export default function Payment() {
                         </div>
 
                         <div className="min-w-0 flex-1">
-                          <div className="flex items-start justify-between gap-3">
+                          <div className="flex flex-col gap-2 min-[420px]:flex-row min-[420px]:items-start min-[420px]:justify-between">
                             <div className="min-w-0">
                               <p className="truncate font-semibold text-foreground">{item.name}</p>
                               {item.customizationSummary && (
                                 <p className="mt-0.5 text-xs text-muted-foreground">{item.customizationSummary}</p>
                               )}
                             </div>
-                            <p className="text-sm font-semibold text-foreground">${lineTotal.toFixed(2)}</p>
+                            <p className="text-sm font-semibold text-foreground min-[420px]:text-right">${lineTotal.toFixed(2)}</p>
                           </div>
 
                           {item.description && (
@@ -284,7 +284,7 @@ export default function Payment() {
                       <FormItem>
                         <FormLabel>Order Type</FormLabel>
                         <FormControl>
-                          <div className="grid grid-cols-2 gap-3">
+                          <div className="grid grid-cols-1 gap-3 min-[420px]:grid-cols-2">
                             <button
                               type="button"
                               onClick={() => field.onChange("pickup")}
@@ -387,7 +387,7 @@ export default function Payment() {
                     )}
                   />
 
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 gap-4 min-[420px]:grid-cols-2">
                     <FormField
                       control={form.control}
                       name="expiry"
@@ -421,7 +421,7 @@ export default function Payment() {
                     <Button
                       type="submit"
                       disabled={isPending}
-                      className="w-full h-14 text-lg font-bold bg-primary hover:bg-primary/90 text-primary-foreground"
+                      className="h-auto min-h-14 w-full px-4 py-3 text-sm font-bold whitespace-normal bg-primary text-primary-foreground hover:bg-primary/90 sm:text-lg"
                     >
                       {isPending ? (
                         <span className="inline-flex items-center gap-2">

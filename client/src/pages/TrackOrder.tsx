@@ -10,7 +10,9 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
+import { resolveItemImage } from "@/lib/item-image";
 import type { KitchenOrder, OrderStatus } from "@shared/schema";
+import { SITE_SUPPORT_EMAIL } from "@shared/site-content";
 import {
   Clock,
   Loader2,
@@ -174,24 +176,11 @@ function OrderItem({
 }: {
   item: { id: number; name: string; quantity: number; price?: number; imageUrl?: string | null };
 }) {
-  // Fallback image based on item name (for prototype)
-  const getImageSrc = () => {
-    if (item.imageUrl) return item.imageUrl;
-    const name = item.name.toLowerCase();
-    if (name.includes("pizza"))
-      return "https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=300";
-    if (name.includes("pasta"))
-      return "https://images.unsplash.com/photo-1551183053-bf91a1d81141?auto=format&fit=crop&q=80&w=300";
-    if (name.includes("salad"))
-      return "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?auto=format&fit=crop&q=80&w=300";
-    return "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&q=80&w=300";
-  };
-
   return (
     <div className="flex items-center gap-3 rounded-lg bg-muted/30 p-2 transition-all hover:bg-muted/50">
       <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-md border border-border">
         <img
-          src={getImageSrc()}
+          src={resolveItemImage(item.name, item.imageUrl)}
           alt={item.name}
           className="h-full w-full object-cover"
         />
@@ -540,8 +529,8 @@ export default function TrackOrder() {
         >
           <p className="text-xs text-muted-foreground/70">
             Need help? Contact us at{" "}
-            <a href="mailto:support@kassems.com" className="underline hover:text-primary">
-              support@kassems.com
+            <a href={`mailto:${SITE_SUPPORT_EMAIL}`} className="underline hover:text-primary">
+              {SITE_SUPPORT_EMAIL}
             </a>{" "}
             or call (555) 123-4567.
           </p>

@@ -3,6 +3,7 @@ import { ArrowRight, ChefHat, Leaf, Users, TicketPercent } from "lucide-react";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import heroVideo from "@assets/pizzavideo1.mp4";
+import { MARKETING_IMAGES, SITE_NAME, SITE_SHORT_NAME, SITE_TAGLINE } from "@shared/site-content";
 
 export default function Home() {
   const offerHighlights = [
@@ -77,8 +78,8 @@ export default function Home() {
            
 
             <h1 className="font-serif text-[2.1rem] font-bold leading-[1.1] tracking-tight text-white drop-shadow-2xl sm:text-4xl md:text-5xl lg:text-6xl">
-              Kassems Pizza & Pasta,
-              <span className="block text-primary">Crafted Fresh Daily</span>
+              {SITE_SHORT_NAME},
+              <span className="block text-primary">{SITE_TAGLINE}</span>
             </h1>
 
             <p className="mt-4 mx-auto max-w-2xl text-sm text-white/90 sm:text-base md:mt-5 md:mx-0 md:text-lg">
@@ -125,8 +126,8 @@ export default function Home() {
               <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
               {/* Unsplash: Chef plating food */}
               <img 
-                src="https://lh3.googleusercontent.com/gps-cs-s/AHVAweqMO99yhA6m0TUyiikAUhYVFsGpgjYAO18SS4ELm4KV9g0m86Hy8tovujBsje0emNNtCa-HHpUP-WzQVbRNV59YrOFeRrC1zlazpqdyFdHheh_6xsLxPR86kfAcw2I2SZQB-y_9d7ihUb0=s1360-w1360-h1020" 
-                alt="Chef Plating" 
+                src={MARKETING_IMAGES.homeIntro}
+                alt="Signature pasta plated for service"
                 className="rounded-2xl shadow-2xl relative z-10 w-full"
               />
               <div className="absolute -bottom-8 -right-8 rounded-xl border border-black/15 bg-white/95 p-6 shadow-xl z-20 max-w-xs hidden md:block backdrop-blur-sm">
@@ -145,13 +146,12 @@ export default function Home() {
               <h2 className="text-sm font-medium uppercase tracking-[0.2em] text-primary">Our Philosophy</h2>
               <h3 className="font-serif text-3xl md:text-4xl font-bold text-black">Rooted in Tradition, <br/>Elevated by Passion.</h3>
               <p className="text-base leading-relaxed text-black/70">
-                At kassems pizza & pasta , we believe that the best meals start with the best ingredients. 
-                Our chefs work directly with local farmers to source seasonal produce, ethical meats, 
-                and artisanal goods.
+                At {SITE_NAME}, we believe the best meals start with bold ingredients, patient craft,
+                and a little theatre from the oven.
               </p>
               <p className="text-base leading-relaxed text-black/70">
-                Whether you're joining us for a casual brunch or a celebratory dinner, our goal 
-                is to create a dining experience that feels both comforting and extraordinary.
+                Whether you&apos;re dropping in for a quick slice or showing off a polished food-ordering demo,
+                our goal is to make every interaction feel warm, premium, and memorable.
               </p>
               
               <div className="grid grid-cols-3 gap-6 pt-6">
@@ -270,7 +270,7 @@ export default function Home() {
 
         {/* Subtext */}
         <p className="mx-auto mt-6 max-w-2xl text-lg text-stone-600 md:text-xl">
-          This is our promise for every order at Kassems Pizza & Pasta.
+          This is our promise for every order at {SITE_NAME}.
         </p>
 
         {/* Action buttons with refined hover effects */}

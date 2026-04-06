@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { Facebook, Instagram, Twitter, MapPin, Clock, Truck } from "lucide-react";
+import { SITE_NAME, SITE_SHORT_NAME } from "@shared/site-content";
 
 export function Footer() {
   return (
@@ -11,7 +12,7 @@ export function Footer() {
               <div className="flex h-16 w-16 items-center justify-center rounded-xl  shadow-sm">
                 <img
                   src="/logo.png"
-                  alt="Kassems Pizza Logo"
+                  alt={`${SITE_SHORT_NAME} logo`}
                   className="h-full w-full object-contain"
                   loading="lazy"
                   decoding="async"
@@ -23,7 +24,7 @@ export function Footer() {
               <div className="min-w-0">
                 <Link href="/">
                   <span className="block cursor-pointer text-2xl font-semibold tracking-tight text-secondary-foreground transition-colors hover:text-primary">
-                    Kassems Pizza & Pasta
+                    {SITE_NAME}
                   </span>
                 </Link>
                 <p className="text-xs font-semibold uppercase tracking-[0.12em] text-primary">
@@ -130,7 +131,7 @@ export function Footer() {
         
         {/* Footer Bottom */}
         <div className="flex flex-col items-center justify-between gap-4 border-t border-white/15 pt-6 text-xs text-secondary-foreground/70 md:flex-row">
-          <p>&copy; {new Date().getFullYear()} Kassems Pizza & Pasta. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} {SITE_NAME}. All rights reserved.</p>
           <div className="flex gap-6">
             <a href="#" className="transition-colors hover:text-primary">Privacy Policy</a>
             <a href="#" className="transition-colors hover:text-primary">Terms of Service</a>

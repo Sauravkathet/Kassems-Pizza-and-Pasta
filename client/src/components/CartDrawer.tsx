@@ -253,7 +253,7 @@ export function CartDrawer() {
   return (
     <>
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetContent className="flex h-full w-full flex-col border-l-border/50 bg-background sm:max-w-md">
+        <SheetContent className="flex h-full w-full flex-col border-l-border/50 bg-background px-4 sm:max-w-md sm:px-6">
           <SheetHeader className="space-y-4 border-b border-border/40 pb-4">
             <SheetTitle className="font-serif text-2xl text-primary">Your Basket</SheetTitle>
             <SheetDescription>
@@ -261,7 +261,7 @@ export function CartDrawer() {
             </SheetDescription>
           </SheetHeader>
 
-          <ScrollArea className="-mx-6 flex-1 px-6 py-4">
+          <ScrollArea className="-mx-4 flex-1 px-4 py-4 sm:-mx-6 sm:px-6">
             {items.length === 0 ? (
               <div className="flex h-48 flex-col items-center justify-center space-y-4 text-muted-foreground">
                 <ShoppingBagIcon className="h-12 w-12 opacity-20" />
@@ -281,8 +281,8 @@ export function CartDrawer() {
 
                   return (
                     <div key={lineItemId} className="rounded-xl border border-border/60 bg-card/80 p-3">
-                      <div className="flex gap-4">
-                        <div className="h-20 w-20 flex-shrink-0 overflow-hidden rounded-lg bg-muted">
+                      <div className="flex flex-col gap-3 min-[380px]:flex-row min-[380px]:gap-4">
+                        <div className="h-28 w-full overflow-hidden rounded-lg bg-muted min-[380px]:h-20 min-[380px]:w-20 min-[380px]:shrink-0">
                           <img
                             src={resolveItemImage(menuItem.name, menuItem.imageUrl)}
                             alt={menuItem.name}
@@ -293,7 +293,7 @@ export function CartDrawer() {
                           />
                         </div>
 
-                        <div className="flex flex-1 flex-col justify-between">
+                        <div className="flex min-w-0 flex-1 flex-col justify-between">
                           <div>
                             <h4 className="font-medium text-foreground">{menuItem.name}</h4>
                             {customizationSummary && (
@@ -302,7 +302,7 @@ export function CartDrawer() {
                             <p className="text-sm font-semibold text-primary">${menuItem.price}</p>
                           </div>
 
-                          <div className="mt-2 flex items-center justify-between">
+                          <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
                             <div className="flex items-center gap-3 rounded-full bg-muted/30 px-2 py-1">
                               <button
                                 type="button"
@@ -326,7 +326,7 @@ export function CartDrawer() {
                             <button
                               type="button"
                               onClick={() => removeFromCart(lineItemId)}
-                              className="text-muted-foreground transition-colors hover:text-destructive"
+                              className="self-start text-muted-foreground transition-colors hover:text-destructive"
                               aria-label="Remove item"
                             >
                               <Trash2 className="h-4 w-4" />
@@ -339,7 +339,7 @@ export function CartDrawer() {
                                 type="button"
                                 variant="outline"
                                 size="sm"
-                                className="h-8"
+                                className="h-8 w-full min-[380px]:w-auto"
                                 onClick={() => openCustomize(lineItemId, customizations)}
                               >
                                 Customize
