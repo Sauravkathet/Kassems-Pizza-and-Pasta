@@ -3,6 +3,7 @@ import { Loader2, Megaphone } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { withApiBase } from "@/lib/queryClient";
 
 type PublicNotice = {
   id: number;
@@ -44,7 +45,7 @@ export default function Notices() {
       setErrorMessage(null);
 
       try {
-        const res = await fetch("/api/notices");
+        const res = await fetch(withApiBase("/api/notices"));
         if (!res.ok) {
           throw new Error("Unable to load notices");
         }

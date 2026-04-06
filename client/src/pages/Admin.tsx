@@ -12,6 +12,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import type { KitchenOrder, OrderStatus } from "@shared/schema";
 import { SITE_SHORT_NAME } from "@shared/site-content";
+import { withApiBase } from "@/lib/queryClient";
 
 type AdminSession = {
   username: string;
@@ -249,7 +250,7 @@ export default function Admin() {
         headers.set("Content-Type", "application/json");
       }
 
-      const response = await fetch(url, {
+      const response = await fetch(withApiBase(url), {
         ...init,
         headers,
         credentials: "include",

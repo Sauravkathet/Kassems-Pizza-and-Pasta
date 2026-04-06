@@ -4,12 +4,8 @@
 
 [build.environment]
   NODE_VERSION = "20"
-
-[[redirects]]
-  from = "/api/*"
-  to = "https://your-backend.example.com/api/:splat"
-  status = 200
-  force = true
+# Set this in Netlify UI (or here) to point the frontend at your backend.
+# VITE_API_BASE_URL = "https://your-backend.onrender.com"
 
 [[redirects]]
   from = "/*"

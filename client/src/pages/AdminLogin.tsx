@@ -5,6 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { withApiBase } from "@/lib/queryClient";
 
 export default function AdminLogin() {
   const [, setLocation] = useLocation();
@@ -19,7 +20,7 @@ export default function AdminLogin() {
 
     const checkSession = async () => {
       try {
-        const res = await fetch("/api/admin/session", {
+        const res = await fetch(withApiBase("/api/admin/session"), {
           credentials: "include",
         });
 
@@ -49,7 +50,7 @@ export default function AdminLogin() {
     setErrorMessage(null);
 
     try {
-      const res = await fetch("/api/admin/login", {
+      const res = await fetch(withApiBase("/api/admin/login"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
