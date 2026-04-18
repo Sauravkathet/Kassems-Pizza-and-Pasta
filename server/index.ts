@@ -93,22 +93,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (req, res) => {
-  const shouldRedirectToFrontend =
-    process.env.NODE_ENV !== "production" &&
-    process.env.SERVE_CLIENT_WITH_API === "false";
-
-  if (shouldRedirectToFrontend) {
-    const frontendHost = process.env.FRONTEND_HOST || "127.0.0.1";
-    const frontendPort = process.env.FRONTEND_PORT || "5173";
-    return res.redirect(`http://${frontendHost}:${frontendPort}/`);
-  }
-
-  if (req.accepts("html")) {
-    return res.status(200).send("Pizzaa Flame & Grill API is running.");
-  }
-
-  return res.status(200).json({ message: "Pizzaa Flame & Grill API is running." });
+app.get("/", (_req, res) => {
+  res.status(200).send("SR Pizza & Bakery API is running.");
 });
 
 app.get("/api/health", (_req, res) => {
@@ -136,13 +122,10 @@ app.get("/api/health", (_req, res) => {
   // doesn't interfere with the other routes
   const shouldServeStatic =
     process.env.NODE_ENV === "production" && process.env.SERVE_STATIC !== "false";
-  const shouldUseEmbeddedVite =
-    process.env.NODE_ENV !== "production" &&
-    process.env.SERVE_CLIENT_WITH_API !== "false";
 
   if (shouldServeStatic) {
     serveStatic(app);
-  } else if (shouldUseEmbeddedVite) {
+  } else if (process.env.NODE_ENV !== "production") {
     const { setupVite } = await import("./vite");
     await setupVite(httpServer, app);
   }

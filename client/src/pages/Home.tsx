@@ -93,8 +93,8 @@ export default function Home() {
             </h1>
 
             <p className="mt-4 mx-auto max-w-2xl text-sm text-white/90 sm:text-base md:mt-5 md:mx-0 md:text-lg">
-              Flame-fired pizza and pasta crafted fresh for parties, family feeds, and private events
-              across Perth.
+              Halal stone-fired pizza crafted live for weddings and events, with a fully mobile setup
+              across Melbourne.
             </p>
 
          
@@ -139,9 +139,6 @@ export default function Home() {
                 src={MARKETING_IMAGES.homeIntro}
                 alt="Signature pasta plated for service"
                 className="rounded-2xl shadow-2xl relative z-10 w-full"
-                onError={(event) => {
-                  event.currentTarget.src = "https://images.unsplash.com/photo-1473093295043-cdd812d0e601?auto=format&fit=crop&q=80&w=1200&h=900";
-                }}
               />
               <div className="absolute -bottom-8 -right-8 rounded-xl border border-black/15 bg-white/95 p-6 shadow-xl z-20 max-w-xs hidden md:block backdrop-blur-sm">
                 <p className="font-serif text-lg italic text-black">"Food is our common ground, a universal experience."</p>
@@ -219,9 +216,6 @@ export default function Home() {
                     src={featuredImage} 
                     alt={item.title} 
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                    onError={(event) => {
-                      event.currentTarget.src = item.imageUrl;
-                    }}
                   />
                   <div className="absolute top-4 right-4 z-20 rounded-full border border-black/10 bg-white/90 px-3 py-1 text-sm font-bold text-black shadow-lg backdrop-blur">
                     {item.price}
