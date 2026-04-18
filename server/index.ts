@@ -94,7 +94,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (_req, res) => {
-  res.status(200).send("SR Pizza & Bakery API is running.");
+  res.status(200).send("Pizzaa Flame & Grill API is running.");
 });
 
 app.get("/api/health", (_req, res) => {

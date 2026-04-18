@@ -93,8 +93,8 @@ export default function Home() {
             </h1>
 
             <p className="mt-4 mx-auto max-w-2xl text-sm text-white/90 sm:text-base md:mt-5 md:mx-0 md:text-lg">
-              Halal stone-fired pizza crafted live for weddings and events, with a fully mobile setup
-              across Melbourne.
+              Flame-fired pizza, pasta, and grill plates made fresh in Perth for casual nights, takeaways,
+              and catered celebrations.
             </p>
 
          

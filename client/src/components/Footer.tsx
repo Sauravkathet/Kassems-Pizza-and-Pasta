@@ -1,6 +1,11 @@
 import { Link } from "wouter";
 import { Instagram, MapPin, Clock, Phone, Mail } from "lucide-react";
-import { BRAND_IMAGES, SITE_NAME, SITE_SHORT_NAME } from "@shared/site-content";
+import {
+  BRAND_IMAGES,
+  SITE_LOCATION_SUMMARY,
+  SITE_NAME,
+  SITE_SHORT_NAME,
+} from "@shared/site-content";
 
 export function Footer() {
   return (
@@ -33,8 +38,8 @@ export function Footer() {
               </div>
             </div>
             <p className="max-w-md text-sm leading-relaxed text-secondary-foreground/70">
-              Melbourne's halal stone-fired pizza experience with live stations for weddings and events.
-              Mobile setup available for backyards, garages, and offices.
+              Perth's flame-fired pizza experience with pasta, grill favorites, and catering for every kind of gathering.
+              Dine in, grab takeaway, or book us for local events.
             </p>
             <div className="flex gap-3">
               <a
@@ -64,7 +69,7 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-sm text-secondary-foreground/70">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                <span>Melbourne, VIC, Australia<br/>Mobile set-up available</span>
+                <span>{SITE_LOCATION_SUMMARY}<br/>Local dine-in and catering</span>
               </li>
               <li className="flex items-start gap-3 text-sm text-secondary-foreground/70">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
