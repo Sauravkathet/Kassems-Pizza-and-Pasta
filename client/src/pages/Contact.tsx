@@ -1,9 +1,18 @@
 import { MapPin, ChefHat, Phone } from "lucide-react";
-import { SITE_NAME } from "@shared/site-content";
+import {
+  SITE_ADDRESS_LINE_ONE,
+  SITE_ADDRESS_LINE_TWO,
+  SITE_INSTAGRAM_HANDLE,
+  SITE_INSTAGRAM_URL,
+  SITE_LOCATION_NOTE,
+  SITE_MAP_QUERY,
+  SITE_NAME,
+  SITE_SUPPORT_EMAIL,
+  SITE_SUPPORT_PHONE,
+} from "@shared/site-content";
 
 export default function Contact() {
-  const mapEmbedUrl =
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.355882615599!2d144.9940565!3d-37.671450799999995!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad64fbcd57b2959%3A0xadcab37dfde12565!2sSR%20Pizza%20%26%20Bakery!5e1!3m2!1sen!2snp!4v1775491666453!5m2!1sen!2snp";
+  const mapEmbedUrl = `https://www.google.com/maps?q=${encodeURIComponent(SITE_MAP_QUERY)}&output=embed`;
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-background to-muted/35 pt-32 pb-32">
@@ -11,7 +20,7 @@ export default function Contact() {
         <div className="text-center mb-20">
           <h1 className="font-serif text-5xl md:text-6xl font-bold mb-4">Get in Touch</h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            We&apos;d love to bring {SITE_NAME} to your event. Book live station catering across Melbourne with a fully mobile setup.
+            We&apos;d love to bring {SITE_NAME} to your event. Book flame-fired catering across Perth with a fully mobile setup.
           </p>
         </div>
 
@@ -25,8 +34,11 @@ export default function Contact() {
                 <div className="flex-1">
                   <h3 className="font-serif text-2xl font-semibold mb-3">Our Location</h3>
                   <p className="text-muted-foreground text-base leading-relaxed">
-                    Melbourne, VIC, Australia<br/>
-                    Mobile set-up available (Backyards, Garages, Offices)
+                    {SITE_ADDRESS_LINE_ONE}
+                    <br />
+                    {SITE_ADDRESS_LINE_TWO}
+                    <br />
+                    {SITE_LOCATION_NOTE}
                   </p>
                 </div>
               </div>
@@ -67,19 +79,19 @@ export default function Contact() {
                   <div className="space-y-2 text-base text-muted-foreground">
                     <p className="font-medium text-foreground">Book via DM</p>
                     <p>
-                      <a className="underline hover:text-primary" href="mailto:shehzadraffikpizza@gmail.com">
-                        shehzadraffikpizza@gmail.com
+                      <a className="underline hover:text-primary" href={`mailto:${SITE_SUPPORT_EMAIL}`}>
+                        {SITE_SUPPORT_EMAIL}
                       </a>
                     </p>
                     <p>
-                      <a className="underline hover:text-primary" href="tel:+61415743566">
-                        +61 415 743 566
+                      <a className="underline hover:text-primary" href={`tel:${SITE_SUPPORT_PHONE.replace(/\s+/g, "")}`}>
+                        {SITE_SUPPORT_PHONE}
                       </a>
                     </p>
                     <p>
                       Instagram:{" "}
-                      <a className="underline hover:text-primary" href="https://instagram.com/s.r.pizza">
-                        @s.r.pizza
+                      <a className="underline hover:text-primary" href={SITE_INSTAGRAM_URL}>
+                        {SITE_INSTAGRAM_HANDLE}
                       </a>
                     </p>
                   </div>

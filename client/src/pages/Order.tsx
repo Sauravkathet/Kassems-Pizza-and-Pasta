@@ -115,7 +115,7 @@ const COMBO_THREE_PIZZA_OPTIONS: ComboPizzaOption[] = [
   { id: "pizza-hawaiian", label: "Hawaiian Pizza", priceDelta: 0 },
   { id: "pizza-italian", label: "Italian Pizza", priceDelta: 0 },
   { id: "pizza-joey-pepperoni", label: "Joey Pepperoni Pizza", priceDelta: 0 },
-  { id: "pizza-kassems-special", label: "Kassems Special Pizza", priceDelta: 0 },
+  { id: "pizza-kassems-special", label: "Flame House Special Pizza", priceDelta: 0 },
   { id: "pizza-margherita", label: "Margherita Pizza", priceDelta: 0 },
   { id: "pizza-marinara", label: "Marinara Pizza", priceDelta: 0 },
   { id: "pizza-meat-lovers", label: "Meat Lovers Pizza", priceDelta: 0 },

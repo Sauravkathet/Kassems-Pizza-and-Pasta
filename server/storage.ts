@@ -140,7 +140,7 @@ const MENU_ITEM_SEEDS: MenuItemSeed[] = [
   },
   {
     categorySlug: "pizza",
-    name: "Kassems Special",
+    name: "Flame House Special",
     description: "BBQ sauce, cheese base, mushrooms, pepperoni, pineapple, olives and marinated chicken.",
     price: "19.00",
   },

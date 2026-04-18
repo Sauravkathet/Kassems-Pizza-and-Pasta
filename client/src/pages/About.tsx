@@ -31,6 +31,9 @@ export default function About() {
                 src={MARKETING_IMAGES.aboutBeginning}
                 alt={`${SITE_SHORT_NAME} signature pizza`}
                 className="rounded-lg shadow-lg w-full relative z-10"
+                onError={(event) => {
+                  event.currentTarget.src = MARKETING_IMAGES.homeFeatured[0];
+                }}
               />
             </div>
             <div>
@@ -64,6 +67,9 @@ export default function About() {
                 src={MARKETING_IMAGES.aboutPromise}
                 alt={`${SITE_SHORT_NAME} wood-fired pizza`}
                 className="rounded-lg shadow-lg w-full relative z-10"
+                onError={(event) => {
+                  event.currentTarget.src = MARKETING_IMAGES.homeIntro;
+                }}
               />
             </div>
           </motion.div>

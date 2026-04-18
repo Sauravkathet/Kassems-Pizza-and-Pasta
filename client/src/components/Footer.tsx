@@ -1,6 +1,16 @@
 import { Link } from "wouter";
 import { Instagram, MapPin, Clock, Phone, Mail } from "lucide-react";
-import { BRAND_IMAGES, SITE_NAME, SITE_SHORT_NAME } from "@shared/site-content";
+import {
+  BRAND_IMAGES,
+  SITE_ADDRESS_LINE_ONE,
+  SITE_ADDRESS_LINE_TWO,
+  SITE_INSTAGRAM_URL,
+  SITE_LOCATION_NOTE,
+  SITE_NAME,
+  SITE_SHORT_NAME,
+  SITE_SUPPORT_EMAIL,
+  SITE_SUPPORT_PHONE,
+} from "@shared/site-content";
 
 export function Footer() {
   return (
@@ -33,12 +43,12 @@ export function Footer() {
               </div>
             </div>
             <p className="max-w-md text-sm leading-relaxed text-secondary-foreground/70">
-              Melbourne's halal stone-fired pizza experience with live stations for weddings and events.
-              Mobile setup available for backyards, garages, and offices.
+              Perth's flame-fired pizza and pasta experience with catering for birthdays, late nights,
+              and private events. Mobile setup available across the city.
             </p>
             <div className="flex gap-3">
               <a
-                href="https://instagram.com/s.r.pizza"
+                href={SITE_INSTAGRAM_URL}
                 aria-label="Instagram"
                 className="flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-white/10 text-secondary-foreground/80 transition-colors hover:border-primary hover:bg-primary hover:text-white"
               >
@@ -64,15 +74,15 @@ export function Footer() {
             <ul className="space-y-3">
               <li className="flex items-start gap-3 text-sm text-secondary-foreground/70">
                 <MapPin className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                <span>Melbourne, VIC, Australia<br/>Mobile set-up available</span>
+                <span>{SITE_ADDRESS_LINE_ONE}<br />{SITE_ADDRESS_LINE_TWO}<br />{SITE_LOCATION_NOTE}</span>
               </li>
               <li className="flex items-start gap-3 text-sm text-secondary-foreground/70">
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-                <span>+61 415 743 566</span>
+                <span>{SITE_SUPPORT_PHONE}</span>
               </li>
               <li className="flex items-start gap-3 text-sm text-secondary-foreground/70">
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-secondary-foreground/80" />
-                <span>shehzadraffikpizza@gmail.com</span>
+                <span>{SITE_SUPPORT_EMAIL}</span>
               </li>
             </ul>
           </div>
