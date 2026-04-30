@@ -2,6 +2,8 @@ import { QueryClient, QueryFunction } from "@tanstack/react-query";
 
 const rawApiBase = import.meta.env.VITE_API_BASE_URL ?? "";
 const apiBase = rawApiBase.replace(/\/+$/, "");
+const rawWsBase = import.meta.env.VITE_WS_BASE_URL ?? rawApiBase;
+const wsBase = rawWsBase.replace(/\/+$/, "");
 
 export function withApiBase(path: string): string {
   if (!apiBase) return path;
@@ -11,9 +13,9 @@ export function withApiBase(path: string): string {
 }
 
 export function getWebSocketBaseUrl(): string {
-  if (!apiBase) return "";
+  if (!wsBase) return "";
   try {
-    const url = new URL(apiBase);
+    const url = new URL(wsBase);
     url.protocol = url.protocol === "https:" ? "wss:" : "ws:";
     return url.origin;
   } catch {

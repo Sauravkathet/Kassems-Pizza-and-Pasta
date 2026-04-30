@@ -7,6 +7,14 @@ import "dotenv/config";
 const app = express();
 const httpServer = createServer(app);
 
+const DEFAULT_ALLOWED_ORIGINS = [
+  "https://pizzaflameandgrill.netlify.app",
+  "http://localhost:5050",
+  "http://127.0.0.1:5050",
+  "http://localhost:5173",
+  "http://127.0.0.1:5173",
+];
+
 declare module "http" {
   interface IncomingMessage {
     rawBody: unknown;
@@ -29,11 +37,15 @@ const allowedOrigins = rawCorsOrigin
   .split(",")
   .map((value) => value.trim())
   .filter(Boolean);
+const effectiveAllowedOrigins = Array.from(
+  new Set([...DEFAULT_ALLOWED_ORIGINS, ...allowedOrigins]),
+);
 
 app.use((req, res, next) => {
   const origin = req.headers.origin;
-  const allowAll = allowedOrigins.includes("*");
-  const isAllowed = origin && (allowAll || allowedOrigins.includes(origin));
+  const allowAll = effectiveAllowedOrigins.includes("*");
+  const isAllowed =
+    origin && (allowAll || effectiveAllowedOrigins.includes(origin));
 
   if (origin && isAllowed) {
     res.setHeader("Access-Control-Allow-Origin", origin);
