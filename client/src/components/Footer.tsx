@@ -1,5 +1,6 @@
 import { Link } from "wouter";
 import { Instagram, MapPin, Clock, Phone, Mail } from "lucide-react";
+import { FaFacebookF } from "react-icons/fa";
 import {
   BRAND_IMAGES,
   SITE_LOCATION_SUMMARY,
@@ -45,9 +46,20 @@ export function Footer() {
               <a
                 href="https://instagram.com/s.r.pizza"
                 aria-label="Instagram"
+                target="_blank"
+                rel="noreferrer"
                 className="flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-white/10 text-secondary-foreground/80 transition-colors hover:border-primary hover:bg-primary hover:text-white"
               >
                 <Instagram className="h-4 w-4" />
+              </a>
+              <a
+                href="https://facebook.com/"
+                aria-label="Facebook"
+                target="_blank"
+                rel="noreferrer"
+                className="flex h-9 w-9 items-center justify-center rounded-full border border-white/25 bg-white/10 text-secondary-foreground/80 transition-colors hover:border-primary hover:bg-primary hover:text-white"
+              >
+                <FaFacebookF className="h-4 w-4" />
               </a>
             </div>
           </div>

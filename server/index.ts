@@ -93,7 +93,7 @@ app.use((req, res, next) => {
   next();
 });
 
-app.get("/", (_req, res) => {
+app.get("/api", (_req, res) => {
   res.status(200).send("Pizzaa Flame & Grill API is running.");
 });
 
